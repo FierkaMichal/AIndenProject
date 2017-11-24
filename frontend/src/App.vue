@@ -2,17 +2,11 @@
   <v-app dark>
     <v-navigation-drawer temporary v-model="drawer" light absolute>
       <v-list>
-        <v-list-tile>
+        <v-list-tile v-for="item in menuItems" :key="item.title" router :to="item.link">
           <v-list-tile-action>
-            <v-icon>face</v-icon>
+            <v-icon>{{item.icon}}</v-icon>
           </v-list-tile-action>
-          <v-list-content>Sign Up</v-list-content>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>lock_open</v-icon>
-          </v-list-tile-action>
-          <v-list-content>Sign In</v-list-content>
+          <v-list-content>{{item.title}}</v-list-content>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -21,22 +15,19 @@
       <v-toolbar-side-icon
         @click.native.stop="drawer = !drawer"
         class="hidden-sm-and-up"></v-toolbar-side-icon>
-      <v-toolbar-title>AInder</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" tag="span" style="cursor: pointer">AInder</router-link></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-item class="hidden-xs-only">
-        <v-btn flat>
-          <v-icon left>face</v-icon>
-          Sign Up
-        </v-btn>
-        <v-btn flat>
-          <v-icon left>lock_open</v-icon>
-          Sign In
+        <v-btn flat v-for="item in menuItems" :key="item.title" router :to="item.link">
+          <v-icon left>{{item.icon}}</v-icon>
+          {{item.title}}
         </v-btn>
       </v-toolbar-item>
     </v-toolbar>
 
     <main>
-
+      <router-view></router-view>
     </main>
 
     <v-footer fixed="true" app>
@@ -50,7 +41,13 @@
   export default {
     data () {
       return {
-        drawer: false
+        drawer: false,
+        menuItems: [
+          {icon: 'face', title: 'Sign Up', link: '/signUp'},
+          {icon: 'lock_open', title: 'Sign In', link: '/signIn'},
+          {icon: 'face', title: 'My profile', link: '/profile'},
+          {icon: 'face', title: 'Communicator', link: '/communicator'}
+        ]
       }
     }
   }
