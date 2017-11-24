@@ -1,6 +1,6 @@
 # frontend
 
-> AInder frontend
+> Frontend for AInder
 
 ## Build Setup
 

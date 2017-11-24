@@ -4,6 +4,10 @@ const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const pkg = require('../package.json')
 
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
     ? config.build.assetsSubDirectory
@@ -87,7 +91,7 @@ exports.createNotifierCallback = function () {
     }
     const error = errors[0]
 
-    const filename = error.file && error.file.split('!').pop()
+    const filename = error.file.split('!').pop()
     notifier.notify({
       title: pkg.name,
       message: severity + ': ' + error.name,
