@@ -28,24 +28,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByLogin(String login){
+    public User getUserByLogin(String login) {
         return userRepository.findByLogin(login);
     }
 
+//    @Override
+//    public List<User> findMatchedUsersByUserId(Long p_idUser) {
+//
+//            return userRepository.findMatchedUsersByUserId(p_idUser);
+//
+//    }
+
     @Override
-    public List<User> findMatchedUsersByUserId(String p_idUser) {
+    public List<User> findMatchedUsersByUserId(Long p_idUser) {
         return userRepository.findMatchedUsersByUserId(p_idUser);
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    public void save(User user){
+    public void save(User user) {
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
+
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }

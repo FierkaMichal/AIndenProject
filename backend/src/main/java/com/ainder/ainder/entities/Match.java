@@ -8,18 +8,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "T_MATCH", schema = "GRZYBOW1")
 public class Match {
-    private long idMatch;
+
+    private Long idMatch;
     private String accepted;
     private User userInviter;
     private User userInvited;
 
     @Id
     @Column(name = "ID_MATCH", nullable = false, precision = 0)
-    public long getIdMatch() {
+    public Long getIdMatch() {
         return idMatch;
     }
 
-    public void setIdMatch(long idMatch) {
+    public void setIdMatch(Long idMatch) {
         this.idMatch = idMatch;
     }
 

@@ -9,7 +9,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "T_USER", schema = "GRZYBOW1")
 public class User {
-    private long idUser;
+    private Long idUser;
     private String name;
     private String surname;
     private String login;
@@ -27,11 +27,11 @@ public class User {
 
     @Id
     @Column(name = "ID_USER", nullable = false, precision = 0)
-    public long getIdUser() {
+    public Long getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(long idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
 

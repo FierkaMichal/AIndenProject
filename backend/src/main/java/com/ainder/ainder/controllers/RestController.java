@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
 import java.util.LinkedList;
+import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -165,16 +165,16 @@ public class RestController {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
 
-        LinkedList<User> matchedUserList = null; //select
+        List<User> matchedUserList = userService.findMatchedUsersByUserId(me.getIdUser()); //select
         LinkedList<UserResponse> matchedUserListResponse = new LinkedList<>();
 
         for (User user : matchedUserList) {
-
+            matchedUserListResponse.add(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()));
         }
 
 
         if (matchedUserList == null || matchedUserList.size() < 1) {
-            return new ResponseEntity<>(new Error("You do not have any matched users ;("), HttpStatus.OK);
+            return new ResponseEntity<>(new Error("You do not have any matched users ;(" + me.getIdUser() + matchedUserList.size()), HttpStatus.OK);
         }
 
         UserArray ua = new UserArray();

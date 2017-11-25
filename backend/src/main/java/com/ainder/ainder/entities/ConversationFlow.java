@@ -9,7 +9,7 @@ import java.sql.Time;
 @Entity
 @Table(name = "T_CONVERSATION_FLOW", schema = "GRZYBOW1")
 public class ConversationFlow {
-    private long idConversationFlow;
+    private Long idConversationFlow;
     private Time time;
     private String message;
     private Conversation conversationByIdConversation;
@@ -17,11 +17,11 @@ public class ConversationFlow {
 
     @Id
     @Column(name = "ID_CONVERSATION_FLOW", nullable = false, precision = 0)
-    public long getIdConversationFlow() {
+    public Long getIdConversationFlow() {
         return idConversationFlow;
     }
 
-    public void setIdConversationFlow(long idConversationFlow) {
+    public void setIdConversationFlow(Long idConversationFlow) {
         this.idConversationFlow = idConversationFlow;
     }
 

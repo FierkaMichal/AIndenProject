@@ -9,18 +9,18 @@ import java.util.Collection;
 @Entity
 @Table(name = "T_CONVERSATION", schema = "GRZYBOW1")
 public class Conversation {
-    private long idConversation;
+    private Long idConversation;
     private User userOne;
     private User userTwo;
     private Collection<ConversationFlow> conversationFlowsByIdConversation;
 
     @Id
     @Column(name = "ID_CONVERSATION", nullable = false, precision = 0)
-    public long getIdConversation() {
+    public Long getIdConversation() {
         return idConversation;
     }
 
-    public void setIdConversation(long idConversation) {
+    public void setIdConversation(Long idConversation) {
         this.idConversation = idConversation;
     }
 

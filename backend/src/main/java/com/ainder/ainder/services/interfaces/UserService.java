@@ -10,5 +10,6 @@ public interface UserService {
 
     User getUserByLogin(String login);
 
-    List<User> findMatchedUsersByUserId(String p_idUser);
+    List<User> findMatchedUsersByUserId(Long p_idUser);
+    //List<User> findMatchedUsersByUserId(Long p_idUser);
 }

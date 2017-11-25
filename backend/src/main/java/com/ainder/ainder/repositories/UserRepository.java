@@ -10,10 +10,24 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
     User findByLogin(String username);
 
-//    @Query(value = "select u.* from T_USER u where u.ID_USER in (select m.ID_USER1 from T_MATCH m where m.ID_USER = :p_idUser and m.ACCEPTED = 'Y')", nativeQuery = true)
-//    List<User> findMatchedUsersByUserId(@Param("p_idUser") Long p_idUser);
+    @Query("select u from User u where u.idUser in (select m.userInvited.idUser from Match m where m.userInviter.idUser = :p_idUser and m.accepted = 'Y')")
+    List<User> findMatchedUsersByUserId(@Param("p_idUser") long p_idUser);
 
-        @Query(value = "select u.* from T_USER u where u.NAME =:idUser ", nativeQuery = true)
-        List<User> findMatchedUsersByUserId(@Param("idUser") String idUser);
-
+//    SELECT cf.*
+//    from T_CONVERSATION_FLOW cf,
+//    T_CONVERSATION c
+//    where c.ID_USER = cf.ID_USER
+//    and c.ID_USER = :p_sender
+//    and c.ID_USER1 = :p_receiver
+//    ORDER BY cf.TIME;
+//
+//    INSERT INTO T_MATCH m (ID_USER, ID_USER1, ACCEPTED) VALUES (:p_myId, :p_otherPersonId, 'N');
+//
+//    INSERT INTO T_CONVERSATION_FLOW (ID_CONVERSATION, ID_USER, TIME, MESSAGE)
+//    SELECT c.ID_CONVERSATION, :p_otherPersonId, :p_time, :p_message
+//    FROM T_CONVERSATION c
+//    WHERE c.ID_USER1 = :p_myId
+//    and c.ID_USER = :p_otherPersonId;
+//
+//    UPDATE T_USER u set u.DESCRIPTION = :p_newDescription WHERE u.ID_USER = :p_myId
 }
