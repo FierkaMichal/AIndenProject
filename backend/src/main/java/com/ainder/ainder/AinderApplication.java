@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class AinderApplication {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AinderApplication.class, args);
@@ -21,7 +23,7 @@ public class AinderApplication {
 		//Setup a default user if db is empty
 //		if (repository.count()==0)
 //			service.save(new User("user", "user", Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
-		builder.userDetailsService(userDetailsService(repository));
+		builder.userDetailsService(userDetailsService(repository)).passwordEncoder(passwordEncoder);
 	}
 
 	private UserDetailsService userDetailsService(final UserRepository repository) {

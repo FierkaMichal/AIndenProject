@@ -30,10 +30,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByLogin(login);
     }
 
-    public void save(User user){
-        userRepository.save(user);
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
+    public void save(User user){
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        userRepository.save(user);
+    }
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
