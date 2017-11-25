@@ -205,8 +205,7 @@ public class User {
         this.matchesByIdUserInvited = matchesByIdUserInvited;
     }
 
-    public User(long idUser, String name, String surname, String login, String password, String description, String photo, Long lastLongitude, Long lastLatitude, Role role) {
-        this.idUser = idUser;
+    public User(String name, String surname, String login, String password, String description, String photo, Long lastLongitude, Long lastLatitude, Role role) {
         this.name = name;
         this.surname = surname;
         this.login = login;

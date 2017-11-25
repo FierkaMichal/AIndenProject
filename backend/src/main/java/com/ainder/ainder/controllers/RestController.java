@@ -1,6 +1,9 @@
 package com.ainder.ainder.controllers;
 
+import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.*;
+import com.ainder.ainder.services.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -8,8 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.lang.Error;
+
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
+
+    @Autowired
+    private UserServiceImpl userService;
+    @Autowired
+    private RoleS userService;
 
     @RequestMapping(path = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getHello() {
@@ -22,9 +32,15 @@ public class RestController {
     }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Registration> register(@RequestBody Registration registration) {
+    public ResponseEntity<Error> register(@RequestBody Registration registration) {
 
-        return new ResponseEntity<>(registration, HttpStatus.OK);
+        if(userService.getUserByLogin(registration.getLogin()) != null) {
+            return new ResponseEntity<>(new Error("User with that login already exists."), HttpStatus.CONFLICT);
+        }
+
+        userService.save(new User(registration.getName(),registration.getSurname(),registration.getLogin(), registration.getPassword(), roleService.getRoleById(2l)))
+
+        return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
