@@ -5,6 +5,8 @@ import SignIn from '@/components/User/SignIn'
 import SignUp from '@/components/User/SignUp'
 import Profile from '@/components/User/Profile'
 import Communicator from '@/components/Communicator/Communicator'
+import Matcher from '@/components/Match/Matcher'
+import EditProfile from '@/components/User/EditProfile'
 
 Vue.use(Router)
 
@@ -31,9 +33,19 @@ export default new Router({
       component: Profile
     },
     {
+      path: '/profile/edit',
+      name: 'EditProfile',
+      component: EditProfile
+    },
+    {
       path: '/communicator',
       name: 'Communicator',
       component: Communicator
+    },
+    {
+      path: '/matcher',
+      name: 'Matcher',
+      component: Matcher
     }
   ],
   mode: 'history'
