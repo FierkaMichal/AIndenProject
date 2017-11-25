@@ -34,7 +34,7 @@ public class RestController {
         return "private";
     }
 
-    @RequestMapping(path = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/rest/signUp", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> register(@RequestBody Registration registration) {
 
         if(userService.getUserByLogin(registration.getLogin()) != null) {
@@ -46,7 +46,7 @@ public class RestController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/rest/signIn", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Login> login(@RequestBody Login login) {
 
         return new ResponseEntity<>(login, HttpStatus.OK);
