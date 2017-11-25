@@ -18,6 +18,7 @@ public class User {
     private String photo;
     private Long lastLongitude;
     private Long lastLatitude;
+    private Role role;
     private Collection<Conversation> conversationsByIdUserOne;
     private Collection<Conversation> conversationsByIdUserTwo;
     private Collection<ConversationFlow> conversationFlowsByUserWriter;
@@ -147,6 +148,16 @@ public class User {
         result = 31 * result + (lastLongitude != null ? lastLongitude.hashCode() : 0);
         result = 31 * result + (lastLatitude != null ? lastLatitude.hashCode() : 0);
         return result;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "ROLE", referencedColumnName = "ID_ROLE", nullable = false)
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @OneToMany(mappedBy = "userOne")

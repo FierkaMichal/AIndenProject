@@ -16,6 +16,11 @@ public class RestController {
         return "helloWorld";
     }
 
+    @RequestMapping(path = "/private", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getPrivate() {
+        return "private";
+    }
+
     @RequestMapping(path = "/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Registration> register(@RequestBody Registration registration) {
 
