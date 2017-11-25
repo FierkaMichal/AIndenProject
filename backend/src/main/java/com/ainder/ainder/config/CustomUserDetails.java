@@ -12,10 +12,10 @@ public class CustomUserDetails implements UserDetails {
 
     private Collection<GrantedAuthority> authorities;
     private String password;
-    private String username;
+    private String login;
 
     public CustomUserDetails(User byUsername) {
-        this.username = byUsername.getName();
+        this.login = byUsername.getLogin();
         this.password = byUsername.getPassword();
         GrantedAuthority auth = new SimpleGrantedAuthority(byUsername.getRole().getName());
         authorities = new ArrayList<>();
@@ -34,7 +34,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return login;
     }
 
     @Override

@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -28,6 +30,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByLogin(String login){
         return userRepository.findByLogin(login);
+    }
+
+    @Override
+    public List<User> findMatchedUsersByUserId(String p_idUser) {
+        return userRepository.findMatchedUsersByUserId(p_idUser);
     }
 
     @Bean

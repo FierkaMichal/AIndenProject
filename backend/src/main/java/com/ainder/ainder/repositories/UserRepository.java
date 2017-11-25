@@ -10,6 +10,10 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
     User findByLogin(String username);
 
-    @Query(value = "select u.* from T_USER u where u.ID_USER in (select m.ID_USER1 from T_MATCH m where m.ID_USER = :p_idUser and m.ACCEPTED = 'Y')", nativeQuery = true)
-    List<User> findMatchedUsersByUserId(@Param("p_idUser") Long p_idUser);
+//    @Query(value = "select u.* from T_USER u where u.ID_USER in (select m.ID_USER1 from T_MATCH m where m.ID_USER = :p_idUser and m.ACCEPTED = 'Y')", nativeQuery = true)
+//    List<User> findMatchedUsersByUserId(@Param("p_idUser") Long p_idUser);
+
+        @Query(value = "select u.* from T_USER u where u.NAME =:idUser ", nativeQuery = true)
+        List<User> findMatchedUsersByUserId(@Param("idUser") String idUser);
+
 }
