@@ -1,6 +1,5 @@
 package com.ainder.ainder.entities;
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Table(name = "T_ROLE", schema = "GRZYBOW1")
@@ -9,18 +8,18 @@ public class Role {
     @Id
     @GeneratedValue
     @Column(name = "ID_ROLE", nullable = false, precision = 0)
-    private Long id;
+    private Long id_role;
 
     @Basic
     @Column(name = "ROLE", nullable = false, length = 15)
     String name;
 
     public Long getId() {
-        return id;
+        return id_role;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id_role = id;
     }
 
     public String getName() {
@@ -45,7 +44,7 @@ public class Role {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = (int) (id_role ^ (id_role >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
