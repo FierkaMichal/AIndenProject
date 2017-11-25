@@ -1,4 +1,4 @@
-package com.ainder.ainder.controller;
+package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.restPOJO.*;
 import org.springframework.http.HttpStatus;
