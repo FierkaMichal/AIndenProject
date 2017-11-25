@@ -205,6 +205,8 @@ public class User {
         this.matchesByIdUserInvited = matchesByIdUserInvited;
     }
 
+    public User(){}
+
     public User(long idUser, String name, String surname, String login, String password, String description, String photo, Long lastLongitude, Long lastLatitude, Role role) {
         this.idUser = idUser;
         this.name = name;

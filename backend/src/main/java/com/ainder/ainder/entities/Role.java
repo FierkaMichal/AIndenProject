@@ -49,6 +49,9 @@ public class Role {
         return result;
     }
 
+    public Role() {
+    }
+
     public Role(String name) {
         this.name = name;
     }

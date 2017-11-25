@@ -18,6 +18,9 @@ public class RestController {
 
     @RequestMapping(path = "/private", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getPrivate() {
+
+
+
         return "private";
     }
 
