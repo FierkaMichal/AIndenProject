@@ -21,11 +21,11 @@
     <v-toolbar app>
       <v-toolbar-side-icon
         @click.stop="drawer = !drawer"
-        class="hidden-sm-and-up"></v-toolbar-side-icon>
+        class="hidden-md-and-up"></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer">AInder</router-link></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-item class="hidden-xs-only">
+      <v-toolbar-item class="hidden-sm-and-down">
         <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.link">
           <v-icon left>{{item.icon}}</v-icon>
           {{item.title}}
@@ -64,7 +64,8 @@
         if (this.userIsAuthenticated) {
           menuItems = [
             {icon: 'face', title: 'My profile', link: '/profile'},
-            {icon: 'face', title: 'Communicator', link: '/communicator'}
+            {icon: 'face', title: 'Communicator', link: '/communicator'},
+            {icon: 'face', title: 'Search users', link: '/matcher'}
           ]
         }
         return menuItems
