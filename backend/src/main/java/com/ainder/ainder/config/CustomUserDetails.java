@@ -1,4 +1,4 @@
-package com.ainder.ainder;
+package com.ainder.ainder.config;
 
 import com.ainder.ainder.entities.User;
 import org.springframework.security.core.GrantedAuthority;
