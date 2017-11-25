@@ -48,4 +48,8 @@ public class Role {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
+
+    public Role(String name) {
+        this.name = name;
+    }
 }

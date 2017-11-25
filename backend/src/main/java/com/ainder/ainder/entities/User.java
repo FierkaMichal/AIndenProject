@@ -204,4 +204,17 @@ public class User {
     public void setMatchesByIdUserInvited(Collection<Match> matchesByIdUserInvited) {
         this.matchesByIdUserInvited = matchesByIdUserInvited;
     }
+
+    public User(long idUser, String name, String surname, String login, String password, String description, String photo, Long lastLongitude, Long lastLatitude, Role role) {
+        this.idUser = idUser;
+        this.name = name;
+        this.surname = surname;
+        this.login = login;
+        this.password = password;
+        this.description = description;
+        this.photo = photo;
+        this.lastLongitude = lastLongitude;
+        this.lastLatitude = lastLatitude;
+        this.role = role;
+    }
 }
