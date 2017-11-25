@@ -24,10 +24,10 @@ public class AinderApplication {
 	public void authenticationManager(AuthenticationManagerBuilder builder, UserRepository repository, UserServiceImpl userService, RoleServiceImpl roleService) throws Exception {
 		//Setup a default user if db is empty
 //		if (repository.count()==0)
-//			service.save(new User("user", "user", Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
+//			service.save(new UserResponse("user", "user", Arrays.asList(new Role("USER"), new Role("ACTUATOR"))));
 
 //		roleService.save(new Role("USER"));
-//		userService.save(new User(1, "Michal","Fierka","mf", "123", "bla bla bla","zdjecie_url",5l,5l,roleService.getRoleById(2l)));
+//		userService.save(new UserResponse(1, "Michal","Fierka","mf", "123", "bla bla bla","zdjecie_url",5l,5l,roleService.getRoleById(2l)));
 
 		builder.userDetailsService(userDetailsService(repository)).passwordEncoder(passwordEncoder);
 	}
