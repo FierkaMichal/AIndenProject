@@ -2,9 +2,9 @@ package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.*;
+import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.services.RoleServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
-import com.ainder.ainder.services.interfaces.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.lang.Error;
+
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {

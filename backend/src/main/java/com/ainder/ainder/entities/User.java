@@ -16,8 +16,8 @@ public class User {
     private String password;
     private String description;
     private String photo;
-    private Long lastLongitude;
-    private Long lastLatitude;
+    private Double lastLongitude;
+    private Double lastLatitude;
     private Role role;
     private Collection<Conversation> conversationsByIdUserOne;
     private Collection<Conversation> conversationsByIdUserTwo;
@@ -97,21 +97,21 @@ public class User {
 
     @Basic
     @Column(name = "LAST_LONGITUDE", nullable = true, precision = 6)
-    public Long getLastLongitude() {
+    public Double getLastLongitude() {
         return lastLongitude;
     }
 
-    public void setLastLongitude(Long lastLongitude) {
+    public void setLastLongitude(Double lastLongitude) {
         this.lastLongitude = lastLongitude;
     }
 
     @Basic
     @Column(name = "LAST_LATITUDE", nullable = true, precision = 6)
-    public Long getLastLatitude() {
+    public Double getLastLatitude() {
         return lastLatitude;
     }
 
-    public void setLastLatitude(Long lastLatitude) {
+    public void setLastLatitude(Double lastLatitude) {
         this.lastLatitude = lastLatitude;
     }
 
