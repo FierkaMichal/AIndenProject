@@ -205,15 +205,13 @@ public class User {
         this.matchesByIdUserInvited = matchesByIdUserInvited;
     }
 
-    public User(String name, String surname, String login, String password, String description, String photo, Long lastLongitude, Long lastLatitude, Role role) {
+    public User(){}
+
+    public User( String name, String surname, String login, String password, Role role) {
         this.name = name;
         this.surname = surname;
         this.login = login;
         this.password = password;
-        this.description = description;
-        this.photo = photo;
-        this.lastLongitude = lastLongitude;
-        this.lastLatitude = lastLatitude;
         this.role = role;
     }
 }

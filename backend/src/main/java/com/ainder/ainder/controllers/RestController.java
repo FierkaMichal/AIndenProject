@@ -2,7 +2,9 @@ package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.*;
+import com.ainder.ainder.services.RoleServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
+import com.ainder.ainder.services.interfaces.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,8 +20,9 @@ public class RestController {
 
     @Autowired
     private UserServiceImpl userService;
+
     @Autowired
-    private RoleS userService;
+    private RoleServiceImpl roleService;
 
     @RequestMapping(path = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getHello() {
@@ -38,7 +41,7 @@ public class RestController {
             return new ResponseEntity<>(new Error("User with that login already exists."), HttpStatus.CONFLICT);
         }
 
-        userService.save(new User(registration.getName(),registration.getSurname(),registration.getLogin(), registration.getPassword(), roleService.getRoleById(2l)))
+        userService.save(new User(registration.getName(),registration.getSurname(),registration.getLogin(), registration.getPassword(), roleService.getRoleById(2l)));
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
