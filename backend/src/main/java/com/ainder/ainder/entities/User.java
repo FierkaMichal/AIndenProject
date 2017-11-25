@@ -151,7 +151,7 @@ public class User {
     }
 
     @OneToOne
-    @JoinColumn(name = "ROLE", referencedColumnName = "ID_ROLE", nullable = false)
+    @JoinColumn(name = "ID_ROLE", referencedColumnName = "ID_ROLE", nullable = false)
     public Role getRole() {
         return role;
     }
