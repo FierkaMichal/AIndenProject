@@ -8,6 +8,13 @@
           </v-list-tile-action>
           <v-list-content>{{item.title}}</v-list-content>
         </v-list-tile>
+
+        <v-list-tile v-if="userIsAuthenticated" @click="onLogout">
+          <v-list-tile-action>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-action>
+          <v-list-content>Logout</v-list-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
 
@@ -23,6 +30,10 @@
           <v-icon left>{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
+        <v-btn v-if="userIsAuthenticated" flat @click="onLogout">
+          <v-icon left>exit_to_app</v-icon>
+          Logout
+        </v-btn>
       </v-toolbar-item>
     </v-toolbar>
 
@@ -30,7 +41,7 @@
       <router-view></router-view>
     </main>
 
-    <v-footer fixed="true" app>
+    <v-footer app>
       <v-spacer></v-spacer>
       <div>© AInder {{ new Date().getFullYear() }}</div>
     </v-footer>
@@ -41,13 +52,30 @@
   export default {
     data () {
       return {
-        drawer: null,
-        menuItems: [
+        drawer: null
+      }
+    },
+    computed: {
+      menuItems () {
+        let menuItems = [
           {icon: 'face', title: 'Sign Up', link: '/signUp'},
-          {icon: 'lock_open', title: 'Sign In', link: '/signIn'},
-          {icon: 'face', title: 'My profile', link: '/profile'},
-          {icon: 'face', title: 'Communicator', link: '/communicator'}
+          {icon: 'lock_open', title: 'Sign In', link: '/signIn'}
         ]
+        if (this.userIsAuthenticated) {
+          menuItems = [
+            {icon: 'face', title: 'My profile', link: '/profile'},
+            {icon: 'face', title: 'Communicator', link: '/communicator'}
+          ]
+        }
+        return menuItems
+      },
+      userIsAuthenticated () {
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      }
+    },
+    methods: {
+      onLogout () {
+        this.$store.dispatch('userLogout', this.$store.getters.user.access_token)
       }
     }
   }
