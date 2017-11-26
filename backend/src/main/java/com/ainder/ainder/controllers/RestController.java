@@ -9,6 +9,7 @@ import com.ainder.ainder.restPOJO.*;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,7 @@ public class RestController {
     @Autowired
     private ConversationServiceImpl conversationService;
 
+    @Qualifier("getTokenStore")
     @Autowired
     private TokenStore tokenStore;
 
@@ -69,8 +71,9 @@ public class RestController {
     }
 
     @RequestMapping(path = "/rest/logOut", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void logout(@RequestParam ("access_token") String accessToken){
+    public ResponseEntity<Error> logout(@RequestParam ("access_token") String accessToken){
         tokenStore.removeAccessToken(tokenStore.readAccessToken(accessToken));
+        return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -179,10 +182,6 @@ public class RestController {
         User user = userService.getUserByLogin(userDetails.getUsername());
 
         Error error = null;
-
-//        if (!user.getRole().getName().contains("ADMIN")) {
-//            error = new Error("Only admin can access this method.");
-//        } else
 
         if (user.getRole().getName().contains("USER") && user.getIdUser() != action.getUserId()) {
             error = new Error("You can not modify other user profile.");
