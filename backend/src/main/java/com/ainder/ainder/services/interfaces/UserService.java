@@ -10,7 +10,11 @@ public interface UserService {
 
     User getUserByLogin(String login);
 
-    List<User> findMatchedUsersByUserId(Long p_idUser);
+    List<User> findMatchedInvitedUsersByUserId(Long p_idUser);
+
+    List<User> findMatchedReceivedUsersByUserId(Long p_idUser);
+
+    List<User> getUserBiggerThanGivenId(Long id);
 
     void updateUserDescription(String p_newDescription, Long p_idUser);
 }

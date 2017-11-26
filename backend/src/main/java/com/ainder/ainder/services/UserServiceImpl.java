@@ -40,10 +40,19 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public List<User> findMatchedUsersByUserId(Long p_idUser) {
-        return userRepository.findMatchedUsersByUserId(p_idUser);
+    public List<User> findMatchedInvitedUsersByUserId(Long p_idUser) {
+        return userRepository.findMatchedInvitedUsersByUserId(p_idUser);
     }
 
+    @Override
+    public List<User> findMatchedReceivedUsersByUserId(Long p_idUser) {
+        return userRepository.findMatchedReceivedUsersByUserId(p_idUser);
+    }
+
+    @Override
+    public List<User> getUserBiggerThanGivenId(Long id) {
+        return userRepository.getUserBiggerThanGivenId(id);
+    }
 
     @Override
     public void updateUserDescription(String p_newDescription, Long p_idUser) {

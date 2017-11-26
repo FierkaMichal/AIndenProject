@@ -13,7 +13,10 @@ public interface UserRepository extends CrudRepository<User, Long> {
     User findByLogin(String username);
 
     @Query("select u from User u where u.idUser in (select m.userInvited.idUser from Match m where m.userInviter.idUser = :p_idUser and m.accepted = 'Y')")
-    List<User> findMatchedUsersByUserId(@Param("p_idUser") long p_idUser);
+    List<User> findMatchedInvitedUsersByUserId(@Param("p_idUser") long p_idUser);
+
+    @Query("select u from User u where u.idUser in (select m.userInviter.idUser from Match m where m.userInvited.idUser = :p_idUser and m.accepted = 'Y')")
+    List<User> findMatchedReceivedUsersByUserId(@Param("p_idUser") long p_idUser);
 
 //    SELECT cf.*
 //    from T_CONVERSATION_FLOW cf,
@@ -40,6 +43,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query("select u from User u where u.login = :login")
     void getUserByLogin(@Param("login") String login);
+
+    @Query("select u from User u where u.idUser > :id")
+    List<User> getUserBiggerThanGivenId(@Param("id") Long id);
 
 
 

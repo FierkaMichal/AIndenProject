@@ -96,18 +96,24 @@ public class RestController {
         return new ResponseEntity<>(ma, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/next_user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object getUser(@RequestParam("last_user_id") Long lastUserId, @RequestParam("distKm") Long km ) {
-        LinkedList<User> userList = null; //=users that i dont have match with
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
 
-//        for (User user : userList) {
-//            if (distance(user.getLastLatitude(), me.getLastLatitude(), user.getLastLongitude(), me.getLastLongitude()) <= userByDistance.getDistance()) {
-//                return new ResponseEntity<>(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()), HttpStatus.OK);
-//            }
-//        }
+        List <User> biggerUserList = userService.getUserBiggerThanGivenId(lastUserId);
+        List <User> matchedUserInvitedList = userService.findMatchedInvitedUsersByUserId(me.getIdUser());
+        List <User> matchedUserReceivedList = userService.findMatchedReceivedUsersByUserId(me.getIdUser());
+
+        biggerUserList.removeAll(matchedUserInvitedList);
+        biggerUserList.removeAll(matchedUserReceivedList);
+
+        for (User user : biggerUserList) {
+            if (distance(user.getLastLatitude(), me.getLastLatitude(), user.getLastLongitude(), me.getLastLongitude()) <= km * 1000) {
+                return new ResponseEntity<>(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()), HttpStatus.OK);
+            }
+        }
 
         return new ResponseEntity<>(new Error("There are no users in your area."), HttpStatus.OK);
     }
@@ -179,21 +185,26 @@ public class RestController {
         return Math.sqrt(distance);
     }
 
-    @RequestMapping(path = "/users", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/users_matched", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object getMatchedUsers() {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
 
-        List<User> matchedUserList = userService.findMatchedUsersByUserId(me.getIdUser()); //select
+        List<User> matchedInvitedUserList = userService.findMatchedInvitedUsersByUserId(me.getIdUser()); //select
+        List<User> matchedReceivedUserList = userService.findMatchedReceivedUsersByUserId(me.getIdUser()); //select
         LinkedList<UserResponse> matchedUserListResponse = new LinkedList<>();
 
-        for (User user : matchedUserList) {
+        for (User user : matchedInvitedUserList) {
+            matchedUserListResponse.add(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()));
+        }
+
+        for (User user : matchedReceivedUserList) {
             matchedUserListResponse.add(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()));
         }
 
 
-        if (matchedUserList == null || matchedUserList.size() < 1) {
-            return new ResponseEntity<>(new Error("You do not have any matched users ;(" + me.getIdUser() + matchedUserList.size()), HttpStatus.OK);
+        if (matchedUserListResponse == null || matchedUserListResponse.size() < 1) {
+            return new ResponseEntity<>(new Error("You do not have any matched users ;("), HttpStatus.OK);
         }
 
         UserArray ua = new UserArray();
