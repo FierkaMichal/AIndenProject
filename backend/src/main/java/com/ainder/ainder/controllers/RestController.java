@@ -97,19 +97,30 @@ public class RestController {
     }
 
     @RequestMapping(path = "/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getUser(@RequestBody UserByDistance userByDistance) {
+    public Object getUser(@RequestParam("last_user_id") Long lastUserId, @RequestParam("distKm") Long km ) {
         LinkedList<User> userList = null; //=users that i dont have match with
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
 
-        for (User user : userList) {
-            if (distance(user.getLastLatitude(), me.getLastLatitude(), user.getLastLongitude(), me.getLastLongitude()) <= userByDistance.getDistance()) {
-                return new ResponseEntity<>(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()), HttpStatus.OK);
-            }
-        }
+//        for (User user : userList) {
+//            if (distance(user.getLastLatitude(), me.getLastLatitude(), user.getLastLongitude(), me.getLastLongitude()) <= userByDistance.getDistance()) {
+//                return new ResponseEntity<>(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()), HttpStatus.OK);
+//            }
+//        }
 
         return new ResponseEntity<>(new Error("There are no users in your area."), HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "/user_by_login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getUser(@RequestParam("login") String login) {
+        User u = userService.getUserByLogin(login);
+        if(u != null) {
+            UserResponse ur = new UserResponse(u.getIdUser(),u.getName(),u.getSurname(),u.getDescription(),u.getPhoto(),u.getLastLongitude(),u.getLastLongitude());
+            return new ResponseEntity<>(ur , HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new Error("User with that login does not exist."), HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(path = "/action", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)

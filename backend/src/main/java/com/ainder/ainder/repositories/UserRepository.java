@@ -37,5 +37,12 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Transactional
     @Query("update User u set u.description = :p_newDescription where u.idUser = :p_idUser")
     void updateUserDescription(@Param("p_newDescription") String p_newDescription, @Param("p_idUser") long p_idUser);
+
+    @Query("select u from User u where u.login = :login")
+    void getUserByLogin(@Param("login") String login);
+
+
+
+
 //    UPDATE T_USER u set u.DESCRIPTION = :p_newDescription WHERE u.ID_USER = :p_myId
 }
