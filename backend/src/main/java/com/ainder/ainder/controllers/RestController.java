@@ -183,17 +183,17 @@ public class RestController {
         if (u != null) {
             String avatar = null;
             String photos = u.getPhoto();
-            String[] photoArray = photos.split(" ");
             List<String> photoList = new LinkedList<>();
+            if(photos != null) {
+                String[] photoArray = photos.split(" ");
+                if (photoArray.length > 0) {
+                    avatar = photoArray[0];
 
-            if (photoArray.length > 0) {
-                avatar = photoArray[0];
-
-                for (int i = 1; i < photoArray.length; i++) {
-                    photoList.add(photoArray[i]);
+                    for (int i = 1; i < photoArray.length; i++) {
+                        photoList.add(photoArray[i]);
+                    }
                 }
             }
-
 
             UserResponse ur = new UserResponse(u.getIdUser(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude());
             return new ResponseEntity<>(ur, HttpStatus.OK);

@@ -12,20 +12,13 @@ export default {
   actions: {
     getLookingForPerson ({ commit }, payload) {
       commit('setLoading', true)
-      axios.get('rest/user', {
-        login: payload.login,
-        access_token: payload.access_token
-      })
+      var params = new URLSearchParams()
+      params.append('access_token', payload.access_token)
+      params.append('login', payload.login)
+      axios.get('rest/user/login?' + params)
         .then(response => {
           commit('setLoading', false)
-          const newPerson = {
-            name: response.data.name,
-            surname: response.data.surname,
-            description: response.data.description,
-            photo: response.data.photo
-          }
-          commit('setPerson', newPerson)
-          console.log(response.data)
+          commit('setPerson', response.data)
         })
         .catch(error => {
           commit('setLoading', false)

@@ -31,25 +31,28 @@ export default {
     },
     userSignIn ({ commit }, payload) {
       commit('setLoading', true)
-      axios.post('/oath/token', {
-        grant_type: 'password',
-        username: payload.login,
-        password: payload.password
+      var params = new URLSearchParams()
+      params.append('grant_type', 'password')
+      params.append('username', payload.login)
+      params.append('password', payload.password)
+      axios({
+        method: 'post',
+        url: 'oauth/token',
+        auth: {username: 'my-trusted-client', password: 'secret'},
+        headers: {'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'},
+        data: params
       })
         .then(response => {
-          axios.get('/me', {
-            access_token: response.data.access_token
-          })
+          var params = new URLSearchParams()
+          params.append('access_token', response.data.access_token)
+          axios.get('/me?' + params)
             .then(response => {
               commit('setLoading', false)
-              // const newUser = {
-              //   id: response.data.userId,
-              //   name: response.data.
-              //   login: response.data.login
-              // }
               commit('setUser', response.data)
             })
             .catch(error => {
+              commit('setLoading', false)
+              commit('setError', {type: 'error', message: error.message})
               console.log(error)
             })
         })
@@ -79,6 +82,20 @@ export default {
         .catch(error => {
           commit('setUser', null)
           this.$router.push('/signIn')
+          console.log(error)
+        })
+    },
+    editUser ({ commit }, payload) {
+      commit('setLoading', true)
+      axios.put('rest/user/edit', payload)
+        .then(response => {
+          commit('setLoading', false)
+          commit('setMessage', {type: 'success', message: 'User data edit successful'})
+          console.log(response)
+        })
+        .catch(error => {
+          commit('setLoading', false)
+          commit('setError', {type: 'error', message: 'Error while edit user data'})
           console.log(error)
         })
     }
