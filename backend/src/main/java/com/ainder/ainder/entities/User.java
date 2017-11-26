@@ -207,11 +207,14 @@ public class User {
 
     public User(){}
 
-    public User( String name, String surname, String login, String password, Role role) {
+    public User(Long id, String name, String surname, String login, String password, Role role) {
+        this.idUser = id;
         this.name = name;
         this.surname = surname;
         this.login = login;
         this.password = password;
         this.role = role;
     }
+
+
 }

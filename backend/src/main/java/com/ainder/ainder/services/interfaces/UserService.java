@@ -17,4 +17,6 @@ public interface UserService {
     List<User> getUserBiggerThanGivenId(Long id);
 
     void updateUserDescription(String p_newDescription, Long p_idUser);
+
+    Long getNextSeriesId();
 }

@@ -18,6 +18,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("select u from User u where u.idUser in (select m.userInviter.idUser from Match m where m.userInvited.idUser = :p_idUser and m.accepted = 'Y')")
     List<User> findMatchedReceivedUsersByUserId(@Param("p_idUser") long p_idUser);
 
+    @Query(value = "SELECT SQ_USER.nextval FROM dual", nativeQuery = true)
+    Long getNextSeriesId();
+
 //    SELECT cf.*
 //    from T_CONVERSATION_FLOW cf,
 //    T_CONVERSATION c

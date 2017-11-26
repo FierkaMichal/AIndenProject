@@ -2,10 +2,12 @@ package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.config.CustomUserDetails;
 import com.ainder.ainder.entities.ConversationFlow;
+import com.ainder.ainder.entities.Match;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.*;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.services.ConversationFlowServiceImpl;
+import com.ainder.ainder.services.MatchServiceImpl;
 import com.ainder.ainder.services.RoleServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class RestController {
     @Autowired
     private RoleServiceImpl roleService;
 
+    @Autowired
+    private MatchServiceImpl matchService;
+
     @RequestMapping(path = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getHello() {
         return "helloWorld";
@@ -50,7 +55,7 @@ public class RestController {
             return new ResponseEntity<>(new Error("UserResponse with that login already exists."), HttpStatus.CONFLICT);
         }
 
-        userService.save(new User(registration.getName(), registration.getSurname(), registration.getLogin(), registration.getPassword(), roleService.getRoleById(2l)));
+        userService.save(new User(0l, registration.getName(), registration.getSurname(), registration.getLogin(), registration.getPassword(), roleService.getRoleById(2l)));
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
@@ -63,9 +68,19 @@ public class RestController {
 
 
     @RequestMapping(path = "/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Like> postLike(@RequestBody Like like) {
+    public ResponseEntity<Error> postLike(@RequestParam("user_id") Long userId) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByLogin(userDetails.getUsername());
 
-        return new ResponseEntity<>(like, HttpStatus.OK);
+        Match m = matchService.getMatchByUserId(user.getIdUser(), userId);
+        if(m == null) {
+            Match newMatch = new Match("N", user, userService.getUserById(userId));
+            matchService.save(newMatch);
+        } else {
+            matchService.updateMatch(m.getIdMatch());
+        }
+
+        return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

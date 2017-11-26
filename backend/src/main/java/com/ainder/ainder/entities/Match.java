@@ -34,6 +34,15 @@ public class Match {
         this.accepted = accepted;
     }
 
+    public Match(String accepted, User userInviter, User userInvited) {
+        this.accepted = accepted;
+        this.userInviter = userInviter;
+        this.userInvited = userInvited;
+    }
+
+    public Match() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

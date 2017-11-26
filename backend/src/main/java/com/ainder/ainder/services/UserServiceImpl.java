@@ -39,6 +39,12 @@ public class UserServiceImpl implements UserService {
 //
 //    }
 
+
+    @Override
+    public Long getNextSeriesId() {
+        return userRepository.getNextSeriesId();
+    }
+
     @Override
     public List<User> findMatchedInvitedUsersByUserId(Long p_idUser) {
         return userRepository.findMatchedInvitedUsersByUserId(p_idUser);
