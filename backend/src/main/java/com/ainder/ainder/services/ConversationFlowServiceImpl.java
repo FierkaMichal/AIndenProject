@@ -22,4 +22,8 @@ public class ConversationFlowServiceImpl implements ConversationFlowService {
     public List<ConversationFlow> getAllMessagesByUsers(Long p_sender, Long p_receiver) {
         return conversationFlowRepository.getAllMessagesByUsers(p_sender, p_receiver);
     }
+
+    public void save(ConversationFlow conversationFlow) {
+        conversationFlowRepository.save(conversationFlow);
+    }
 }

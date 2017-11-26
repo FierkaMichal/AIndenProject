@@ -19,4 +19,12 @@ public interface UserService {
     void updateUserDescription(String p_newDescription, Long p_idUser);
 
     Long getNextSeriesId();
+
+    void updateUserName(String newValue, Long userId);
+
+    void updateUserSurname(String newValue, Long userId);
+
+    void updateUserPicture(String newValue, Long userId);
+
+    void deleteByIdUser(Long lond);
 }

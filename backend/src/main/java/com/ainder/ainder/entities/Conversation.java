@@ -14,6 +14,15 @@ public class Conversation {
     private User userTwo;
     private Collection<ConversationFlow> conversationFlowsByIdConversation;
 
+    public Conversation() {
+    }
+
+    public Conversation(Long idConversation, User userOne, User userTwo) {
+        this.idConversation = idConversation;
+        this.userOne = userOne;
+        this.userTwo = userTwo;
+    }
+
     @Id
     @Column(name = "ID_CONVERSATION", nullable = false, precision = 0)
     public Long getIdConversation() {

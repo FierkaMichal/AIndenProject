@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
 //
 //    }
 
-
     @Override
     public Long getNextSeriesId() {
         return userRepository.getNextSeriesId();
@@ -63,6 +62,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserDescription(String p_newDescription, Long p_idUser) {
         userRepository.updateUserDescription(p_newDescription, p_idUser);
+    }
+
+    @Override
+    public void updateUserName(String newValue, Long userId) {
+        userRepository.updateUserName(newValue, userId);
+    }
+
+    @Override
+    public void updateUserSurname(String newValue, Long userId) {
+        userRepository.updateUserSurname(newValue, userId);
+    }
+
+    @Override
+    public void updateUserPicture(String newValue, Long userId) {
+        userRepository.updateUserPicture(newValue, userId);
+    }
+
+    @Override
+    public void deleteByIdUser(Long lond) {
+        userRepository.deleteByIdUser(lond);
     }
 
     @Bean

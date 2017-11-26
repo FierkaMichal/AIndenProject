@@ -15,6 +15,17 @@ public class ConversationFlow {
     private Conversation conversationByIdConversation;
     private User userWriter;
 
+    public ConversationFlow() {
+    }
+
+    public ConversationFlow(Long idConversationFlow, Time time, String message, Conversation conversationByIdConversation, User userWriter) {
+        this.idConversationFlow = idConversationFlow;
+        this.time = time;
+        this.message = message;
+        this.conversationByIdConversation = conversationByIdConversation;
+        this.userWriter = userWriter;
+    }
+
     @Id
     @Column(name = "ID_CONVERSATION_FLOW", nullable = false, precision = 0)
     public Long getIdConversationFlow() {
