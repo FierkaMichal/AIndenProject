@@ -44,6 +44,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findMatchedUsersByUserId(p_idUser);
     }
 
+
+    @Override
+    public void updateUserDescription(String p_newDescription, Long p_idUser) {
+        userRepository.updateUserDescription(p_newDescription, p_idUser);
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -57,5 +63,4 @@ public class UserServiceImpl implements UserService {
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
-
 }

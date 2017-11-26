@@ -2,24 +2,24 @@ package com.ainder.ainder.restPOJO;
 
 public class Message {
 
-    private Integer myId;
-    private Integer otherPersonId;
+    private Long myId;
+    private Long otherPersonId;
     private String time;
     private String message;
 
-    public Integer getMyId() {
+    public Long getMyId() {
         return myId;
     }
 
-    public void setMyId(Integer myId) {
+    public void setMyId(Long myId) {
         this.myId = myId;
     }
 
-    public Integer getOtherPersonId() {
+    public Long getOtherPersonId() {
         return otherPersonId;
     }
 
-    public void setOtherPersonId(Integer otherPersonId) {
+    public void setOtherPersonId(Long otherPersonId) {
         this.otherPersonId = otherPersonId;
     }
 
@@ -39,6 +39,12 @@ public class Message {
         this.message = message;
     }
 
+    public Message(Long myId, Long otherPersonId, String time, String message) {
+        this.myId = myId;
+        this.otherPersonId = otherPersonId;
+        this.time = time;
+        this.message = message;
+    }
 }
 
 

@@ -5,6 +5,7 @@ import com.ainder.ainder.entities.ConversationFlow;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.*;
 import com.ainder.ainder.restPOJO.Error;
+import com.ainder.ainder.services.ConversationFlowServiceImpl;
 import com.ainder.ainder.services.RoleServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +26,9 @@ public class RestController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private ConversationFlowServiceImpl conversationFlowService;
 
     @Autowired
     private RoleServiceImpl roleService;
@@ -69,16 +74,16 @@ public class RestController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/messages", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getMessages(@RequestBody GetMessages messages) {
+    @RequestMapping(path = "/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getMessages(@RequestParam("user_id") Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByLogin(userDetails.getUsername());
 
-        LinkedList <ConversationFlow> messageList = null; //select
-        LinkedList <Message> messageResponseList = new LinkedList<>();
+        List<ConversationFlow> messageList = conversationFlowService.getAllMessagesByUsers(user.getIdUser(), userId);
+        LinkedList<Message> messageResponseList = new LinkedList<>();
 
         for (ConversationFlow conversationFlow : messageList) {
-
+            messageResponseList.add(new Message(user.getIdUser(), userId, conversationFlow.getTime().toString() ,conversationFlow.getMessage()));
         }
 
         if (messageResponseList == null || messageResponseList.size() < 1) {
@@ -114,10 +119,12 @@ public class RestController {
 
         Error error = null;
 
-        if (!(user.getRole().getName().equals("ADMIN"))) {
-            error = new Error("Only admin can access this method.");
-        } else if (user.getIdUser() != action.getUserId()) {
-            error = new Error("You can not edit modify other user profile.");
+//        if (!user.getRole().getName().contains("ADMIN")) {
+//            error = new Error("Only admin can access this method.");
+//        } else
+
+        if (user.getRole().getName().contains("USER") && user.getIdUser() != action.getUserId()) {
+            error = new Error("You can not modify other user profile.");
         }
 
         if (error != null) {
@@ -132,6 +139,7 @@ public class RestController {
             case "CHANGE_SURNAME":
                 break;
             case "CHANGE_DESCRIPTION":
+                userService.updateUserDescription(action.getNewValue(), action.getUserId());
                 break;
             case "CHANGE_PICTURE":
                 break;
