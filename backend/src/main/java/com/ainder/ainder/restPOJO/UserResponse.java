@@ -1,23 +1,37 @@
 package com.ainder.ainder.restPOJO;
 
+import java.util.List;
+
 public class UserResponse {
     private Long userId;
     private String name;
     private String surname;
     private String description;
-    private String photo;
+    private String avatar;
+    private List<String> photoList = null;
     private Double lastLongitude;
     private Double lastLatitude;
 
     public UserResponse() {
     }
 
-    public UserResponse(Long id, String name, String surname, String description, String photo, Double lastLongitude, Double lastLatitude) {
+    public UserResponse(Long userId, String name, String surname, String description, String avatar, List<String>  photoArray, Double lastLongitude, Double lastLatitude) {
+        this.userId = userId;
+        this.name = name;
+        this.surname = surname;
+        this.description = description;
+        this.avatar = avatar;
+        this.photoList = photoArray;
+        this.lastLongitude = lastLongitude;
+        this.lastLatitude = lastLatitude;
+    }
+
+    public UserResponse(Long id, String name, String surname, String description, String avatar, Double lastLongitude, Double lastLatitude) {
         this.userId = id;
         this.name = name;
         this.surname = surname;
         this.description = description;
-        this.photo = photo;
+        this.avatar = avatar;
         this.lastLongitude = lastLongitude;
         this.lastLatitude = lastLatitude;
     }
@@ -54,12 +68,20 @@ public class UserResponse {
         this.description = description;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public List<String>  getPhotoArray() {
+        return photoList;
+    }
+
+    public void setPhotoArray(List<String>  photoArray) {
+        this.photoList = photoArray;
     }
 
     public Double getLastLongitude() {

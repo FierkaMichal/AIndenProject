@@ -53,17 +53,17 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("update User u set u.name = :newValue where u.idUser = :userId")
-    void updateUserName(String newValue, Long userId);
+    void updateUserName(@Param("newValue")String newValue,@Param("userId") Long userId);
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("update User u set u.surname = :newValue where u.idUser = :userId")
-    void updateUserSurname(String newValue, Long userId);
+    void updateUserSurname(@Param("newValue")String newValue,@Param("userId") Long userId);
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("update User u set u.photo = :newValue where u.idUser = :userId")
-    void updateUserPicture(String newValue, Long userId);
+    void updateUserPicture(@Param("newValue")String newValue,@Param("userId") Long userId);
 
     @Transactional
     void deleteByIdUser(Long id);
