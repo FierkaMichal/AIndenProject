@@ -1,14 +1,27 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer temporary v-model="drawer" light absolute>
+    <v-navigation-drawer temporary v-model="drawer" absolute>
+      <v-toolbar v-if="user" flat class="transparent">
+        <v-list class="pa-0">
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <img src="https://randomuser.me/api/portraits/men/85.jpg" />
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ user.id }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
       <v-list>
+        <v-divider></v-divider>
         <v-list-tile v-for="item in menuItems" :key="item.title" :to="item.link">
           <v-list-tile-action>
             <v-icon>{{item.icon}}</v-icon>
           </v-list-tile-action>
           <v-list-content>{{item.title}}</v-list-content>
         </v-list-tile>
-
+        <v-divider></v-divider>
         <v-list-tile v-if="userIsAuthenticated" @click="onLogout">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
@@ -17,7 +30,6 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-
     <v-toolbar app>
       <v-toolbar-side-icon
         @click.stop="drawer = !drawer"
@@ -30,15 +42,29 @@
           <v-icon left>{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
-        <v-btn v-if="userIsAuthenticated" flat @click="onLogout">
+        <v-btn v-if="userIsAuthenticated" flat @click.stop="onLogout">
           <v-icon left>exit_to_app</v-icon>
           Logout
         </v-btn>
       </v-toolbar-item>
     </v-toolbar>
-
+    <!--<v-navigation-drawer v-model="aaa" right clipped>-->
+      <!--<v-toolbar v-if="user" flat class="transparent">-->
+        <!--<v-list class="pa-0">-->
+          <!--<v-list-tile avatar>-->
+            <!--<v-list-tile-avatar>-->
+              <!--<img src="https://randomuser.me/api/portraits/men/85.jpg" />-->
+            <!--</v-list-tile-avatar>-->
+            <!--<v-list-tile-content>-->
+              <!--<v-list-tile-title>{{ user.id }}</v-list-tile-title>-->
+            <!--</v-list-tile-content>-->
+          <!--</v-list-tile>-->
+        <!--</v-list>-->
+      <!--</v-toolbar>-->
+    <!--</v-navigation-drawer>-->
     <main>
-      <router-view></router-view>
+      <router-view>
+      </router-view>
     </main>
 
     <v-footer app>
@@ -52,7 +78,8 @@
   export default {
     data () {
       return {
-        drawer: null
+        drawer: null,
+        aaa: true
       }
     },
     computed: {
@@ -69,6 +96,9 @@
           ]
         }
         return menuItems
+      },
+      user () {
+        return this.$store.getters.user
       },
       userIsAuthenticated () {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined

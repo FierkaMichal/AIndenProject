@@ -44,7 +44,7 @@
               <v-icon left>forward</v-icon>
               Next</v-btn>
             <v-btn flat>
-              <v-icon left>whatshot</v-icon>
+              <v-icon left @click="snackbar = true">whatshot</v-icon>
               Give Like</v-btn>
           </v-card-actions>
         </v-card>
@@ -57,7 +57,6 @@
   export default {
     data () {
       return {
-
       }
     }
   }
