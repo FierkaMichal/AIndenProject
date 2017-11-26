@@ -8,22 +8,56 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMIE I NAZWISKO
       </v-flex>
       <v-flex xs12 sm6 text-xs-center text-sm-right>
-        <v-btn flat>
-          <v-icon left>mode_edit</v-icon>
-          Edit
-        </v-btn>
+        <v-dialog v-model="dialog" persistent max-width="500px">
+          <v-btn slot="activator" flat>
+            <v-icon left>mode_edit</v-icon>
+            Edit profile
+          </v-btn>
+          <v-card>
+            <v-card-title>
+              <span class="headline">My Profile</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <v-flex xs12>
+                    <v-text-field label="Name" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs12>
+                    <v-text-field label="Surname" required></v-text-field>
+                  </v-flex>
+                  <v-flex xs12>
+                    <v-text-field
+                      v-model="description"
+                      label="Description"
+                      placeholder="Set description"
+                      multi-line
+                      rows="3"
+                      auto-grow>
+                    </v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="dialog = false">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-flex>
     </v-layout>
     <v-layout>
       <v-flex xs12 text-xs-center mt-4>
         <v-text-field
-          disabled
+          readonly
           v-model="description"
           label="Description"
+          placeholder="Click edit to set description"
           multi-line
           rows="1"
-          auto-grow
-          elevation-22>
+          auto-grow>
         </v-text-field>
       </v-flex>
     </v-layout>
@@ -41,7 +75,8 @@
   export default {
     data () {
       return {
-        description: 'sfasasdfas',
+        dialog: false,
+        description: null,
         items: [
           {
             src: 'http://www.kenia1100.pl/wp-content/uploads/2016/07/pikatchu-pokemon-300x300.png'
