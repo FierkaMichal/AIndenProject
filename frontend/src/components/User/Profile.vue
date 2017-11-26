@@ -5,9 +5,12 @@
         <v-avatar size="100px">
           <img src="http://www.kenia1100.pl/wp-content/uploads/2016/07/pikatchu-pokemon-300x300.png" alt="avatar">
         </v-avatar>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMIE I NAZWISKO
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.name }} {{ user.surname }}
       </v-flex>
-      <v-flex xs12 sm6 text-xs-center text-sm-right>
+      <v-flex xs12 sm6 text-xs-center text-sm-right v-if="!isLoggedInUser">
+
+      </v-flex>
+      <v-flex xs12 sm6 text-xs-center text-sm-right v-if="isLoggedInUser">
         <v-dialog v-model="dialog" persistent max-width="500px">
           <v-btn slot="activator" flat>
             <v-icon left>mode_edit</v-icon>
@@ -85,6 +88,22 @@
             src: 'http://segritta.pl/wp-content/uploads/2016/08/landscape-1456483171-pokemon2.jpg'
           }
         ]
+      }
+    },
+    computed: {
+      isLoggedInUser () {
+        return this.$route.params.login === 'my'
+      },
+      user () {
+        if (this.$route.params.login === 'my') {
+          return this.$store.getters.user
+        }
+        this.$store.dispatch('getLookingForPerson',
+          {
+            login: this.$route.params.login,
+            access_token: this.$store.getters.user.access_token
+          })
+        return this.$store.getters.lookingPerson
       }
     }
   }

@@ -25,30 +25,42 @@ export default {
         })
         .catch(error => {
           commit('setLoading', false)
-          commit('setError', {type: 'error', message: error.message})
+          commit('setError', {type: 'error', message: error.error})
           console.log(error)
         })
     },
     userSignIn ({ commit }, payload) {
       commit('setLoading', true)
-      axios.post('rest/signIn', {
-        login: payload.login,
+      axios.post('/oath/token', {
+        grant_type: 'password',
+        username: payload.login,
         password: payload.password
       })
         .then(response => {
-          commit('setLoading', false)
-          const newUser = {
-            id: 1,
-            login: response.data.login
-          }
-          commit('setUser', newUser)
+          axios.get('/me', {
+            access_token: response.data.access_token
+          })
+            .then(response => {
+              commit('setLoading', false)
+              // const newUser = {
+              //   id: response.data.userId,
+              //   name: response.data.
+              //   login: response.data.login
+              // }
+              commit('setUser', response.data)
+            })
+            .catch(error => {
+              console.log(error)
+            })
         })
         .catch(error => {
           commit('setLoading', false)
           const newUser = {
             id: 1,
             login: 'dsd',
-            access_token: 'fsdfdsf'
+            access_token: 'fsdfdsf',
+            name: 'Pawel',
+            surname: 'Freliga'
           }
           commit('setUser', newUser)
           commit('setError', {type: 'error', message: error.message})
