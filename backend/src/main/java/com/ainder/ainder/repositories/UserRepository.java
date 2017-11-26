@@ -50,7 +50,23 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("select u from User u where u.idUser > :id")
     List<User> getUserBiggerThanGivenId(@Param("id") Long id);
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("update User u set u.name = :newValue where u.idUser = :userId")
+    void updateUserName(String newValue, Long userId);
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("update User u set u.surname = :newValue where u.idUser = :userId")
+    void updateUserSurname(String newValue, Long userId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("update User u set u.photo = :newValue where u.idUser = :userId")
+    void updateUserPicture(String newValue, Long userId);
+
+    @Transactional
+    void deleteByIdUser(Long id);
 
 
 //    UPDATE T_USER u set u.DESCRIPTION = :p_newDescription WHERE u.ID_USER = :p_myId

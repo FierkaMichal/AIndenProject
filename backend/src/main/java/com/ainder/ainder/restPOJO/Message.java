@@ -39,6 +39,9 @@ public class Message {
         this.message = message;
     }
 
+    public Message() {
+    }
+
     public Message(Long myId, Long otherPersonId, String time, String message) {
         this.myId = myId;
         this.otherPersonId = otherPersonId;

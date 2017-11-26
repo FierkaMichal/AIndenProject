@@ -1,27 +1,29 @@
 package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.config.CustomUserDetails;
+import com.ainder.ainder.entities.Conversation;
 import com.ainder.ainder.entities.ConversationFlow;
 import com.ainder.ainder.entities.Match;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.*;
 import com.ainder.ainder.restPOJO.Error;
-import com.ainder.ainder.services.ConversationFlowServiceImpl;
-import com.ainder.ainder.services.MatchServiceImpl;
-import com.ainder.ainder.services.RoleServiceImpl;
-import com.ainder.ainder.services.UserServiceImpl;
+import com.ainder.ainder.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Time;
 import java.util.LinkedList;
 import java.util.List;
+
+//import java.util.Date;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -37,6 +39,12 @@ public class RestController {
 
     @Autowired
     private MatchServiceImpl matchService;
+
+    @Autowired
+    private ConversationServiceImpl conversationService;
+
+    @Autowired
+    private TokenStore tokenStore;
 
     @RequestMapping(path = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getHello() {
@@ -60,12 +68,10 @@ public class RestController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/rest/signIn", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Login> login(@RequestBody Login login) {
-
-        return new ResponseEntity<>(login, HttpStatus.OK);
+    @RequestMapping(path = "/rest/logOut", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void logout(@RequestParam ("access_token") String accessToken){
+        tokenStore.removeAccessToken(tokenStore.readAccessToken(accessToken));
     }
-
 
     @RequestMapping(path = "/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> postLike(@RequestParam("user_id") Long userId) {
@@ -84,9 +90,19 @@ public class RestController {
     }
 
     @RequestMapping(path = "/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Message> sendMessage(@RequestBody Message message) {
+    public ResponseEntity<Error> sendMessage(@RequestBody Message message) {
 
-        return new ResponseEntity<>(message, HttpStatus.OK);
+        Conversation c = conversationService.findConversationByUsers(message.getMyId(), message.getOtherPersonId());
+
+        if(c == null) {
+            c = new Conversation(0l,userService.getUserById(message.getMyId()), userService.getUserById(message.getOtherPersonId()));
+            conversationService.save(c);
+        }
+
+        ConversationFlow cf = new ConversationFlow(0l, new Time(System.currentTimeMillis()), message.getMessage(), c, userService.getUserById(message.getMyId()));
+        conversationFlowService.save(cf);
+
+        return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -178,15 +194,19 @@ public class RestController {
 
         switch (action.getAction()) {
             case "DELETE":
+                userService.deleteByIdUser(action.getUserId());
                 break;
             case "CHANGE_NAME":
+                userService.updateUserName(action.getNewValue(), action.getUserId());
                 break;
             case "CHANGE_SURNAME":
+                userService.updateUserSurname(action.getNewValue(), action.getUserId());
                 break;
             case "CHANGE_DESCRIPTION":
                 userService.updateUserDescription(action.getNewValue(), action.getUserId());
                 break;
             case "CHANGE_PICTURE":
+                userService.updateUserPicture(action.getNewValue(), action.getUserId());
                 break;
         }
 
