@@ -8,7 +8,7 @@
               <img src="https://randomuser.me/api/portraits/men/85.jpg" />
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{ user.id }}</v-list-tile-title>
+              <v-list-tile-title>{{ user.name }} {{ user.surname }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -90,7 +90,7 @@
         ]
         if (this.userIsAuthenticated) {
           menuItems = [
-            {icon: 'face', title: 'My profile', link: '/profile'},
+            {icon: 'face', title: 'My profile', link: '/profile/my'},
             {icon: 'face', title: 'Communicator', link: '/communicator'},
             {icon: 'face', title: 'Search users', link: '/matcher'}
           ]
