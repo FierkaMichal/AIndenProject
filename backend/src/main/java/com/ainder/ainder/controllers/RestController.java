@@ -129,6 +129,19 @@ public class RestController {
         }
     }
 
+    @RequestMapping(path = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getMe() {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User u = userService.getUserByLogin(userDetails.getUsername());
+
+        if(u != null) {
+            UserResponse ur = new UserResponse(u.getIdUser(),u.getName(),u.getSurname(),u.getDescription(),u.getPhoto(),u.getLastLongitude(),u.getLastLongitude());
+            return new ResponseEntity<>(ur , HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new Error("You don;t exist."), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @RequestMapping(path = "/action", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> adminAction(@RequestBody Action action) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
