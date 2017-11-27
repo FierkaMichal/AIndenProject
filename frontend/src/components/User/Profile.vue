@@ -147,6 +147,9 @@
         if (this.$route.params.login === 'my') {
           return this.$store.getters.user
         }
+        if (this.$store.getters.lookingPerson !== null && this.$store.getters.lookingPerson !== undefined) {
+          return this.$store.getters.lookingPerson
+        }
         this.$store.dispatch('getLookingForPerson',
           {
             login: this.$route.params.login

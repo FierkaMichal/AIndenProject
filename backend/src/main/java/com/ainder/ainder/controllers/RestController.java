@@ -149,7 +149,7 @@ public class RestController {
 //        return new ResponseEntity<>(new Error("There are no users in your area."), HttpStatus.OK);
 //    }
 
-    @RequestMapping(path = "rest/user/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*/rest/user/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object getUser(@RequestParam("login") String login) {
         User u = userService.getUserByLogin(login);
 
