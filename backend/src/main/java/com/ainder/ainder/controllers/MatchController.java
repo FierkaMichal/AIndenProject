@@ -48,10 +48,13 @@ public class MatchController {
     }
 
     @RequestMapping(path = "/next_user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getUser(@RequestParam("last_user_id") Long lastUserId, @RequestParam("distKm") Long km ) {
+    public Object getUser(@RequestParam("last_user_id") Long lastUserId, @RequestParam("distKm") Long km, @RequestParam("lon") Double lon, @RequestParam("lat") Double lat) {
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
+
+        userService.updateLat(lat,me.getIdUser());
+        userService.updateLon(lon,me.getIdUser());
 
         List<User> biggerUserList = userService.getUserBiggerThanGivenId(lastUserId);
         List <User> matchedUserInvitedList = userService.findMatchedInvitedUsersByUserId(me.getIdUser());

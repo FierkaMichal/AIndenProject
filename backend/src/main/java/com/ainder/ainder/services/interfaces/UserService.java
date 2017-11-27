@@ -26,5 +26,9 @@ public interface UserService {
 
     void updateUserPicture(String newValue, Long userId);
 
+    void updateLat(Double newValue, Long userId);
+
+    void updateLon(Double newValue, Long userId);
+
     void deleteByIdUser(Long lond);
 }

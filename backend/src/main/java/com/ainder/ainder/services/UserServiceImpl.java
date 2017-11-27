@@ -80,6 +80,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateLat(Double newValue, Long userId) {
+        userRepository.updateLat(newValue,userId);
+    }
+
+    @Override
+    public void updateLon(Double newValue, Long userId) {
+        userRepository.updateLon(newValue,userId);
+    }
+
+    @Override
     public void deleteByIdUser(Long lond) {
         userRepository.deleteByIdUser(lond);
     }
