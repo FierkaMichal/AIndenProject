@@ -94,6 +94,13 @@
             {icon: 'face', title: 'Communicator', link: '/communicator'},
             {icon: 'face', title: 'Search users', link: '/matcher'}
           ]
+          if (this.user.admin) {
+            menuItems.push({
+              icon: 'face',
+              title: 'Manage users',
+              link: '/admin'
+            })
+          }
         }
         return menuItems
       },

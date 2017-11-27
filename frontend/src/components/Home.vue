@@ -1,6 +1,42 @@
 <template>
-  <div>
-    Home page
-  </div>
+  <v-container>
+    <v-layout row>
+      <v-flex xs12 text-xs-center mt-4>
+        Welcome in AInder
+      </v-flex>
+    </v-layout>
+    <v-layout row v-if="isUserLoggedIn">
+      <v-flex xs12 sm6 text-xs-center text-sm-right mt-4>
+        <v-btn v-if="isUserLoggedIn" to="/profile/me">
+          <v-icon left>exit_to_app</v-icon>
+          Profile
+        </v-btn>
+      </v-flex>
+      <v-flex xs12 sm6 text-xs-center text-sm-left mt-4>
+        <v-btn v-if="isUserLoggedIn" to="/matcher">
+          <v-icon left>exit_to_app</v-icon>
+          Matcher
+        </v-btn>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
+<script>
+  export default {
+    data () {
+      return {
+
+      }
+    },
+    computed: {
+      isUserLoggedIn () {
+        if (this.$store.getters.user === null || this.$store.getters.user === undefined) {
+          return false
+        } else {
+          return true
+        }
+      }
+    }
+  }
+</script>
