@@ -63,7 +63,7 @@ public class MatchController {
         biggerUserList.removeAll(matchedUserReceivedList);
 
         for (User user : biggerUserList) {
-            if (ControllersUtils.distance(user.getLastLatitude(), me.getLastLatitude(), user.getLastLongitude(), me.getLastLongitude()) <= km * 1000) {
+            if (ControllersUtils.distance(user.getLastLatitude(), me.getLastLatitude(), user.getLastLongitude(), me.getLastLongitude()) <= km * 1000 && user.getIdUser() != me.getIdUser()) {
                 return new ResponseEntity<>(ControllersUtils.userToUserResponse(user), HttpStatus.OK);
             }
         }
