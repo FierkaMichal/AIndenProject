@@ -68,6 +68,6 @@ public class MatchController {
             }
         }
 
-        return new ResponseEntity<>(new Error("There are no users in your area."), HttpStatus.OK);
+        return new ResponseEntity<>(new Error("There are no users in your area."), HttpStatus.NOT_FOUND);
     }
 }
