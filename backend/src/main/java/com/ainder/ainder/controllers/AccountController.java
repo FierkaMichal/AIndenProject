@@ -3,6 +3,7 @@ package com.ainder.ainder.controllers;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.restPOJO.Registration;
+import com.ainder.ainder.restPOJO.UserResponse;
 import com.ainder.ainder.services.RoleServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,4 +62,16 @@ public class AccountController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
+    @RequestMapping(path = "*/rest/user/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getUser(@RequestParam("login") String login) {
+        User u = userService.getUserByLogin(login);
+
+        if (u != null) {
+
+            UserResponse ur = ControllersUtils.userToUserResponse(u);
+            return new ResponseEntity<>(ur, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new Error("User with that login does not exist."), HttpStatus.NOT_FOUND);
+        }
+    }
 }
