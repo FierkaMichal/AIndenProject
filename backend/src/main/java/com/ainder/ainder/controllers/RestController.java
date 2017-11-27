@@ -154,21 +154,8 @@ public class RestController {
         User u = userService.getUserByLogin(login);
 
         if (u != null) {
-            String avatar = null;
-            String photos = u.getPhoto();
-            String[] photoArray = photos.split(" ");
-            List<String> photoList = new LinkedList<>();
 
-            if (photoArray.length > 0) {
-                avatar = photoArray[0];
-
-                for (int i = 1; i < photoArray.length; i++) {
-                    photoList.add(photoArray[i]);
-                }
-            }
-
-
-            UserResponse ur = new UserResponse(u.getIdUser(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude());
+            UserResponse ur = userToUserResponse(u);
             return new ResponseEntity<>(ur, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new Error("User with that login does not exist."), HttpStatus.NOT_FOUND);
@@ -181,21 +168,7 @@ public class RestController {
         User u = userService.getUserByLogin(userDetails.getUsername());
 
         if (u != null) {
-            String avatar = null;
-            String photos = u.getPhoto();
-            List<String> photoList = new LinkedList<>();
-            if(photos != null) {
-                String[] photoArray = photos.split(" ");
-                if (photoArray.length > 0) {
-                    avatar = photoArray[0];
-
-                    for (int i = 1; i < photoArray.length; i++) {
-                        photoList.add(photoArray[i]);
-                    }
-                }
-            }
-
-            UserResponse ur = new UserResponse(u.getIdUser(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude());
+            UserResponse ur = userToUserResponse(u);
             return new ResponseEntity<>(ur, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new Error("You don;t exist."), HttpStatus.NOT_FOUND);
@@ -316,11 +289,11 @@ public class RestController {
         LinkedList<UserResponse> matchedUserListResponse = new LinkedList<>();
 
         for (User user : matchedInvitedUserList) {
-            matchedUserListResponse.add(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()));
+            matchedUserListResponse.add(userToUserResponse(user));
         }
 
         for (User user : matchedReceivedUserList) {
-            matchedUserListResponse.add(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()));
+            matchedUserListResponse.add(userToUserResponse(user));
         }
 
 
@@ -332,5 +305,23 @@ public class RestController {
         ua.setUser(matchedUserListResponse);
 
         return new ResponseEntity<>(ua, HttpStatus.OK);
+    }
+
+    public static UserResponse userToUserResponse(User u) {
+        String avatar = null;
+        String photos = u.getPhoto();
+        List<String> photoList = new LinkedList<>();
+        if(photos != null) {
+            String[] photoArray = photos.split(" ");
+            if (photoArray.length > 0) {
+                avatar = photoArray[0];
+
+                for (int i = 1; i < photoArray.length; i++) {
+                    photoList.add(photoArray[i]);
+                }
+            }
+        }
+
+        return new UserResponse(u.getIdUser(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude());
     }
 }

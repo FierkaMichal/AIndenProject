@@ -62,7 +62,7 @@ public class MatchController {
 
         for (User user : biggerUserList) {
             if (distance(user.getLastLatitude(), me.getLastLatitude(), user.getLastLongitude(), me.getLastLongitude()) <= km * 1000) {
-                return new ResponseEntity<>(new UserResponse(user.getIdUser(), user.getName(), user.getSurname(), user.getDescription(), user.getPhoto(), user.getLastLongitude(), user.getLastLatitude()), HttpStatus.OK);
+                return new ResponseEntity<>(RestController.userToUserResponse(user), HttpStatus.OK);
             }
         }
 
