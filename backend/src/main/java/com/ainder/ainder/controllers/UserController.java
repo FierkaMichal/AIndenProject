@@ -26,7 +26,7 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @RequestMapping(path = "/users_matched", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*/rest/userMatches", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object getMatchedUsers() {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());

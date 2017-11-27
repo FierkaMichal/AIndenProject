@@ -46,8 +46,8 @@ public class MatchController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/next_user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getUser(@RequestParam("last_user_id") Long lastUserId, @RequestParam("distKm") Long km, @RequestParam("lon") Double lon, @RequestParam("lat") Double lat) {
+    @RequestMapping(path = "*/rest/matcher/getNext", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getUser(@RequestParam("lastId") Long lastUserId, @RequestParam("distKm") Long km, @RequestParam("longitude") Double lon, @RequestParam("latitude") Double lat) {
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());

@@ -5,14 +5,14 @@ export default {
   state: {
     lastId: 0,
     lookingPerson: null,
-    matches: null
+    userMatches: null
   },
   mutations: {
     setPerson (state, payload) {
       state.lookingPerson = payload
     },
-    setMatches (state, payload) {
-      state.matches = payload
+    setUserMatches (state, payload) {
+      state.userMatches = payload
     },
     setLastId (state, payload) {
       state.lastId = payload
@@ -55,14 +55,25 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    getMatchedList ({ commit }, payload) {
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      axios.get('rest/userMatches?' + params)
+        .then(response => {
+          commit('setUserMatches', response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   getters: {
     lookingPerson (state) {
       return state.lookingPerson
     },
-    matches (state) {
-      return state.matches
+    userMatches (state) {
+      return state.userMatches
     },
     lastId (state) {
       return state.lastId

@@ -64,7 +64,7 @@
         return this.$store.getters.lookingPerson
       }
     },
-    action: {
+    methods: {
       getNextLookingPerson () {
         this.$store.dispatch('getNextLookingPerson', {
           lastId: this.$store.getters.lastId,

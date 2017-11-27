@@ -6,6 +6,7 @@ import SignUp from '@/components/User/SignUp'
 import Profile from '@/components/User/Profile'
 import Communicator from '@/components/Communicator/Communicator'
 import Matcher from '@/components/Match/Matcher'
+import Chat from '@/components/Communicator/Chat'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/communicator',
       name: 'Communicator',
       component: Communicator
+    },
+    {
+      path: '/communicator/chat',
+      name: 'Chat',
+      component: Chat
     },
     {
       path: '/matcher',
