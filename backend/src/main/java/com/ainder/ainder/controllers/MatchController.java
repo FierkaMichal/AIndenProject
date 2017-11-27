@@ -37,7 +37,7 @@ public class MatchController {
 
         Match m = matchService.getMatchByUserId(user.getIdUser(), userId);
         if(m == null) {
-            Match newMatch = new Match("N", user, userService.getUserById(userId));
+            Match newMatch = new Match(0l, "N", user, userService.getUserById(userId));
             matchService.save(newMatch);
         } else {
             matchService.updateMatch(m.getIdMatch());
