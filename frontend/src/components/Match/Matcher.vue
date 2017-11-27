@@ -1,8 +1,25 @@
 <template>
   <v-container>
     <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
-        <v-card>
+      <v-flex xs12 sm6 offset-sm3 mt-4>
+        <v-slider
+          label="Distance"
+          hint="Distance to search for people"
+          min="1"
+          max="10000000"
+          thumb-label
+          v-model="distKm"
+        ></v-slider>
+      </v-flex>
+      <v-flex p>
+        <v-btn flat @click.native="getNextLookingPerson()">
+          Search
+        </v-btn>
+      </v-flex>
+    </v-layout>
+    <v-layout row>
+      <v-flex xs12 sm6 offset-sm3 mt-4>
+        <v-card v-if="havePersonInDistance">
           <v-card-media
             class="white--text"
             src="lookingPerson.avatar"
@@ -62,22 +79,23 @@
     computed: {
       lookingPerson () {
         if (this.$store.getters.lookingPerson === null || this.$store.getters.lookingPerson === undefined) {
-          this.$store.dispatch('getNextLookingPerson', {
-            lastId: this.$store.getters.lastId,
-            longitude: navigator.geolocation.getCurrentPosition.coords.longitude,
-            latitude: navigator.geolocation.getCurrentPosition.coords.latitude,
-            distKm: this.distKm
-          })
+          this.getNextLookingPerson()
         }
         return this.$store.getters.lookingPerson
+      },
+      havePersonInDistance () {
+        if (this.$store.getters.lookingPerson === null || this.$store.getters.lookingPerson === undefined) {
+          return false
+        }
+        return true
       }
     },
     methods: {
       getNextLookingPerson () {
         this.$store.dispatch('getNextLookingPerson', {
           lastId: this.$store.getters.lastId,
-          longitude: navigator.geolocation.getCurrentPosition.coords.longitude,
-          latitude: navigator.geolocation.getCurrentPosition.coords.latitude,
+          longitude: this.$store.getters.position.coords.longitude,
+          latitude: this.$store.getters.position.coords.latitude,
           distKm: this.distKm
         })
       },

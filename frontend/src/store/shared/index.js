@@ -1,10 +1,14 @@
 export default {
   state: {
+    position: null,
     message: null,
     loading: false,
     error: null
   },
   mutations: {
+    setPosition (state, payload) {
+      state.position = payload
+    },
     setMessage (state, payload) {
       state.message = payload
     },
@@ -35,6 +39,9 @@ export default {
     },
     error (state) {
       return state.error
+    },
+    position (state) {
+      return state.position
     }
   }
 }

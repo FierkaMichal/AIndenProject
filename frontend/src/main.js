@@ -20,13 +20,9 @@ Vue.component('app-alert', AlertCmp)
 new Vue({
   el: '#app',
   mounted: function () {
-    navigator.geolocation.watchPosition(function (position) {
+    navigator.geolocation.watchPosition(position => {
       console.log('Longitude: ' + position.coords.longitude + ' Latitude: ' + position.coords.latitude)
-    },
-    function (error) {
-      if (error.code === error.PERMISSION_DENIED) {
-        console.log('Permission denied!')
-      }
+      this.$store.commit('setPosition', position)
     })
   },
   router,
