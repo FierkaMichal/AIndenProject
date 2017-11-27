@@ -11,12 +11,12 @@ public class UserResponse {
     private List<String> photoList = null;
     private Double lastLongitude;
     private Double lastLatitude;
-    private String role;
+    private boolean isAdmin;
 
     public UserResponse() {
     }
 
-    public UserResponse(Long userId, String name, String surname, String description, String avatar, List<String>  photoArray, Double lastLongitude, Double lastLatitude, String role) {
+    public UserResponse(Long userId, String name, String surname, String description, String avatar, List<String>  photoArray, Double lastLongitude, Double lastLatitude, boolean role) {
         this.userId = userId;
         this.name = name;
         this.surname = surname;
@@ -25,7 +25,7 @@ public class UserResponse {
         this.photoList = photoArray;
         this.lastLongitude = lastLongitude;
         this.lastLatitude = lastLatitude;
-        this.role = role;
+        this.isAdmin = role;
     }
 
     public UserResponse(Long id, String name, String surname, String description, String avatar, Double lastLongitude, Double lastLatitude) {
@@ -38,12 +38,12 @@ public class UserResponse {
         this.lastLatitude = lastLatitude;
     }
 
-    public String getRole() {
-        return role;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public Long getUserId() {

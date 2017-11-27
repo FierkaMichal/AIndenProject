@@ -322,6 +322,6 @@ public class RestController {
             }
         }
 
-        return new UserResponse(u.getIdUser(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude(), u.getRole().getName());
+        return new UserResponse(u.getIdUser(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude(), u.getRole().getName().equals("ADMIN"));
     }
 }
