@@ -7,6 +7,7 @@ import Profile from '@/components/User/Profile'
 import Communicator from '@/components/Communicator/Communicator'
 import Matcher from '@/components/Match/Matcher'
 import Chat from '@/components/Communicator/Chat'
+import UsersList from '@/components/UsersList/UserLists'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/matcher',
       name: 'Matcher',
       component: Matcher
+    },
+    {
+      path: '/usersList',
+      name: 'UserLists',
+      component: UsersList
     }
   ],
   mode: 'history'

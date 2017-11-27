@@ -52,15 +52,15 @@
             </v-container>
           </v-card-title>
           <v-card-actions>
-            <v-btn flat @click.native="showProfile(lookinPerson.login)">
+            <v-btn flat @click.native="showProfile(lookingPerson.login)">
               <v-icon left>person</v-icon>
                 See Profile</v-btn>
             <v-spacer></v-spacer>
             <v-btn flat @click.native="getNextLookingPerson">
               <v-icon left>forward</v-icon>
               Next</v-btn>
-            <v-btn flat>
-              <v-icon left @click.native="giveLike">whatshot</v-icon>
+            <v-btn flat @click.native="giveLike">
+              <v-icon left>whatshot</v-icon>
               Give Like</v-btn>
           </v-card-actions>
         </v-card>
