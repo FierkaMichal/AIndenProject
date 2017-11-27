@@ -34,33 +34,67 @@
             </v-card-title>
             <v-card-text>
               <v-container grid-list-md>
-                <v-layout wrap>
-                  <v-flex xs12>
-                    <v-text-field label="Name" required v-model="user.name"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field label="Surname" required v-model="user.surname"></v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field
-                      v-model="user.description"
-                      label="Description"
-                      placeholder="Set description"
-                      multi-line
-                      rows="3"
-                      auto-grow>
-                    </v-text-field>
-                  </v-flex>
-                  <v-flex xs12>
-                    <v-text-field label="Avatar URL" required v-model="user.avatar"></v-text-field>
-                  </v-flex>
-                </v-layout>
+                <form @submit.prevent="onEditUserClick">
+                  <v-layout wrap>
+                    <v-flex xs12>
+                      <v-text-field label="Name" required v-model="user.name"></v-text-field>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-text-field label="Surname" required v-model="user.surname"></v-text-field>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-text-field
+                        v-model="user.description"
+                        label="Description"
+                        placeholder="Set description"
+                        multi-line
+                        rows="3"
+                        auto-grow>
+                      </v-text-field>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-text-field label="Avatar URL" required v-model="user.avatar"></v-text-field>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-expansion-panel popout>
+                        <v-expansion-panel-content>
+                          <div slot="header">Photos</div>
+                          <div v-for="(photo, i) in user.photoArray" :key="i">
+                            <v-layout row>
+                              <v-flex p>
+                                <v-avatar tile size="40px">
+                                  <img :src="photo" alt="photo">
+                                </v-avatar>
+                              </v-flex>
+                              <!--<v-flex xs12>-->
+                                <!--<v-text-field label="Photo URL" readonly v-model="photo.src"></v-text-field>-->
+                              <!--</v-flex>-->
+                              <v-btn flat icon @click.native="removePhoto(photo)">
+                                <v-icon class="primary--text">clear</v-icon>
+                              </v-btn>
+                            </v-layout>
+                          </div>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-flex>
+                    <v-layout row>
+                      <v-flex xs12>
+                        <v-text-field label="Add Photo URL" v-model="photo"></v-text-field>
+                      </v-flex>
+                      <v-flex p>
+                        <v-btn flat icon @click.native="addPhoto">
+                          <v-icon class="primary--text">add</v-icon>
+                        </v-btn>
+                      </v-flex>
+                    </v-layout>
+                  </v-layout>
+                </form>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
-              <v-btn color="blue darken-1" flat @click.native="onEditUserClick">Save</v-btn>
+              <v-btn type="submit" color="blue darken-1" flat @click.native="onEditUserClick">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -82,7 +116,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3 mt-4>
         <v-carousel>
-          <v-carousel-item v-for="(item,i) in items" v-bind:src="item.src" :key="i"></v-carousel-item>
+          <v-carousel-item v-for="(photo, i) in user.photoArray" :src="photo" :key="i"></v-carousel-item>
         </v-carousel>
       </v-flex>
     </v-layout>
@@ -94,6 +128,7 @@
     data () {
       return {
         dialog: false,
+        photo: null,
         items: [
           {
             src: 'http://www.kenia1100.pl/wp-content/uploads/2016/07/pikatchu-pokemon-300x300.png'
@@ -114,8 +149,7 @@
         }
         this.$store.dispatch('getLookingForPerson',
           {
-            login: this.$route.params.login,
-            access_token: this.$store.getters.user.access_token
+            login: this.$route.params.login
           })
         return this.$store.getters.lookingPerson
       },
@@ -136,6 +170,15 @@
       },
       onMessageDismissed () {
         this.$store.dispatch('clearMessage')
+      },
+      addPhoto () {
+        if (this.photo !== null) {
+          this.$store.dispatch('addPhoto', this.photo)
+          this.photo = null
+        }
+      },
+      removePhoto (src) {
+        this.$store.dispatch('removePhoto', {src: src})
       }
     }
   }

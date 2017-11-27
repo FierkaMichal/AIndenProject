@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueCookies from 'vue-cookies'
 import lodash from 'lodash'
 import VueLodash from 'vue-lodash'
 import Vuetify from 'vuetify'
@@ -10,6 +11,7 @@ import AlertCmp from './components/Shared/Alert.vue'
 
 Vue.use(Vuetify)
 Vue.use(VueLodash, lodash)
+Vue.use(VueCookies)
 Vue.config.productionTip = false
 
 Vue.component('app-alert', AlertCmp)

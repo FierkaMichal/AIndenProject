@@ -1,4 +1,6 @@
 import axios from 'axios'
+import VueCookies from 'vue-cookies'
+import Router from '@/router/'
 
 export default {
   state: {
@@ -7,6 +9,20 @@ export default {
   mutations: {
     setUser (state, payload) {
       state.user = payload
+    },
+    addUserPhoto (state, payload) {
+      if (state.user.photoArray !== null && state.user.photoArray !== undefined) {
+        state.user.photoArray.push(payload)
+      } else {
+        const photoArray = [payload]
+        state.user.photoArray = photoArray
+      }
+    },
+    removeUserPhoto (state, payload) {
+      const photo = state.user.photoArray.find(photo => {
+        return photo === payload.src
+      })
+      state.user.photoArray.splice(state.user.photoArray.indexOf(photo), 1)
     }
   },
   actions: {
@@ -21,7 +37,7 @@ export default {
         .then(response => {
           commit('setLoading', false)
           commit('setMessage', 'Successful Signed Up')
-          this.$router.push('/signIn')
+          Router.push('/signIn')
         })
         .catch(error => {
           commit('setLoading', false)
@@ -29,7 +45,7 @@ export default {
           console.log(error)
         })
     },
-    userSignIn ({ commit }, payload) {
+    userSignIn ({ commit, dispatch }, payload) {
       commit('setLoading', true)
       var params = new URLSearchParams()
       params.append('grant_type', 'password')
@@ -43,51 +59,58 @@ export default {
         data: params
       })
         .then(response => {
-          var params = new URLSearchParams()
-          params.append('access_token', response.data.access_token)
-          axios.get('/me?' + params)
-            .then(response => {
-              commit('setLoading', false)
-              commit('setUser', response.data)
-            })
-            .catch(error => {
-              commit('setLoading', false)
-              commit('setError', {type: 'error', message: error.message})
-              console.log(error)
-            })
+          VueCookies.set('token', response.data.access_token, Infinity)
+          dispatch('userDetails')
         })
         .catch(error => {
+          VueCookies.remove('token')
+          // VueCookies.set('token', 'dasdasd', Infinity)
+          // commit('setUser', {id: 23, photoArray: null})
           commit('setLoading', false)
-          const newUser = {
-            id: 1,
-            login: 'dsd',
-            access_token: 'fsdfdsf',
-            name: 'Pawel',
-            surname: 'Freliga'
-          }
-          commit('setUser', newUser)
-          commit('setError', {type: 'error', message: error.message})
+          commit('setError', {type: 'error', message: error.error})
+          console.log(error)
+        })
+    },
+    userDetails ({ commit }) {
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      axios.get('/me?' + params)
+        .then(response => {
+          commit('setLoading', false)
+          commit('setUser', response.data)
+          Router.push('/')
+        })
+        .catch(error => {
+          this.$cookies.remove('token')
+          commit('setLoading', false)
+          commit('setError', {type: 'error', message: error.error})
           console.log(error)
         })
     },
     userLogout ({ commit }, payload) {
-      axios.post('rest/logout', {
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      axios.post('rest/logout?' + params, {
         access_token: payload
       })
         .then(response => {
+          VueCookies.remove('token')
           commit('setUser', null)
-          this.$router.push('/')
+          Router.push('/')
           console.log(response.data)
         })
         .catch(error => {
+          VueCookies.remove('token')
           commit('setUser', null)
-          this.$router.push('/signIn')
+          Router.push('/signIn')
           console.log(error)
         })
     },
     editUser ({ commit }, payload) {
       commit('setLoading', true)
-      axios.put('rest/user/edit', payload)
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      axios.put('rest/user/edit?' + params, payload)
         .then(response => {
           commit('setLoading', false)
           commit('setMessage', {type: 'success', message: 'User data edit successful'})
@@ -98,6 +121,12 @@ export default {
           commit('setError', {type: 'error', message: 'Error while edit user data'})
           console.log(error)
         })
+    },
+    addPhoto ({ commit }, payload) {
+      commit('addUserPhoto', payload)
+    },
+    removePhoto ({ commit }, payload) {
+      commit('removeUserPhoto', payload)
     }
   },
   getters: {

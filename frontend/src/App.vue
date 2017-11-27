@@ -98,10 +98,13 @@
         return menuItems
       },
       user () {
+        if (this.$store.getters.user === null && this.$cookies.isKey('token')) {
+          this.$store.dispatch('userDetails')
+        }
         return this.$store.getters.user
       },
       userIsAuthenticated () {
-        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined && this.$cookies.isKey('token')
       }
     },
     methods: {
