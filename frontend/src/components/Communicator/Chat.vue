@@ -7,9 +7,9 @@
             <div>Chat with </div>
             <v-chip disabled>
               <v-avatar>
-                <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="Chat with">
+                <img :src="otherPerson.avatar" alt="Chat with">
               </v-avatar>
-              Imie i nazwisko
+              {{ otherPerson.name }} {{ otherPerson.surname }}
             </v-chip>
           </v-card-title>
           <v-divider></v-divider>
@@ -17,7 +17,22 @@
             <v-container
               style="max-height: 400px"
               class="scroll-y">
-              <v-layout row>
+              <v-layout row v-if="!isAnyMessages">
+                Nie ma zadnych wiadomosci
+              </v-layout>
+              <v-layout row v-if="isAnyMessages">
+                <v-flex v-for="(message, i) in messages" :key="i">
+                  <div v-if="message.myId === user.userId">
+                    <v-chip disabled small style="text-align: right;">
+                      {{ message.message }}
+                    </v-chip>
+                  </div>
+                  <div v-if="message.myId !== user.userId">
+                    <v-chip disabled small>
+                      {{ message.message }}
+                    </v-chip>
+                  </div>
+                </v-flex>
                 <v-flex>
                   <div>
                     <v-chip disabled small>
@@ -104,14 +119,24 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-text-field
-              v-model="message"
-              label="Enter message"
-              multi-line
-              rows="1"
-              auto-grow
-              elevation-22>
-            </v-text-field>
+            <!--<v-text-field-->
+              <!--v-model="message"-->
+              <!--label="Enter message"-->
+              <!--multi-line-->
+              <!--rows="1"-->
+              <!--auto-grow-->
+              <!--elevation-22>-->
+            <!--</v-text-field>-->
+            <v-layout row>
+              <v-flex xs12>
+                <v-text-field label="Enter message" v-model="message" multi-line rows="1" auto-grow></v-text-field>
+              </v-flex>
+              <v-flex p>
+                <v-btn flat icon @click.native="addMessage">
+                  <v-icon class="primary--text">add</v-icon>
+                </v-btn>
+              </v-flex>
+            </v-layout>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -133,6 +158,34 @@
     data () {
       return {
         message: null
+      }
+    },
+    computed: {
+      messages () {
+        return this.$store.getters.messages
+      },
+      user () {
+        return this.$store.getters.user
+      },
+      otherPerson () {
+        return this.$store.getters.lookingPerson
+      }
+    },
+    methods: {
+      addMessage () {
+        this.$store.dispatch('addMessage', {
+          message: this.message,
+          myId: this.user.userId,
+          otherPersonId: this.otherPerson.userId,
+          time: new Date()
+        })
+      },
+      isAnyMessages () {
+        if (this.messages === null || this.messages === undefined) {
+          return false
+        } else {
+          return true
+        }
       }
     }
   }

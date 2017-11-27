@@ -34,7 +34,8 @@ public class Match {
         this.accepted = accepted;
     }
 
-    public Match(String accepted, User userInviter, User userInvited) {
+    public Match(Long id, String accepted, User userInviter, User userInvited) {
+        this.idMatch = id;
         this.accepted = accepted;
         this.userInviter = userInviter;
         this.userInvited = userInvited;

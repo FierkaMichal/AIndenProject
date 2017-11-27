@@ -19,6 +19,20 @@
         </v-btn>
       </v-flex>
     </v-layout>
+    <v-layout row v-if="!isUserLoggedIn">
+      <v-flex xs12 sm6 text-xs-center text-sm-right mt-4>
+        <v-btn to="/signUp">
+          <v-icon left>exit_to_app</v-icon>
+          Sign Up
+        </v-btn>
+      </v-flex>
+      <v-flex xs12 sm6 text-xs-center text-sm-left mt-4>
+        <v-btn to="/signIn">
+          <v-icon left>exit_to_app</v-icon>
+          Sign In
+        </v-btn>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 

@@ -49,7 +49,7 @@ export default new Router({
       component: Matcher
     },
     {
-      path: '/UsersList',
+      path: '/usersList',
       name: 'UserLists',
       component: UsersList
     }
