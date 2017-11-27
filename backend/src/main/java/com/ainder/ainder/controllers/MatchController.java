@@ -30,7 +30,7 @@ public class MatchController {
     @Autowired
     private MatchServiceImpl matchService;
 
-    @RequestMapping(path = "*/rest/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*rest/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> postLike(@RequestParam("userId") Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByLogin(userDetails.getUsername());
