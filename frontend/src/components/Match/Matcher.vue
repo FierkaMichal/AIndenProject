@@ -61,6 +61,14 @@
     },
     computed: {
       lookingPerson () {
+        if (this.$store.getters.lookingPerson === null || this.$store.getters.lookingPerson === undefined) {
+          this.$store.dispatch('getNextLookingPerson', {
+            lastId: this.$store.getters.lastId,
+            longitude: navigator.geolocation.getCurrentPosition.coords.longitude,
+            latitude: navigator.geolocation.getCurrentPosition.coords.latitude,
+            distKm: this.distKm
+          })
+        }
         return this.$store.getters.lookingPerson
       }
     },
