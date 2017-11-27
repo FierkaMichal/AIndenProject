@@ -216,5 +216,14 @@ public class User {
         this.role = role;
     }
 
-
+    public User(Long idUser, String name, String surname, String login, String password, Double lastLongitude, Double lastLatitude, Role role) {
+        this.idUser = idUser;
+        this.name = name;
+        this.surname = surname;
+        this.login = login;
+        this.password = password;
+        this.lastLongitude = lastLongitude;
+        this.lastLatitude = lastLatitude;
+        this.role = role;
+    }
 }
