@@ -21,16 +21,18 @@
                 Nie ma zadnych wiadomosci
               </v-layout>
               <v-layout row v-if="isAnyMessages">
-                <v-flex v-for="(message, i) in messages" :key="i">
-                  <div v-if="message.myId === user.userId">
-                    <v-chip disabled small style="text-align: right;">
-                      {{ message.message }}
-                    </v-chip>
-                  </div>
-                  <div v-if="message.myId !== user.userId">
-                    <v-chip disabled small>
-                      {{ message.message }}
-                    </v-chip>
+                <v-flex>
+                  <div v-for="(message, i) in messages" :key="i">
+                    <div v-if="message.myId === user.userId">
+                      <v-chip disabled small style="text-align: right;">
+                        {{ message.message }}
+                      </v-chip>
+                    </div>
+                    <div v-if="message.myId !== user.userId">
+                      <v-chip disabled small>
+                        {{ message.message }}
+                      </v-chip>
+                    </div>
                   </div>
                 </v-flex>
                 <!--<v-flex>-->
@@ -93,6 +95,11 @@
     },
     computed: {
       messages () {
+        if (this.$store.getters.messages === null || this.$store.getters.messages === undefined || this.$store.getters.messages.length === 0) {
+          this.$store.dispatch('getMessages', {
+            personId: this.$store.getters.messagePerson.userId
+          })
+        }
         return this.$store.getters.messages
       },
       user () {
@@ -111,7 +118,7 @@
           message: this.message,
           myId: this.user.userId,
           otherPersonId: this.otherPerson.userId,
-          time: new Date()
+          time: new Date().toLocaleTimeString().split(' ')[0]
         })
       },
       isAnyMessages () {

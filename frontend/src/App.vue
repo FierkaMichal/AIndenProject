@@ -92,8 +92,7 @@
           menuItems = [
             {icon: 'face', title: 'My profile', link: '/profile/my'},
             {icon: 'face', title: 'Communicator', link: '/communicator'},
-            {icon: 'face', title: 'Search users', link: '/matcher'},
-            {icon: 'face', title: 'Users list', link: '/usersList'}
+            {icon: 'face', title: 'Search users', link: '/matcher'}
           ]
           if (this.user.admin) {
             menuItems.push({
