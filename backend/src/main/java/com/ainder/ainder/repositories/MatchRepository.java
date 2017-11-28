@@ -12,4 +12,7 @@ public interface MatchRepository extends CrudRepository<Match, Long> {
 
     @Query("update Match m set m.accepted = 'Y' where m.idMatch = :id")
     void updateMatch(@Param("id") Long id);
+
+//    @Transactional
+//    void deleteByIdUser(Long id);
 }

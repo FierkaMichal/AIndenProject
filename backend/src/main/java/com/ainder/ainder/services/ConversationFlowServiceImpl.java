@@ -19,6 +19,11 @@ public class ConversationFlowServiceImpl implements ConversationFlowService {
     }
 
     @Override
+    public void deleteAllMessagesByUsersId(long id) {
+        conversationFlowRepository.deleteAllMessagesByUsersId(id);
+    }
+
+    @Override
     public List<ConversationFlow> getAllMessagesByUsers(Long p_sender, Long p_receiver) {
         return conversationFlowRepository.getAllMessagesByUsers(p_sender, p_receiver);
     }

@@ -64,7 +64,7 @@ public class Match {
         return result;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
     public User getUserInviter() {
         return userInviter;
@@ -74,8 +74,8 @@ public class Match {
         this.userInviter = userInviter;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "ID_USER1", referencedColumnName = "ID_USER", nullable = false)
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "ID_USER1", referencedColumnName = "ID_USER", nullable = false) //REFERENCED
     public User getUserInvited() {
         return userInvited;
     }

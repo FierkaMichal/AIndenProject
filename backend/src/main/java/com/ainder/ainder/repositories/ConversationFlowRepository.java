@@ -16,4 +16,9 @@ public interface ConversationFlowRepository extends CrudRepository<ConversationF
 
     @Query("SELECT cf FROM ConversationFlow cf WHERE cf.conversationByIdConversation.idConversation = (SELECT c.idConversation FROM Conversation c WHERE ((c.userOne.idUser = :user1 AND c.userTwo.idUser = :user2) OR (c.userTwo.idUser = :user1 AND c.userOne.idUser= :user2)))")
     List<ConversationFlow> getAllMessagesByUsers(@Param("user1") long user1, @Param("user2") long user2);
+
+    @Query("DELETE FROM ConversationFlow cf WHERE cf.conversationByIdConversation.idConversation = :id")
+    void deleteAllMessagesByUsersId(@Param("id")long id);
+
+
 }

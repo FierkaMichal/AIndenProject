@@ -7,4 +7,6 @@ import java.util.List;
 public interface ConversationFlowService {
 
     List<ConversationFlow> getAllMessagesByUsers(Long p_sender, Long p_receiver);
+
+    void deleteAllMessagesByUsersId(long id);
 }

@@ -160,7 +160,7 @@ public class User {
         this.role = role;
     }
 
-    @OneToMany(mappedBy = "userOne")
+    @OneToMany(mappedBy = "userOne", orphanRemoval=true, cascade = CascadeType.REMOVE)
     public Collection<Conversation> getConversationsByIdUserOne() {
         return conversationsByIdUserOne;
     }
@@ -169,7 +169,7 @@ public class User {
         this.conversationsByIdUserOne = conversationsByIdUserOne;
     }
 
-    @OneToMany(mappedBy = "userTwo")
+    @OneToMany(mappedBy = "userTwo", orphanRemoval=true, cascade = CascadeType.REMOVE)
     public Collection<Conversation> getConversationsByIdUserTwo() {
         return conversationsByIdUserTwo;
     }
@@ -178,7 +178,7 @@ public class User {
         this.conversationsByIdUserTwo = conversationsByIdUserTwo;
     }
 
-    @OneToMany(mappedBy = "userWriter")
+    @OneToMany(mappedBy = "userWriter", orphanRemoval=true, cascade = CascadeType.REMOVE)
     public Collection<ConversationFlow> getConversationFlowsByUserWriter() {
         return conversationFlowsByUserWriter;
     }
@@ -187,7 +187,7 @@ public class User {
         this.conversationFlowsByUserWriter = conversationFlowsByUserWriter;
     }
 
-    @OneToMany(mappedBy = "userInviter")
+    @OneToMany(mappedBy = "userInviter", orphanRemoval=true, cascade = CascadeType.REMOVE)
     public Collection<Match> getMatchesByUserInviter() {
         return matchesByUserInviter;
     }
@@ -196,7 +196,7 @@ public class User {
         this.matchesByUserInviter = matchesByUserInviter;
     }
 
-    @OneToMany(mappedBy = "userInvited")
+    @OneToMany(mappedBy = "userInvited", orphanRemoval=true, cascade = CascadeType.REMOVE)
     public Collection<Match> getMatchesByIdUserInvited() {
         return matchesByIdUserInvited;
     }

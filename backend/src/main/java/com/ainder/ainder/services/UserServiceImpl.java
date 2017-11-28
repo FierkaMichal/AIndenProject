@@ -90,6 +90,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateId(Long newValue, Long userId) {
+        userRepository.updateId(newValue, userId);
+    }
+
+    @Override
     public void deleteByIdUser(Long idUser) {
         userRepository.deleteByIdUser(idUser);
     }

@@ -1,9 +1,13 @@
 package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.config.CustomUserDetails;
+import com.ainder.ainder.entities.Conversation;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.restPOJO.UserResponse;
+import com.ainder.ainder.services.ConversationFlowServiceImpl;
+import com.ainder.ainder.services.ConversationServiceImpl;
+import com.ainder.ainder.services.MatchServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * Created by Michał on 2017-11-26.
  */
@@ -24,6 +30,15 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private MatchServiceImpl matchService;
+
+    @Autowired
+    private ConversationServiceImpl conversationService;
+
+    @Autowired
+    private ConversationFlowServiceImpl conversationFlowService;
 
     @RequestMapping(path = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object getMe() {
@@ -94,8 +109,8 @@ public class UserController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "*/rest/user/delete", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Error> editUser(@RequestParam("user_id") Long userId) {
+    @RequestMapping(path = "/rest/user/delete", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Error> deleteUser(@RequestParam("user_id") Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
 
@@ -108,9 +123,16 @@ public class UserController {
             return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
         }
 
-//        User u = userService.getUserById(userId);
+        List<Conversation> conversationList = conversationService.findConversationByUser(me.getIdUser());
+
+        for (Conversation conversation : conversationList) {
+            conversationFlowService.deleteAllMessagesByUsersId(conversation.getIdConversation());
+            conversationService.deleteRozmowy(me.getIdUser());
+        }
+
 
         userService.deleteByIdUser(userId);
+//        userService.updateId(userId * -1, userId);
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }

@@ -30,5 +30,7 @@ public interface UserService {
 
     void updateLon(Double newValue, Long userId);
 
+    void updateId(Long newValue, Long userId);
+
     void deleteByIdUser(Long lond);
 }
