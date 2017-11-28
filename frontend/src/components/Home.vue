@@ -7,7 +7,7 @@
     </v-layout>
     <v-layout row v-if="isUserLoggedIn">
       <v-flex xs12 sm6 text-xs-center text-sm-right mt-4>
-        <v-btn v-if="isUserLoggedIn" to="/profile/me">
+        <v-btn v-if="isUserLoggedIn" to="/profile/my">
           <v-icon left>exit_to_app</v-icon>
           Profile
         </v-btn>

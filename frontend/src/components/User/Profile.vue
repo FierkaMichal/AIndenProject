@@ -17,11 +17,11 @@
         </v-avatar>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.name }} {{ user.surname }}
       </v-flex>
-      <v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-right v-if="!isLoggedInUser">
-        <v-btn flat>
-        <v-icon left>whatshot</v-icon>
-        Give Like</v-btn>
-      </v-flex>
+      <!--<v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-right v-if="!isLoggedInUser">-->
+        <!--<v-btn flat @click.native="giveLike">-->
+        <!--<v-icon left>whatshot</v-icon>-->
+        <!--Give Like</v-btn>-->
+      <!--</v-flex>-->
       <v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-right v-if="isLoggedInUser">
         <v-dialog v-model="dialog" persistent max-width="500px">
           <v-btn slot="activator" flat>
@@ -182,6 +182,9 @@
       },
       removePhoto (src) {
         this.$store.dispatch('removePhoto', {src: src})
+      },
+      giveLike () {
+        this.$store.dispatch('giveLike', {userId: this.lookingPerson.userId})
       }
     }
   }
