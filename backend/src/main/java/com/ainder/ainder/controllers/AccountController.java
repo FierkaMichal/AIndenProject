@@ -71,7 +71,7 @@ public class AccountController {
             UserResponse ur = ControllersUtils.userToUserResponse(u);
             return new ResponseEntity<>(ur, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new Error("User with that login does not exist."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
     }
 }
