@@ -8,6 +8,8 @@ export default {
   },
   mutations: {
     setUser (state, payload) {
+      // payload.lastLongitude = this.getters.position.coords.longitude
+      // payload.lastLatitude = this.position.coords.latitude
       state.user = payload
     },
     addUserPhoto (state, payload) {

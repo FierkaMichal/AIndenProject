@@ -23,7 +23,7 @@
               <v-list-tile-title>{{ match.name }} {{ match.surname }}</v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn flat icon @click.native="goToChat(match.userId)">
+              <v-btn flat icon @click.native="goToChat(match)">
                 <v-icon>chat_bubble</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -64,7 +64,8 @@
       goToMatcher () {
         this.$router.push('/matcher')
       },
-      goToChat (userId) {
+      goToChat (user) {
+        this.$store.dispatch('setMessagePerson', user)
         this.$router.push('/communicator/chat')
       },
       seeProfile (login) {

@@ -5,7 +5,7 @@
         <v-card>
           <v-card-title>
             <div>Chat with </div>
-            <v-chip disabled>
+            <v-chip @click="goToProfile(otherPerson.login)">
               <v-avatar>
                 <img :src="otherPerson.avatar">
               </v-avatar>
@@ -33,87 +33,18 @@
                     </v-chip>
                   </div>
                 </v-flex>
-                <v-flex>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div><div>
-                  <v-chip disabled small>
-                    sadas
-                  </v-chip>
-                </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                </v-flex>
+                <!--<v-flex>-->
+                  <!--<div>-->
+                    <!--<v-chip disabled small>-->
+                      <!--sadas-->
+                    <!--</v-chip>-->
+                  <!--</div>-->
+                  <!--<div style="text-align: right;">-->
+                    <!--<v-chip disabled small>-->
+                      <!--dsadsaa-->
+                    <!--</v-chip>-->
+                  <!--</div>-->
+                <!--</v-flex>-->
               </v-layout>
             </v-container>
           </v-card-text>
@@ -140,7 +71,7 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm6 offset-sm3>
+      <!--<v-flex xs12 sm6 offset-sm3>-->
         <!--<div class="chat-container">-->
         <!--<message :messages="messages" @imageLoad="scrollToEnd"></message>-->
         <!--</div>-->
@@ -148,7 +79,7 @@
         <!--<div class="typer">-->
         <!--<input type="text" placeholder="Enter message" v-on:keyup.enter="sendMessage" v-model="content" elevation-22>-->
         <!--</div>-->
-      </v-flex>
+      <!--</v-flex>-->
     </v-layout>
   </v-container>
 </template>
@@ -168,10 +99,13 @@
         return this.$store.getters.user
       },
       otherPerson () {
-        return this.$store.getters.lookingPerson
+        return this.$store.getters.messagePerson
       }
     },
     methods: {
+      goToProfile (login) {
+        this.$router.push('/profile/' + login)
+      },
       addMessage () {
         this.$store.dispatch('addMessage', {
           message: this.message,
@@ -181,7 +115,7 @@
         })
       },
       isAnyMessages () {
-        if (this.messages === null || this.messages === undefined) {
+        if (this.messages === null || this.messages === undefined || this.messages.length === 0) {
           return false
         } else {
           return true
