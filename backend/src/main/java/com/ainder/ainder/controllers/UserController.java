@@ -4,6 +4,7 @@ import com.ainder.ainder.config.CustomUserDetails;
 import com.ainder.ainder.entities.Conversation;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
+import com.ainder.ainder.restPOJO.UserArray;
 import com.ainder.ainder.restPOJO.UserResponse;
 import com.ainder.ainder.services.ConversationFlowServiceImpl;
 import com.ainder.ainder.services.ConversationServiceImpl;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -137,4 +139,62 @@ public class UserController {
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
+
+    @RequestMapping(path = "*/rest/user/getAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object findAllUsers() {
+
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User me = userService.getUserByLogin(userDetails.getUsername());
+
+        LinkedList<UserResponse> usersListResponse = new LinkedList<>();
+
+        Error error = null;
+        if (me.getRole().getName().contains("USER")) {
+            error = new Error("You can not view all users.");
+        }
+
+        if(error != null) {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);  //forbidden?
+        }
+
+        List<User> users = userService.findAll();
+
+        for(User user : users) {
+            usersListResponse.add(ControllersUtils.userToUserResponse(user));
+        }
+
+//        if(usersListResponse.size() < 1) {
+//            //return new ResponseEntity<>(new UserArray(), HttpStatus.OK);
+//        }
+
+        UserArray ua = new UserArray();
+        ua.setUser(usersListResponse);
+
+        return new ResponseEntity<>(ua, HttpStatus.OK);
+    }
+
+
+//    CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//    User me = userService.getUserByLogin(userDetails.getUsername());
+//
+//    List<User> matchedInvitedUserList = userService.findMatchedInvitedUsersByUserId(me.getIdUser()); //select
+//    List<User> matchedReceivedUserList = userService.findMatchedReceivedUsersByUserId(me.getIdUser()); //select
+//    LinkedList<UserResponse> matchedUserListResponse = new LinkedList<>();
+//
+//        for (User user : matchedInvitedUserList) {
+//        matchedUserListResponse.add(ControllersUtils.userToUserResponse(user));
+//    }
+//
+//        for (User user : matchedReceivedUserList) {
+//        matchedUserListResponse.add(ControllersUtils.userToUserResponse(user));
+//    }
+//
+//        if (matchedUserListResponse == null || matchedUserListResponse.size() < 1) {
+//        return new ResponseEntity<>(new UserArray(), HttpStatus.OK);
+//    }
+//
+//    UserArray ua = new UserArray();
+//        ua.setUser(matchedUserListResponse);
+//
+//        return new ResponseEntity<>(ua, HttpStatus.OK);
 }

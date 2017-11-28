@@ -1,10 +1,12 @@
 package com.ainder.ainder.restPOJO;
 
+import java.util.Date;
+
 public class Message {
 
     private Long myId;
     private Long otherPersonId;
-    private String time;
+    private Date time;
     private String message;
 
     public Long getMyId() {

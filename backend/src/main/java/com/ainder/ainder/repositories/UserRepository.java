@@ -21,7 +21,12 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query(value = "SELECT SQ_USER.nextval FROM dual", nativeQuery = true)
     Long getNextSeriesId();
 
-//    SELECT cf.*
+    @Override
+    List<User> findAll();
+
+
+
+    //    SELECT cf.*
 //    from T_CONVERSATION_FLOW cf,
 //    T_CONVERSATION c
 //    where c.ID_USER = cf.ID_USER
