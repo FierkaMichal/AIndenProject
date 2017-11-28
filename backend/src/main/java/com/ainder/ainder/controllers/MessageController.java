@@ -66,7 +66,7 @@ public class MessageController {
         LinkedList<Message> messageResponseList = new LinkedList<>();
 
         for (ConversationFlow conversationFlow : messageList) {
-            messageResponseList.add(new Message(user.getIdUser(), userId, conversationFlow.getTime() ,conversationFlow.getMessage()));
+            messageResponseList.add(new Message(user.getIdUser(), conversationFlow.getUserWriter().getIdUser(), conversationFlow.getTime() ,conversationFlow.getMessage()));
         }
 
         if (messageResponseList == null || messageResponseList.size() < 1) {
