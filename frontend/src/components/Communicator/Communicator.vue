@@ -15,9 +15,9 @@
               <v-list-tile-title>You do not have any matches go give some like</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile avatar v-for="(match, i) in this.userMatches" v-bind:key="i" @click="">
+          <v-list-tile avatar v-for="(match, i) in userMatches.user" :key="i" @click="">
             <v-list-tile-avatar>
-              <img v-bind:src="match.avatar"/>
+              <img :src="match.avatar"/>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>{{ match.name }} {{ match.surname }}</v-list-tile-title>
@@ -54,7 +54,7 @@
         return this.$store.getters.userMatches
       },
       haveMatches () {
-        if (this.$store.getters.userMatches === null || this.$store.getters.userMatches === undefined) {
+        if (this.$store.getters.userMatches === null || this.$store.getters.userMatches === undefined || this.$store.getters.userMatches.length === 0) {
           return false
         }
         return true
@@ -68,7 +68,6 @@
         this.$router.push('/communicator/chat')
       },
       seeProfile (login) {
-        this.$store.dispatch('getLookingForPerson', {login: login})
         this.$router.push('/profile/' + login)
       }
     }

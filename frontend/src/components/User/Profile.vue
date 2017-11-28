@@ -148,7 +148,9 @@
           return this.$store.getters.user
         }
         if (this.$store.getters.lookingPerson !== null && this.$store.getters.lookingPerson !== undefined) {
-          return this.$store.getters.lookingPerson
+          if (this.$route.params.login === this.$store.getters.lookingPerson.login) {
+            return this.$store.getters.lookingPerson
+          }
         }
         this.$store.dispatch('getLookingForPerson',
           {

@@ -4,6 +4,7 @@ import VueCookies from 'vue-cookies'
 export default {
   state: {
     lastId: 0,
+    matcherPerson: null,
     lookingPerson: null,
     userMatches: null
   },
@@ -15,7 +16,16 @@ export default {
       state.userMatches = payload
     },
     setLastId (state, payload) {
-      state.lastId = payload
+      if (payload !== null && payload !== undefined) {
+        state.lastId = payload
+      }
+    },
+    setMatcherPerson (state, payload) {
+      if (payload === null || payload === undefined || payload.login === undefined || payload.login === null) {
+        state.matcherPerson = null
+      } else {
+        state.matcherPerson = payload
+      }
     }
   },
   actions: {
@@ -31,7 +41,7 @@ export default {
           console.log(error)
         })
     },
-    getNextLookingPerson ({ commit }, payload) {
+    getNextMatcherPerson ({ commit }, payload) {
       var params = new URLSearchParams()
       params.append('access_token', VueCookies.get('token'))
       params.append('lastId', payload.lastId)
@@ -40,7 +50,7 @@ export default {
       params.append('latitude', payload.latitude)
       axios.get('rest/matcher/getNext?' + params)
         .then(response => {
-          commit('setPerson', response.data)
+          commit('setMatcherPerson', response.data)
           commit('setLastId', response.data.userId)
         })
         .catch(error => {
@@ -77,6 +87,9 @@ export default {
     },
     lastId (state) {
       return state.lastId
+    },
+    matcherPerson (state) {
+      return state.matcherPerson
     }
   }
 }
