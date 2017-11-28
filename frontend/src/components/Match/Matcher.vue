@@ -19,22 +19,27 @@
     </v-layout>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3 mt-4>
-        <v-card v-if="havePersonInDistance">
+        <v-card v-if="!havePersonInDistance()">
+          <v-card-title>
+            Change distance to find other user
+          </v-card-title>
+        </v-card>
+        <v-card v-if="havePersonInDistance()">
           <v-card-media
             class="white--text"
-            src="lookingPerson.avatar"
+            :src="this.lookingPerson.avatar"
             height="500px">
             <v-container fill-height fluid>
               <v-layout fill-height>
                 <v-flex xs12 align-end flexbox>
-                  <span class="headline">{{ lookingPerson.name }} {{ lookingPerson.surname }}</span>
+                  <span class="headline">{{ this.lookingPerson.name }} {{ this.lookingPerson.surname }}</span>
                 </v-flex>
               </v-layout>
             </v-container>
           </v-card-media>
           <v-card-title>
             <div>
-              <h2>{{ lookingPerson.name }} {{ lookingPerson.surname }}</h2>
+              <h2>{{ this.lookingPerson.name }} {{ this.lookingPerson.surname }}</h2>
             </div>
             <v-container>
               <v-layout row wrap>
@@ -43,7 +48,7 @@
                     <v-expansion-panel-content>
                       <div slot="header">Description</div>
                       <v-card>
-                        <v-card-text>{{ lookingPerson.description }}</v-card-text>
+                        <v-card-text>{{ this.lookingPerson.description }}</v-card-text>
                       </v-card>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
@@ -52,7 +57,7 @@
             </v-container>
           </v-card-title>
           <v-card-actions>
-            <v-btn flat @click.native="showProfile(lookingPerson.login)">
+            <v-btn flat @click.native="showProfile(this.lookingPerson.login)">
               <v-icon left>person</v-icon>
                 See Profile</v-btn>
             <v-spacer></v-spacer>
@@ -84,7 +89,7 @@
         return this.$store.getters.lookingPerson
       },
       havePersonInDistance () {
-        if (this.$store.getters.lookingPerson === null || this.$store.getters.lookingPerson === undefined) {
+        if (this.$store.getters.lookingPerson.login === null || this.$store.getters.lookingPerson.login === undefined) {
           return false
         }
         return true

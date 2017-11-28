@@ -15,7 +15,7 @@
               <v-list-tile-title>You do not have any matches go give some like</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile avatar v-for="match in userMatches" v-bind:key="match.login" @click="">
+          <v-list-tile avatar v-for="(match, i) in this.userMatches" v-bind:key="i" @click="">
             <v-list-tile-avatar>
               <img v-bind:src="match.avatar"/>
             </v-list-tile-avatar>
@@ -47,7 +47,10 @@
     },
     computed: {
       userMatches () {
-        this.$store.dispatch('getMatchedList')
+        if (!this.haveMatches) {
+          this.$store.dispatch('getMatchedList')
+        }
+        console.log(this.$store.getters.userMatches)
         return this.$store.getters.userMatches
       },
       haveMatches () {

@@ -61,7 +61,7 @@ export default {
       params.append('access_token', VueCookies.get('token'))
       axios.get('rest/userMatches?' + params)
         .then(response => {
-          commit('setUserMatches', response)
+          commit('setUserMatches', response.data)
         })
         .catch(error => {
           console.log(error)
