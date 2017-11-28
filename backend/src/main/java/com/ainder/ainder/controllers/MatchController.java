@@ -92,7 +92,7 @@ public class MatchController {
         }
 
         if (matchedUserListResponse == null || matchedUserListResponse.size() < 1) {
-            return new ResponseEntity<>(new Error("You do not have any matched users ;("), HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
 
         UserArray ua = new UserArray();
