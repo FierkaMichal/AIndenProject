@@ -4,6 +4,8 @@ import com.ainder.ainder.config.CustomUserDetails;
 import com.ainder.ainder.entities.Match;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
+import com.ainder.ainder.restPOJO.UserArray;
+import com.ainder.ainder.restPOJO.UserResponse;
 import com.ainder.ainder.services.MatchServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -69,5 +72,32 @@ public class MatchController {
         }
 
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = "*/rest/userMatches", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getMatchedUsers() {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User me = userService.getUserByLogin(userDetails.getUsername());
+
+        List<User> matchedInvitedUserList = userService.findMatchedInvitedUsersByUserId(me.getIdUser()); //select
+        List<User> matchedReceivedUserList = userService.findMatchedReceivedUsersByUserId(me.getIdUser()); //select
+        LinkedList<UserResponse> matchedUserListResponse = new LinkedList<>();
+
+        for (User user : matchedInvitedUserList) {
+            matchedUserListResponse.add(ControllersUtils.userToUserResponse(user));
+        }
+
+        for (User user : matchedReceivedUserList) {
+            matchedUserListResponse.add(ControllersUtils.userToUserResponse(user));
+        }
+
+        if (matchedUserListResponse == null || matchedUserListResponse.size() < 1) {
+            return new ResponseEntity<>(new Error("You do not have any matched users ;("), HttpStatus.OK);
+        }
+
+        UserArray ua = new UserArray();
+        ua.setUser(matchedUserListResponse);
+
+        return new ResponseEntity<>(ua, HttpStatus.OK);
     }
 }

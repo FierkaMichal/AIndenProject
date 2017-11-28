@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteByIdUser(Long lond) {
-        userRepository.deleteByIdUser(lond);
+    public void deleteByIdUser(Long idUser) {
+        userRepository.deleteByIdUser(idUser);
     }
 
     @Bean
