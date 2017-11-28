@@ -71,7 +71,7 @@ public class MatchController {
             }
         }
 
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(new UserResponse(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "*/rest/userMatches", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
