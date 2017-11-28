@@ -78,7 +78,7 @@ public class ConversationFlow {
         return result;
     }
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne()
     @JoinColumn(name = "ID_CONVERSATION", referencedColumnName = "ID_CONVERSATION", nullable = false)
     public Conversation getConversationByIdConversation() {
         return conversationByIdConversation;
@@ -88,7 +88,7 @@ public class ConversationFlow {
         this.conversationByIdConversation = conversationByIdConversation;
     }
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne()
     @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
     public User getUserWriter() {
         return userWriter;
