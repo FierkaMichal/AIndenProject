@@ -109,8 +109,8 @@ public class UserController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/rest/user/delete", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Error> deleteUser(@RequestParam("user_id") Long userId) {
+    @RequestMapping(path = "*/rest/user/delete", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Error> deleteUser(@RequestParam("userId") Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
 

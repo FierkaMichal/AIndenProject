@@ -118,7 +118,7 @@
           message: this.message,
           myId: this.user.userId,
           otherPersonId: this.otherPerson.userId,
-          time: new Date()
+          time: new Date().toLocaleTimeString().split(' ')[0]
         })
       },
       isAnyMessages () {
