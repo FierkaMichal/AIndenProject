@@ -4,6 +4,7 @@ import java.util.List;
 
 public class UserResponse {
     private Long userId;
+    private String login;
     private String name;
     private String surname;
     private String description;
@@ -16,8 +17,9 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(Long userId, String name, String surname, String description, String avatar, List<String>  photoArray, Double lastLongitude, Double lastLatitude, boolean role) {
+    public UserResponse(Long userId, String login, String name, String surname, String description, String avatar, List<String>  photoArray, Double lastLongitude, Double lastLatitude, boolean role) {
         this.userId = userId;
+        this.login = login;
         this.name = name;
         this.surname = surname;
         this.description = description;
@@ -36,6 +38,14 @@ public class UserResponse {
         this.avatar = avatar;
         this.lastLongitude = lastLongitude;
         this.lastLatitude = lastLatitude;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public boolean isAdmin() {

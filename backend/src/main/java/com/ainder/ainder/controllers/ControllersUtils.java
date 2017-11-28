@@ -25,7 +25,7 @@ public class ControllersUtils {
                 }
             }
         }
-        return new UserResponse(u.getIdUser(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude(), u.getRole().getName().equals("ADMIN"));
+        return new UserResponse(u.getIdUser(), u.getLogin(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude(), u.getRole().getName().equals("ADMIN"));
     }
 
     public static double distance(double lat1, double lat2, double lon1, double lon2) {
