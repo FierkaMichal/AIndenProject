@@ -7,7 +7,7 @@
             <div>Chat with </div>
             <v-chip disabled>
               <v-avatar>
-                <img :src="otherPerson.avatar" alt="Chat with">
+                <img :src="otherPerson.avatar">
               </v-avatar>
               {{ otherPerson.name }} {{ otherPerson.surname }}
             </v-chip>
