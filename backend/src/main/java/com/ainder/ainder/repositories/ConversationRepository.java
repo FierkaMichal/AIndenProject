@@ -1,6 +1,7 @@
 package com.ainder.ainder.repositories;
 
 import com.ainder.ainder.entities.Conversation;
+import com.ainder.ainder.entities.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -18,7 +19,10 @@ public interface ConversationRepository extends CrudRepository<Conversation, Lon
     List<Conversation> findConversationByUser(@Param("one") long one);
 
     @Query("DELETE from Conversation c where c.userTwo.idUser = :idUser or c.userOne.idUser = :idUser")
+
     @Transactional
     @Modifying
     void deleteRozmowy(@Param("idUser") Long idUser);
+
+    void deleteConversationByUserOneOrUserTwo(User one, User two);
 }

@@ -45,7 +45,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     void updateUserDescription(@Param("p_newDescription") String p_newDescription, @Param("p_idUser") long p_idUser);
 
     @Query("select u from User u where u.login = :login")
-    void getUserByLogin(@Param("login") String login);
+    User getUserByLogin(@Param("login") String login);
 
     @Query("select u from User u where u.idUser > :id")
     List<User> getUserBiggerThanGivenId(@Param("id") Long id);
