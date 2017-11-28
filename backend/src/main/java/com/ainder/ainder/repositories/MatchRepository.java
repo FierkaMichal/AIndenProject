@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface MatchRepository extends CrudRepository<Match, Long> {
 
-    @Query("select m from Match m where m.userInviter.idUser = :person and m.userInvited.idUser = :me")
+    @Query("select m from Match m where (m.userInviter.idUser = :person and m.userInvited.idUser = :me) or (m.userInviter.idUser = :me and m.userInvited.idUser = :person)")
     Match getMatchByUserId(@Param("me") Long me, @Param("person") Long person);
 
     @Query("update Match m set m.accepted = 'Y' where m.idMatch = :id")
