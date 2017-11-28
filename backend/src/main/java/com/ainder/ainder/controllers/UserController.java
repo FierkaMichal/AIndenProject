@@ -126,9 +126,12 @@ public class UserController {
         List<Conversation> conversationList = conversationService.findConversationByUser(userId);
         conversationFlowService.deleteConversationFlowsByConversationByIdConversation(conversationList);
 
-        conversationService.deleteConversationByUserOneOrUserTwo(me, userService.getUserById(userId));
-        
+        conversationService.deleteConversationByUserOneOrUserTwo(userService.getUserById(userId), userService.getUserById(userId));
+//        conversationService.deleteRozmowy(userId);
 
+        matchService.deleteByUserInviterOrUserInvited(userService.getUserById(userId), userService.getUserById(userId));
+//
+//
         userService.deleteByIdUser(userId);
 //        userService.updateId(userId * -1, userId);
 

@@ -1,6 +1,7 @@
 package com.ainder.ainder.repositories;
 
 import com.ainder.ainder.entities.Match;
+import com.ainder.ainder.entities.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,6 +17,12 @@ public interface MatchRepository extends CrudRepository<Match, Long> {
     @Modifying
     @Query("update Match m set m.accepted = 'Y' where m.idMatch = :id")
     void updateMatch(@Param("id") Long id);
+
+
+    @Transactional
+    @Modifying
+    void deleteByUserInviterOrUserInvited(User o, User k);
+
 
 //    @Transactional
 //    void deleteByIdUser(Long id);

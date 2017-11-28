@@ -80,7 +80,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("update User u set u.idUser = :newValue where u.idUser = :userId")
     void updateId(@Param("newValue")Long newValue,@Param("userId") Long userId);
 
-    @Transactional
     void deleteByIdUser(Long id);
 
 

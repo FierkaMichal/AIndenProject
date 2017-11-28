@@ -19,10 +19,10 @@ public interface ConversationRepository extends CrudRepository<Conversation, Lon
     List<Conversation> findConversationByUser(@Param("one") long one);
 
     @Query("DELETE from Conversation c where c.userTwo.idUser = :idUser or c.userOne.idUser = :idUser")
-
     @Transactional
     @Modifying
     void deleteRozmowy(@Param("idUser") Long idUser);
 
+    @Transactional
     void deleteConversationByUserOneOrUserTwo(User one, User two);
 }
