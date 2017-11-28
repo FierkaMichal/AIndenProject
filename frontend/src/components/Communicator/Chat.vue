@@ -90,16 +90,28 @@
   export default {
     data () {
       return {
-        message: null
+        message: null,
+        interval: ''
       }
+    },
+    mounted () {
+      this.getMessages()
+
+      this.interval = setInterval(function () {
+        console.log('dsadas')
+        this.getMessages()
+      }.bind(this), 1000)
+    },
+    beforeDestroy () {
+      clearInterval(this.interval)
     },
     computed: {
       messages () {
-        if (this.$store.getters.messages === null || this.$store.getters.messages === undefined || this.$store.getters.messages.length === 0) {
-          this.$store.dispatch('getMessages', {
-            personId: this.$store.getters.messagePerson.userId
-          })
-        }
+//        if (this.$store.getters.messages === null || this.$store.getters.messages === undefined || this.$store.getters.messages.length === 0) {
+//          this.$store.dispatch('getMessages', {
+//            personId: this.$store.getters.messagePerson.userId
+//          })
+//        }
         return this.$store.getters.messages
       },
       user () {
@@ -110,6 +122,11 @@
       }
     },
     methods: {
+      getMessages () {
+        this.$store.dispatch('getMessages', {
+          personId: this.$store.getters.messagePerson.userId
+        })
+      },
       goToProfile (login) {
         this.$router.push('/profile/' + login)
       },
@@ -118,8 +135,9 @@
           message: this.message,
           myId: this.user.userId,
           otherPersonId: this.otherPerson.userId,
-          time: new Date().toLocaleTimeString().split(' ')[0]
+          time: new Date().toJSON()
         })
+        this.message = ''
       },
       isAnyMessages () {
         if (this.messages === null || this.messages === undefined || this.messages.length === 0) {

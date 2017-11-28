@@ -30,14 +30,23 @@ export default {
         return user.userId === payload.userId
       })
       state.adminUserList.splice(state.adminUserList.indexOf(userToDelete), 1)
+    },
+    setAdminUserList (state, payload) {
+      state.adminUserList = payload
     }
   },
   actions: {
     getAdminUserList ({ commit }, payload) {
       var params = new URLSearchParams()
-      params.append('access_token', VueCookies.get('token'))
-      axios.get()
-    }
+      params.append('access_token/', VueCookies.get('token'))
+      axios.get('rest/user/getAll?' + params)
+        .then(response => {
+          commit('setAdminUserList', response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     deleteUser ({ commit }, payload) {
       var params = new URLSearchParams()
       params.append('access_token', VueCookies.get('token'))
@@ -176,6 +185,9 @@ export default {
   getters: {
     user (state) {
       return state.user
+    },
+    usersList (state) {
+      return state.adminUserList
     }
   }
 }

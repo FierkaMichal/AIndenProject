@@ -31,7 +31,7 @@ export default {
       params.append('personId', payload.personId)
       axios.get('rest/messages?' + params)
         .then(response => {
-          commit('setMessages', response.data)
+          commit('setMessages', response.data.messageList)
         })
         .catch(error => {
           console.log(error)
@@ -40,11 +40,11 @@ export default {
     addMessage ({ commit }, payload) {
       var params = new URLSearchParams()
       params.append('access_token', VueCookies.get('token'))
-      params.append('myId', payload.myId)
-      params.append('otherPersonId', payload.otherPersonId)
-      params.append('time', payload.time)
-      params.append('message', payload.message)
-      axios.post('rest/message?' + params)
+      // params.append('myId', payload.myId)
+      // params.append('otherPersonId', payload.otherPersonId)
+      // params.append('time', payload.time)
+      // params.append('message', payload.message)
+      axios.post('rest/message?' + params, payload)
         .then(response => {
           commit('addMessage', payload)
         })
