@@ -105,7 +105,7 @@
         })
       },
       showProfile (login) {
-        this.$router.push('/profile/' + this.$store.matcherPerson.login)
+        this.$router.push('/profile/' + this.matcherPerson.login)
       },
       giveLike () {
         this.$store.dispatch('giveLike', {userId: this.matcherPerson.userId})
