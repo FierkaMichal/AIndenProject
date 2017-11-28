@@ -47,7 +47,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("select u from User u where u.login = :login")
     User getUserByLogin(@Param("login") String login);
 
-    @Query("select u from User u where u.idUser > :id")
+    @Query("select u from User u where u.idUser > :id order by u.idUser")
     List<User> getUserBiggerThanGivenId(@Param("id") Long id);
 
     @Modifying(clearAutomatically = true)
