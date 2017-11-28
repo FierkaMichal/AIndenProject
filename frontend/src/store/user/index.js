@@ -4,6 +4,7 @@ import Router from '@/router/'
 
 export default {
   state: {
+    adminUserList: null,
     user: null
   },
   mutations: {
@@ -23,9 +24,41 @@ export default {
         return photo === payload.src
       })
       state.user.photoArray.splice(state.user.photoArray.indexOf(photo), 1)
+    },
+    deleteUser (state, payload) {
+      const userToDelete = state.adminUserList.find(user => {
+        return user.userId === payload.userId
+      })
+      state.adminUserList.splice(state.adminUserList.indexOf(userToDelete), 1)
+    },
+    setAdminUserList (state, payload) {
+      state.adminUserList = payload
     }
   },
   actions: {
+    getAdminUserList ({ commit }, payload) {
+      var params = new URLSearchParams()
+      params.append('access_token/', VueCookies.get('token'))
+      axios.get('rest/user/getAll?' + params)
+        .then(response => {
+          commit('setAdminUserList', response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    deleteUser ({ commit }, payload) {
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      params.append('userId', payload.userId)
+      axios.put('rest/user/delete?' + params)
+        .then(response => {
+          commit('deleteUser', payload.userId)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     userSignUp ({ commit }, payload) {
       commit('setLoading', true)
       axios.post('/rest/signUp', {
@@ -96,12 +129,32 @@ export default {
         .then(response => {
           VueCookies.remove('token')
           commit('setUser', null)
+          commit('setMessagePerson', null)
+          commit('setMessages', null)
+          commit('setPerson', null)
+          commit('setUserMatches', null)
+          commit('setLastId', null)
+          commit('setMatcherPerson', null)
+          commit('setMessage', null)
+          commit('setLoading', null)
+          commit('clearMessage')
+          commit('clearError')
           Router.push('/')
           console.log(response.data)
         })
         .catch(error => {
           VueCookies.remove('token')
           commit('setUser', null)
+          commit('setMessagePerson', null)
+          commit('setMessages', null)
+          commit('setPerson', null)
+          commit('setUserMatches', null)
+          commit('setLastId', null)
+          commit('setMatcherPerson', null)
+          commit('setMessage', null)
+          commit('setLoading', null)
+          commit('clearMessage')
+          commit('clearError')
           Router.push('/signIn')
           console.log(error)
         })
@@ -132,6 +185,9 @@ export default {
   getters: {
     user (state) {
       return state.user
+    },
+    usersList (state) {
+      return state.adminUserList
     }
   }
 }

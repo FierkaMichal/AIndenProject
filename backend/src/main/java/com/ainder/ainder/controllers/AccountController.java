@@ -51,12 +51,12 @@ public class AccountController {
             return new ResponseEntity<>(new Error("UserResponse with that login already exists."), HttpStatus.CONFLICT);
         }
 
-        userService.save(new User(0l, registration.getName(), registration.getSurname(), registration.getLogin(), registration.getPassword(), 0d,0d,roleService.getRoleById(2l)));
+        userService.save(new User(0l, registration.getName(), registration.getSurname(), registration.getLogin(), registration.getPassword(), 0d,0d,roleService.getRoleById(1l)));
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/rest/logout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*/rest/logout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> logout(@RequestParam("access_token") String accessToken){
         tokenStore.removeAccessToken(tokenStore.readAccessToken(accessToken));
         return new ResponseEntity<>(new Error(), HttpStatus.OK);

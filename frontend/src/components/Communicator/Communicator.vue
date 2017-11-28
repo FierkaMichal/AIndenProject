@@ -15,15 +15,15 @@
               <v-list-tile-title>You do not have any matches go give some like</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile avatar v-for="(match, i) in this.userMatches" v-bind:key="i" @click="">
+          <v-list-tile avatar v-for="(match, i) in userMatches.user" :key="i" @click="">
             <v-list-tile-avatar>
-              <img v-bind:src="match.avatar"/>
+              <img :src="match.avatar"/>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>{{ match.name }} {{ match.surname }}</v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn flat icon @click.native="goToChat(match.userId)">
+              <v-btn flat icon @click.native="goToChat(match)">
                 <v-icon>chat_bubble</v-icon>
               </v-btn>
             </v-list-tile-action>
@@ -54,7 +54,7 @@
         return this.$store.getters.userMatches
       },
       haveMatches () {
-        if (this.$store.getters.userMatches === null || this.$store.getters.userMatches === undefined) {
+        if (this.$store.getters.userMatches === null || this.$store.getters.userMatches === undefined || this.$store.getters.userMatches.length === 0) {
           return false
         }
         return true
@@ -64,11 +64,11 @@
       goToMatcher () {
         this.$router.push('/matcher')
       },
-      goToChat (userId) {
+      goToChat (user) {
+        this.$store.dispatch('setMessagePerson', user)
         this.$router.push('/communicator/chat')
       },
       seeProfile (login) {
-        this.$store.dispatch('getLookingForPerson', {login: login})
         this.$router.push('/profile/' + login)
       }
     }

@@ -1,10 +1,12 @@
 package com.ainder.ainder.restPOJO;
 
+import java.util.Date;
+
 public class Message {
 
     private Long myId;
     private Long otherPersonId;
-    private String time;
+    private Date time;
     private String message;
 
     public Long getMyId() {
@@ -23,11 +25,11 @@ public class Message {
         this.otherPersonId = otherPersonId;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
@@ -42,7 +44,7 @@ public class Message {
     public Message() {
     }
 
-    public Message(Long myId, Long otherPersonId, String time, String message) {
+    public Message(Long myId, Long otherPersonId, Date time, String message) {
         this.myId = myId;
         this.otherPersonId = otherPersonId;
         this.time = time;

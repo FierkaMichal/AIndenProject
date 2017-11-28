@@ -1,10 +1,13 @@
 package com.ainder.ainder.services;
 
 import com.ainder.ainder.entities.Conversation;
+import com.ainder.ainder.entities.User;
 import com.ainder.ainder.repositories.ConversationRepository;
 import com.ainder.ainder.services.interfaces.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ConversationServiceImpl implements ConversationService {
@@ -17,8 +20,23 @@ public class ConversationServiceImpl implements ConversationService {
     }
 
     @Override
+    public List<Conversation> findConversationByUser(long one) {
+        return conversationRepository.findConversationByUser(one);
+    }
+
+    @Override
     public Conversation findConversationByUsers(long one, long two) {
         return conversationRepository.findConversationByUsers(one,two);
+    }
+
+    @Override
+    public void deleteConversationByUserOneOrUserTwo(User one, User two) {
+        conversationRepository.deleteConversationByUserOneOrUserTwo(one,two);
+    }
+
+    @Override
+    public void deleteRozmowy(Long idUser) {
+        conversationRepository.deleteRozmowy(idUser);
     }
 
     public void save(Conversation conversation) {

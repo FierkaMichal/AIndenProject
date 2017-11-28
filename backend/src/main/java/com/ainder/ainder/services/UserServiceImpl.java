@@ -90,8 +90,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateId(Long newValue, Long userId) {
+        userRepository.updateId(newValue, userId);
+    }
+
+    @Override
     public void deleteByIdUser(Long idUser) {
         userRepository.deleteByIdUser(idUser);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     @Bean
@@ -102,9 +112,5 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         userRepository.save(user);
-    }
-
-    public Iterable<User> getAllUsers() {
-        return userRepository.findAll();
     }
 }

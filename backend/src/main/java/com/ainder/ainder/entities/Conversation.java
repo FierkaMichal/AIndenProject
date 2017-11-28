@@ -50,7 +50,7 @@ public class Conversation {
         return (int) (idConversation ^ (idConversation >>> 32));
     }
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "ID_USER1", referencedColumnName = "ID_USER", nullable = false)
     public User getUserOne() {
         return userOne;
@@ -60,7 +60,7 @@ public class Conversation {
         this.userOne = userOne;
     }
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
     public User getUserTwo() {
         return userTwo;
@@ -70,7 +70,7 @@ public class Conversation {
         this.userTwo = userTwo;
     }
 
-    @OneToMany(mappedBy = "conversationByIdConversation")
+    @OneToMany(mappedBy = "conversationByIdConversation", cascade = CascadeType.REMOVE, orphanRemoval = true)
     public Collection<ConversationFlow> getConversationFlowsByIdConversation() {
         return conversationFlowsByIdConversation;
     }

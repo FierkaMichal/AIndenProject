@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class MessageController {
     @Autowired
     private ConversationFlowServiceImpl conversationFlowService;
 
-    @RequestMapping(path = "*rest/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*/rest/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> sendMessage(@RequestBody Message message) {
 
         Conversation c = conversationService.findConversationByUsers(message.getMyId(), message.getOtherPersonId());
@@ -56,7 +57,7 @@ public class MessageController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "*rest/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*/rest/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object getMessages(@RequestParam("personId") Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByLogin(userDetails.getUsername());
@@ -65,11 +66,11 @@ public class MessageController {
         LinkedList<Message> messageResponseList = new LinkedList<>();
 
         for (ConversationFlow conversationFlow : messageList) {
-            messageResponseList.add(new Message(user.getIdUser(), conversationFlow.getUserWriter().getIdUser(), conversationFlow.getTime().toString() ,conversationFlow.getMessage()));
+            messageResponseList.add(new Message(user.getIdUser(), conversationFlow.getUserWriter().getIdUser(), conversationFlow.getTime() ,conversationFlow.getMessage()));
         }
 
         if (messageResponseList == null || messageResponseList.size() < 1) {
-            return new ResponseEntity<>(new Error("You do not have any messages from that user ;("), HttpStatus.OK);
+            return new ResponseEntity<>(new ArrayList(), HttpStatus.OK);
         }
 
         MessageArray ma = new MessageArray();

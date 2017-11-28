@@ -1,5 +1,6 @@
 package com.ainder.ainder.services;
 
+import com.ainder.ainder.entities.Conversation;
 import com.ainder.ainder.entities.ConversationFlow;
 import com.ainder.ainder.repositories.ConversationFlowRepository;
 import com.ainder.ainder.services.interfaces.ConversationFlowService;
@@ -16,6 +17,16 @@ public class ConversationFlowServiceImpl implements ConversationFlowService {
     @Autowired
     public ConversationFlowServiceImpl(ConversationFlowRepository conversationFlowRepository) {
         this.conversationFlowRepository = conversationFlowRepository;
+    }
+
+    @Override
+    public void deleteAllMessagesByUsersId(long id) {
+        conversationFlowRepository.deleteAllMessagesByUsersId(id);
+    }
+
+    @Override
+    public void deleteConversationFlowsByConversationByIdConversation(List<Conversation> c) {
+        conversationFlowRepository.deleteConversationFlowsByConversationByIdConversation(c);
     }
 
     @Override

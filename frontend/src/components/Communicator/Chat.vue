@@ -5,9 +5,9 @@
         <v-card>
           <v-card-title>
             <div>Chat with </div>
-            <v-chip disabled>
+            <v-chip @click="goToProfile(otherPerson.login)">
               <v-avatar>
-                <img :src="otherPerson.avatar" alt="Chat with">
+                <img :src="otherPerson.avatar">
               </v-avatar>
               {{ otherPerson.name }} {{ otherPerson.surname }}
             </v-chip>
@@ -21,99 +21,32 @@
                 Nie ma zadnych wiadomosci
               </v-layout>
               <v-layout row v-if="isAnyMessages">
-                <v-flex v-for="(message, i) in messages" :key="i">
-                  <div v-if="message.myId === user.userId">
-                    <v-chip disabled small style="text-align: right;">
-                      {{ message.message }}
-                    </v-chip>
-                  </div>
-                  <div v-if="message.myId !== user.userId">
-                    <v-chip disabled small>
-                      {{ message.message }}
-                    </v-chip>
-                  </div>
-                </v-flex>
                 <v-flex>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div><div>
-                  <v-chip disabled small>
-                    sadas
-                  </v-chip>
-                </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
-                  </div>
-                  <div>
-                    <v-chip disabled small>
-                      sadas
-                    </v-chip>
-                  </div>
-                  <div style="text-align: right;">
-                    <v-chip disabled small>
-                      dsadsaa
-                    </v-chip>
+                  <div v-for="(message, i) in messages" :key="i">
+                    <div v-if="message.myId === user.userId">
+                      <v-chip disabled small style="text-align: right;">
+                        {{ message.message }}
+                      </v-chip>
+                    </div>
+                    <div v-if="message.myId !== user.userId">
+                      <v-chip disabled small>
+                        {{ message.message }}
+                      </v-chip>
+                    </div>
                   </div>
                 </v-flex>
+                <!--<v-flex>-->
+                  <!--<div>-->
+                    <!--<v-chip disabled small>-->
+                      <!--sadas-->
+                    <!--</v-chip>-->
+                  <!--</div>-->
+                  <!--<div style="text-align: right;">-->
+                    <!--<v-chip disabled small>-->
+                      <!--dsadsaa-->
+                    <!--</v-chip>-->
+                  <!--</div>-->
+                <!--</v-flex>-->
               </v-layout>
             </v-container>
           </v-card-text>
@@ -140,7 +73,7 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm6 offset-sm3>
+      <!--<v-flex xs12 sm6 offset-sm3>-->
         <!--<div class="chat-container">-->
         <!--<message :messages="messages" @imageLoad="scrollToEnd"></message>-->
         <!--</div>-->
@@ -148,7 +81,7 @@
         <!--<div class="typer">-->
         <!--<input type="text" placeholder="Enter message" v-on:keyup.enter="sendMessage" v-model="content" elevation-22>-->
         <!--</div>-->
-      </v-flex>
+      <!--</v-flex>-->
     </v-layout>
   </v-container>
 </template>
@@ -157,31 +90,57 @@
   export default {
     data () {
       return {
-        message: null
+        message: null,
+        interval: ''
       }
+    },
+    mounted () {
+      this.getMessages()
+
+      this.interval = setInterval(function () {
+        console.log('dsadas')
+        this.getMessages()
+      }.bind(this), 1000)
+    },
+    beforeDestroy () {
+      clearInterval(this.interval)
     },
     computed: {
       messages () {
+//        if (this.$store.getters.messages === null || this.$store.getters.messages === undefined || this.$store.getters.messages.length === 0) {
+//          this.$store.dispatch('getMessages', {
+//            personId: this.$store.getters.messagePerson.userId
+//          })
+//        }
         return this.$store.getters.messages
       },
       user () {
         return this.$store.getters.user
       },
       otherPerson () {
-        return this.$store.getters.lookingPerson
+        return this.$store.getters.messagePerson
       }
     },
     methods: {
+      getMessages () {
+        this.$store.dispatch('getMessages', {
+          personId: this.$store.getters.messagePerson.userId
+        })
+      },
+      goToProfile (login) {
+        this.$router.push('/profile/' + login)
+      },
       addMessage () {
         this.$store.dispatch('addMessage', {
           message: this.message,
           myId: this.user.userId,
           otherPersonId: this.otherPerson.userId,
-          time: new Date()
+          time: new Date().toJSON()
         })
+        this.message = ''
       },
       isAnyMessages () {
-        if (this.messages === null || this.messages === undefined) {
+        if (this.messages === null || this.messages === undefined || this.messages.length === 0) {
           return false
         } else {
           return true

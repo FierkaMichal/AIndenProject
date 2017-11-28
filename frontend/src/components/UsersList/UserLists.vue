@@ -102,6 +102,24 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    usersList () {
+      if (this.$store.getters.usersList === null || this.$store.getters.usersList === undefined) {
+        this.$store.dispatch('getAdminUserList')
+      }
+      return this.$store.getters.usersList
+    }
+  },
+  methods: {
+    deleteUser (userId) {
+      this.$store.dispatch('deleteUser', {
+        userId: userId
+      })
+    },
+    editUser () {
+
+    }
   }
 }
 </script>

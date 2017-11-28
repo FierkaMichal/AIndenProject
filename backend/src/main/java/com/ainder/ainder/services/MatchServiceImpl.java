@@ -1,6 +1,7 @@
 package com.ainder.ainder.services;
 
 import com.ainder.ainder.entities.Match;
+import com.ainder.ainder.entities.User;
 import com.ainder.ainder.repositories.MatchRepository;
 import com.ainder.ainder.services.interfaces.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public Match getMatchByUserId(Long me, Long person) {
         return matchRepository.getMatchByUserId(me,person);
+    }
+
+    @Override
+    public void deleteByUserInviterOrUserInvited(User o, User k) {
+        matchRepository.deleteByUserInviterOrUserInvited(o,k);
     }
 
     @Override
