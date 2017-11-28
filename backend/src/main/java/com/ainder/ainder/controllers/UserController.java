@@ -68,23 +68,23 @@ public class UserController {
         }
         User u = userService.getUserById(userResponse.getUserId());
 
-        if(!u.getName().equals(userResponse.getName())) {
+        if (!u.getName().equals(userResponse.getName())) {
             userService.updateUserName(userResponse.getName(), userResponse.getUserId());
         }
-        if(!u.getSurname().equals(userResponse.getSurname())) {
+        if (!u.getSurname().equals(userResponse.getSurname())) {
             userService.updateUserSurname(userResponse.getSurname(), userResponse.getUserId());
         }
-        if(userResponse.getDescription() == null || u.getDescription() == null || (userResponse.getDescription() != null && u.getDescription() != null && !u.getDescription().equals(userResponse.getDescription()))) {
+        if (userResponse.getDescription() == null || u.getDescription() == null || (userResponse.getDescription() != null && u.getDescription() != null && !u.getDescription().equals(userResponse.getDescription()))) {
             userService.updateUserDescription(userResponse.getDescription(), userResponse.getUserId());
         }
         StringBuilder photo = new StringBuilder();
-        if(userResponse.getAvatar() != null) {
+        if (userResponse.getAvatar() != null) {
             photo.append(userResponse.getAvatar() + " ");
         }
         for (String s : userResponse.getPhotoArray()) {
-            photo.append(s + " ") ;
+            photo.append(s + " ");
         }
-        if(photo == null || u.getPhoto() == null || (photo != null && u.getPhoto() != null && !u.getPhoto().equals(photo))) {
+        if (photo == null || u.getPhoto() == null || (photo != null && u.getPhoto() != null && !u.getPhoto().equals(photo))) {
             userService.updateUserPicture(photo.toString(), userResponse.getUserId());
         }
 //        switch (action.getAction()) {
@@ -123,12 +123,10 @@ public class UserController {
             return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
         }
 
-        List<Conversation> conversationList = conversationService.findConversationByUser(me.getIdUser());
+        List<Conversation> conversationList = conversationService.findConversationByUser(userId);
+        conversationFlowService.deleteConversationFlowsByConversationByIdConversation(conversationList);
 
-        for (Conversation conversation : conversationList) {
-            conversationFlowService.deleteAllMessagesByUsersId(conversation.getIdConversation());
-            conversationService.deleteRozmowy(me.getIdUser());
-        }
+        conversationService.deleteRozmowy(userId);
 
 
         userService.deleteByIdUser(userId);
