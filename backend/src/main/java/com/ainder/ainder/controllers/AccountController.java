@@ -71,7 +71,20 @@ public class AccountController {
             UserResponse ur = ControllersUtils.userToUserResponse(u);
             return new ResponseEntity<>(ur, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(new Error("User with that login does not exist."), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+    }
+
+    @RequestMapping(path = "*/rest/user/id", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getUser(@RequestParam("user_id") Long id) {
+        User u = userService.getUserById(id);
+
+        if (u != null) {
+
+            UserResponse ur = ControllersUtils.userToUserResponse(u);
+            return new ResponseEntity<>(ur, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
     }
 }

@@ -71,11 +71,11 @@ public class MatchController {
             }
         }
 
-        return new ResponseEntity<>(new Error("There are no users in your area."), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @RequestMapping(path = "*/rest/userMatches", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getMatchedUsers() {
+    public ResponseEntity<UserArray> getMatchedUsers() {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
 
@@ -92,7 +92,7 @@ public class MatchController {
         }
 
         if (matchedUserListResponse == null || matchedUserListResponse.size() < 1) {
-            return new ResponseEntity<>(new Error("You do not have any matched users ;("), HttpStatus.OK);
+            return new ResponseEntity<>(new UserArray(), HttpStatus.OK);
         }
 
         UserArray ua = new UserArray();

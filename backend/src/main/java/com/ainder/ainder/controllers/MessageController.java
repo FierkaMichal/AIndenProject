@@ -40,7 +40,7 @@ public class MessageController {
     @Autowired
     private ConversationFlowServiceImpl conversationFlowService;
 
-    @RequestMapping(path = "/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*rest/message", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> sendMessage(@RequestBody Message message) {
 
         Conversation c = conversationService.findConversationByUsers(message.getMyId(), message.getOtherPersonId());
@@ -56,8 +56,8 @@ public class MessageController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getMessages(@RequestParam("user_id") Long userId) {
+    @RequestMapping(path = "*rest/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getMessages(@RequestParam("personId") Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByLogin(userDetails.getUsername());
 
