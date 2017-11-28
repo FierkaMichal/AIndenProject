@@ -121,4 +121,25 @@ public class UserController {
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
+
+    @RequestMapping(path = "*/rest/user/delete", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Error> editUser(@RequestParam("user_id") Long userId) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User me = userService.getUserByLogin(userDetails.getUsername());
+
+        Error error = null;
+
+        if (me.getRole().getName().contains("USER") && me.getIdUser() != userId) {
+            error = new Error("You can not delete other user profile.");
+        }
+        if (error != null) {
+            return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+        }
+
+//        User u = userService.getUserById(userId);
+
+        userService.deleteByIdUser(userId);
+
+        return new ResponseEntity<>(new Error(), HttpStatus.OK);
+    }
 }
