@@ -85,11 +85,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("update User u set u.idUser = :newValue where u.idUser = :userId")
     void updateId(@Param("newValue")Long newValue,@Param("userId") Long userId);
 
-
-    @Transactional
-    @Modifying(clearAutomatically = true)
-    @Query("DELETE FROM User u where u.idUser = :id")
-    void deleteByIdUser(Long id);
+    void deleteUserByIdUser(Long id);
 
 
 //    UPDATE T_USER u set u.DESCRIPTION = :p_newDescription WHERE u.ID_USER = :p_myId
