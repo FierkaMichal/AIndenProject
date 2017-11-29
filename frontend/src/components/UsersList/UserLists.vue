@@ -112,6 +112,9 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.$store.dispatch('getAdminUserList')
+  },
   computed: {
     usersList () {
       if (this.$store.getters.usersList === null || this.$store.getters.usersList === undefined) {

@@ -26,10 +26,10 @@ export default {
       state.user.photoArray.splice(state.user.photoArray.indexOf(photo), 1)
     },
     deleteUser (state, payload) {
-      const userToDelete = state.adminUserList.find(user => {
+      const userToDelete = state.adminUserList.user.find(user => {
         return user.userId === payload
       })
-      state.adminUserList.splice(state.adminUserList.indexOf(userToDelete), 1)
+      state.adminUserList.user.splice(state.adminUserList.user.indexOf(userToDelete), 1)
     },
     setAdminUserList (state, payload) {
       state.adminUserList = payload
