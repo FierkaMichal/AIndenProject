@@ -17,7 +17,7 @@ public interface ConversationFlowRepository extends CrudRepository<ConversationF
 
     //SELECT cf.* FROM T_CONVERSATION_FLOW cf WHERE ID_CONVERSATION = (SELECT ID_CONVERSATION FROM T_CONVERSATION WHERE ((ID_USER1 = :user1 AND ID_USER = :user2) OR (ID_USER = :user1 AND ID_USER1 = :user2)));
 
-    @Query("SELECT cf FROM ConversationFlow cf WHERE cf.conversationByIdConversation.idConversation = (SELECT c.idConversation FROM Conversation c WHERE ((c.userOne.idUser = :user1 AND c.userTwo.idUser = :user2) OR (c.userTwo.idUser = :user1 AND c.userOne.idUser= :user2)))order by cf.time")
+    @Query("SELECT cf FROM ConversationFlow cf WHERE cf.conversationByIdConversation.idConversation = (SELECT c.idConversation FROM Conversation c WHERE ((c.userOne.idUser = :user1 AND c.userTwo.idUser = :user2) OR (c.userTwo.idUser = :user1 AND c.userOne.idUser= :user2)))order by cf.idConversationFlow")
     List<ConversationFlow> getAllMessagesByUsers(@Param("user1") long user1, @Param("user2") long user2);
 
     @Transactional
