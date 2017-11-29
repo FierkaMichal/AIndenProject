@@ -20,46 +20,46 @@
               <v-layout row v-if="!isAnyMessages">
                 Nie ma zadnych wiadomosci
               </v-layout>
-              <v-layout row v-if="isAnyMessages">
-                <v-flex>
-                  <div v-for="(message, i) in messages" :key="i">
-                    <div v-if="message.myId === user.userId">
-                      <v-chip disabled small style="text-align: right;">
-                        {{ message.message }}
-                      </v-chip>
-                    </div>
-                    <div v-if="message.myId !== user.userId">
-                      <v-chip disabled small>
-                        {{ message.message }}
-                      </v-chip>
-                    </div>
-                  </div>
+              <v-layout row v-for="(message, i) in messages" :key="i">
+                <v-flex v-if="isMyMessage(message.otherPersonId)" text-xs-right>
+                    <v-chip  disabled small>
+                      {{ message.message }}
+                      <v-avatar>
+                        <img :src="user.avatar">
+                      </v-avatar>
+                    </v-chip>
                 </v-flex>
-                <!--<v-flex>-->
-                  <!--<div>-->
-                    <!--<v-chip disabled small>-->
-                      <!--sadas-->
-                    <!--</v-chip>-->
-                  <!--</div>-->
-                  <!--<div style="text-align: right;">-->
-                    <!--<v-chip disabled small>-->
-                      <!--dsadsaa-->
-                    <!--</v-chip>-->
-                  <!--</div>-->
-                <!--</v-flex>-->
+                <v-flex v-if="!isMyMessage(message.otherPersonId)" text-xs-left>
+                    <v-chip disabled small>
+                      <v-avatar>
+                        <img :src="otherPerson.avatar">
+                      </v-avatar>
+                      {{ message.message }}
+                    </v-chip>
+                </v-flex>
               </v-layout>
+              <!--<v-layout row v-if="isAnyMessages">-->
+                <!--<v-flex>-->
+                  <!--<span v-for="(message, i) in messages" :key="i">-->
+                    <!--<v-chip v-if="isMyMessage(message.otherPersonId)" disabled small style="text-align: right;">-->
+                      <!--<v-avatar>-->
+                        <!--<img :src="user.avatar">-->
+                      <!--</v-avatar>-->
+                      <!--{{ message.message }}-->
+                    <!--</v-chip>-->
+                    <!--<v-chip v-if="!isMyMessage(message.otherPersonId)" disabled small>-->
+                      <!--<v-avatar>-->
+                        <!--<img :src="otherPerson.avatar">-->
+                      <!--</v-avatar>-->
+                      <!--{{ message.message }}-->
+                    <!--</v-chip>-->
+                  <!--</span>-->
+                <!--</v-flex>-->
+              <!--</v-layout>-->
             </v-container>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <!--<v-text-field-->
-              <!--v-model="message"-->
-              <!--label="Enter message"-->
-              <!--multi-line-->
-              <!--rows="1"-->
-              <!--auto-grow-->
-              <!--elevation-22>-->
-            <!--</v-text-field>-->
             <v-layout row>
               <v-flex xs12>
                 <v-text-field label="Enter message" v-model="message" multi-line rows="1" auto-grow></v-text-field>
@@ -73,15 +73,6 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-      <!--<v-flex xs12 sm6 offset-sm3>-->
-        <!--<div class="chat-container">-->
-        <!--<message :messages="messages" @imageLoad="scrollToEnd"></message>-->
-        <!--</div>-->
-        <!--<emoji-picker :show="emojiPanel" @close="toggleEmojiPanel" @click="addMessage"></emoji-picker>-->
-        <!--<div class="typer">-->
-        <!--<input type="text" placeholder="Enter message" v-on:keyup.enter="sendMessage" v-model="content" elevation-22>-->
-        <!--</div>-->
-      <!--</v-flex>-->
     </v-layout>
   </v-container>
 </template>
@@ -122,6 +113,10 @@
       }
     },
     methods: {
+      isMyMessage (userId) {
+        console.log(userId === this.user.userId)
+        return userId === this.user.userId
+      },
       getMessages () {
         this.$store.dispatch('getMessages', {
           personId: this.$store.getters.messagePerson.userId
