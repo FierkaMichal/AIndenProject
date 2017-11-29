@@ -55,7 +55,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(path = "*/rest/user/edit", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*rest/user/edit", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> editUser(@RequestBody UserResponse userResponse) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
@@ -111,7 +111,7 @@ public class UserController {
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "*/rest/user/delete", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*rest/user/delete", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> deleteUser(@RequestParam("userId") Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
@@ -134,13 +134,13 @@ public class UserController {
         matchService.deleteByUserInviterOrUserInvited(userService.getUserById(userId), userService.getUserById(userId));
 //
 //
-        userService.deleteByIdUser(userId);
+        userService.deleteUserByIdUser(userId);
 //        userService.updateId(userId * -1, userId);
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 
-    @RequestMapping(path = "*/rest/user/getAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "*rest/user/getAll", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object findAllUsers() {
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
