@@ -100,6 +100,14 @@
         surname: ''
       }
     },
+    mounted () {
+      this.$store.commit('clearError')
+      this.$store.commit('clearMessage')
+    },
+    beforeDestroy () {
+      this.$store.commit('clearError')
+      this.$store.commit('clearMessage')
+    },
     computed: {
       comparedPassword () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : ''

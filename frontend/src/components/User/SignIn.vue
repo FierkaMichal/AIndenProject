@@ -68,6 +68,14 @@
         password: ''
       }
     },
+    mounted () {
+      this.$store.commit('clearError')
+      this.$store.commit('clearMessage')
+    },
+    beforeDestroy () {
+      this.$store.commit('clearError')
+      this.$store.commit('clearMessage')
+    },
     computed: {
       user () {
         return this.$store.getters.user
