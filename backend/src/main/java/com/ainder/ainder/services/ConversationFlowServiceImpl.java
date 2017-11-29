@@ -6,6 +6,7 @@ import com.ainder.ainder.repositories.ConversationFlowRepository;
 import com.ainder.ainder.services.interfaces.ConversationFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class ConversationFlowServiceImpl implements ConversationFlowService {
         return conversationFlowRepository.getAllMessagesByUsers(p_sender, p_receiver);
     }
 
+    @Transactional
     public void save(ConversationFlow conversationFlow) {
         conversationFlowRepository.save(conversationFlow);
     }

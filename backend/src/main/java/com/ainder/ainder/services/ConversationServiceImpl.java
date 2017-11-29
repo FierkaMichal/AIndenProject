@@ -6,6 +6,7 @@ import com.ainder.ainder.repositories.ConversationRepository;
 import com.ainder.ainder.services.interfaces.ConversationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class ConversationServiceImpl implements ConversationService {
         conversationRepository.deleteRozmowy(idUser);
     }
 
+    @Transactional
     public void save(Conversation conversation) {
         conversationRepository.save(conversation);
     }
