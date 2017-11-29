@@ -32,7 +32,7 @@ public interface UserService {
 
     void updateId(Long newValue, Long userId);
 
-    void deleteByIdUser(Long lond);
+    void deleteUserByIdUser(Long userId);
 
     List<User> findAll();
 }
