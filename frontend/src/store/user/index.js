@@ -96,9 +96,7 @@ export default {
           dispatch('userDetails')
         })
         .catch(error => {
-          // VueCookies.remove('token')
-          VueCookies.set('token', 'dasdasd', Infinity)
-          commit('setUser', {id: 23, photoArray: null})
+          VueCookies.remove('token')
           commit('setLoading', false)
           commit('setError', {type: 'error', message: error.error})
           console.log(error)
