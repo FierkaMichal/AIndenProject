@@ -134,7 +134,7 @@ public class UserController {
         matchService.deleteByUserInviterOrUserInvited(userService.getUserById(userId), userService.getUserById(userId));
 //
 //
-        userService.deleteByIdUser(userId);
+//        userService.deleteByIdUser(userId);
 //        userService.updateId(userId * -1, userId);
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
