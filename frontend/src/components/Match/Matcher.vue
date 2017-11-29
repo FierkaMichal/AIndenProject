@@ -6,7 +6,7 @@
           label="Distance"
           hint="Distance to search for people"
           min="1"
-          max="10000000"
+          max="250"
           thumb-label
           v-model="distKm"
         ></v-slider>
@@ -80,6 +80,14 @@
       return {
         distKm: 5
       }
+    },
+    mounted () {
+      this.$store.commit('clearError')
+      this.$store.commit('clearMessage')
+    },
+    beforeDestroy () {
+      this.$store.commit('clearError')
+      this.$store.commit('clearMessage')
     },
     computed: {
       matcherPerson () {

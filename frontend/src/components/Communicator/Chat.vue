@@ -24,16 +24,10 @@
                 <v-flex v-if="isMyMessage(message.otherPersonId)" text-xs-right>
                     <v-chip  disabled small>
                       {{ message.message }}
-                      <v-avatar>
-                        <img :src="user.avatar">
-                      </v-avatar>
                     </v-chip>
                 </v-flex>
                 <v-flex v-if="!isMyMessage(message.otherPersonId)" text-xs-left>
                     <v-chip disabled small>
-                      <v-avatar>
-                        <img :src="otherPerson.avatar">
-                      </v-avatar>
                       {{ message.message }}
                     </v-chip>
                 </v-flex>

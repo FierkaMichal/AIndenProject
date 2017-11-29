@@ -139,6 +139,14 @@
         ]
       }
     },
+    mounted () {
+      this.$store.commit('clearError')
+      this.$store.commit('clearMessage')
+    },
+    beforeDestroy () {
+      this.$store.commit('clearError')
+      this.$store.commit('clearMessage')
+    },
     computed: {
       isLoggedInUser () {
         return this.$route.params.login === 'my'
