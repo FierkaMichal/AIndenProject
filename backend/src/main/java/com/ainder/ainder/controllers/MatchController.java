@@ -1,11 +1,13 @@
 package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.config.CustomUserDetails;
+import com.ainder.ainder.entities.Conversation;
 import com.ainder.ainder.entities.Match;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.restPOJO.UserArray;
 import com.ainder.ainder.restPOJO.UserResponse;
+import com.ainder.ainder.services.ConversationServiceImpl;
 import com.ainder.ainder.services.MatchServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class MatchController {
     @Autowired
     private MatchServiceImpl matchService;
 
+    @Autowired
+    private ConversationServiceImpl conversationService;
+
     @RequestMapping(path = "*rest/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> postLike(@RequestParam("userId") Long userId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -44,6 +49,9 @@ public class MatchController {
             matchService.save(newMatch);
         } else {
             matchService.updateMatch(m.getIdMatch());
+
+            Conversation c = new Conversation(0l,user, userService.getUserById(userId));
+            conversationService.save(c);
         }
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
