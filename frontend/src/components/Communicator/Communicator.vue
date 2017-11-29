@@ -45,6 +45,9 @@
       return {
       }
     },
+    mounted () {
+      this.$store.dispatch('getMatchedList')
+    },
     computed: {
       userMatches () {
         if (!this.haveMatches) {

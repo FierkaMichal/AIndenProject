@@ -21,12 +21,12 @@
                 Nie ma zadnych wiadomosci
               </v-layout>
               <v-layout row v-for="(message, i) in messages" :key="i">
-                <v-flex v-if="isMyMessage(message.otherPersonId)" text-xs-right>
+                <v-flex v-if="!isMyMessage(message.otherPersonId)" text-xs-right>
                     <v-chip  disabled small>
                       {{ message.message }}
                     </v-chip>
                 </v-flex>
-                <v-flex v-if="!isMyMessage(message.otherPersonId)" text-xs-left>
+                <v-flex v-if="isMyMessage(message.otherPersonId)" text-xs-left>
                     <v-chip disabled small>
                       {{ message.message }}
                     </v-chip>
@@ -83,7 +83,6 @@
       this.getMessages()
 
       this.interval = setInterval(function () {
-        console.log('dsadas')
         this.getMessages()
       }.bind(this), 1000)
     },
