@@ -24,5 +24,6 @@ public interface ConversationRepository extends CrudRepository<Conversation, Lon
     void deleteRozmowy(@Param("idUser") Long idUser);
 
     @Transactional
+    @Modifying
     void deleteConversationByUserOneOrUserTwo(User one, User two);
 }
