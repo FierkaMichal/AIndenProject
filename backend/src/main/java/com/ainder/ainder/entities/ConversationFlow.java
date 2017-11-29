@@ -1,7 +1,7 @@
 package com.ainder.ainder.entities;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Michał on 2017-11-24.
@@ -10,7 +10,7 @@ import java.sql.Time;
 @Table(name = "T_CONVERSATION_FLOW", schema = "GRZYBOW1")
 public class ConversationFlow {
     private Long idConversationFlow;
-    private Time time;
+    private Date time;
     private String message;
     private Conversation conversationByIdConversation;
     private User userWriter;
@@ -18,7 +18,7 @@ public class ConversationFlow {
     public ConversationFlow() {
     }
 
-    public ConversationFlow(Long idConversationFlow, Time time, String message, Conversation conversationByIdConversation, User userWriter) {
+    public ConversationFlow(Long idConversationFlow, Date time, String message, Conversation conversationByIdConversation, User userWriter) {
         this.idConversationFlow = idConversationFlow;
         this.time = time;
         this.message = message;
@@ -38,11 +38,11 @@ public class ConversationFlow {
 
     @Basic
     @Column(name = "TIME", nullable = true)
-    public Time getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
