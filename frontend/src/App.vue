@@ -98,7 +98,7 @@
             menuItems.push({
               icon: 'face',
               title: 'Manage users',
-              link: '/usersList'
+              link: '/admin/usersList'
             })
           }
         }
