@@ -1,5 +1,6 @@
 package com.ainder.ainder.repositories;
 
+import com.ainder.ainder.entities.Role;
 import com.ainder.ainder.entities.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -85,11 +86,17 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("update User u set u.idUser = :newValue where u.idUser = :userId")
     void updateId(@Param("newValue")Long newValue,@Param("userId") Long userId);
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("update User u set u.role = :newValue where u.idUser = :userId")
+    void updateRole(@Param("newValue")Role newValue, @Param("userId") Long userId);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM User u where u.idUser = :userId")
     void deleteUserByIdUser(@Param("userId") Long userId);
 
+//    @Query("DELETE from Conversation c where c.userTwo.idUser = :idUser or c.userOne.idUser = :idUser")
 
 //    UPDATE T_USER u set u.DESCRIPTION = :p_newDescription WHERE u.ID_USER = :p_myId
 }

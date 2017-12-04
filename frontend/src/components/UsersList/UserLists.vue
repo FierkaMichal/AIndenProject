@@ -9,7 +9,8 @@
     <td>{{ props.item.login }}</td>
     <td class="text-xs-right">{{ props.item.name }} </td>
     <td class="text-xs-right">{{ props.item.surname }}</td>
-    <td class="text-xs-right">{{ props.item.role }} </td>
+    <td class="text-xs-right" v-if="props.item.admin">Admin</td>
+    <td class="text-xs-right" v-if="!props.item.admin">User</td>
     <td>
       <v-dialog v-model="editDialog" persistent max-width="500px">
         <v-btn color="primary" dark slot="activator" @click="onEditClick(props.item)">Edit
@@ -62,20 +63,20 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      <v-dialog v-model="deleteDialog" persistent max-width="290">
-        <v-btn color="error" dark slot="activator">Delete
-          <v-icon right>remove_circle</v-icon>
-        </v-btn>
-        <v-card>
-          <v-card-title class="headline">Remove user</v-card-title>
-          <v-card-text>Are you sure you want to remove the user?</v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" flat @click.native="deleteDialog = false">Cancel</v-btn>
-            <v-btn color="green darken-1" flat @click.native="deleteUser(props.item.userId)">Yes</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <!--<v-dialog v-model="deleteDialog" persistent max-width="290">-->
+        <!--<v-btn color="error" dark slot="activator">Delete-->
+          <!--<v-icon right>remove_circle</v-icon>-->
+        <!--</v-btn>-->
+        <!--<v-card>-->
+          <!--<v-card-title class="headline">Remove user</v-card-title>-->
+          <!--<v-card-text>Are you sure you want to remove the user?</v-card-text>-->
+          <!--<v-card-actions>-->
+            <!--<v-spacer></v-spacer>-->
+            <!--<v-btn color="green darken-1" flat @click.native="deleteDialog = false">Cancel</v-btn>-->
+            <!--<v-btn color="green darken-1" flat @click.native="deleteUser(props.item.userId)">Yes</v-btn>-->
+          <!--</v-card-actions>-->
+        <!--</v-card>-->
+      <!--</v-dialog>-->
     </td>
   </template>
 </v-data-table>
@@ -124,16 +125,15 @@ export default {
     }
   },
   methods: {
-    onEditClick (user) {
-      this.login = user.login
-      this.name = user.name
-      this.surname = user.surname
-      if (user.role) {
+    onEditClick (person) {
+      this.login = person.login
+      this.name = person.name
+      this.surname = person.surname
+      if (person.admin) {
         this.role = 'Admin'
       } else {
         this.role = 'User'
       }
-      this.role = user.role
     },
     deleteUser (userId) {
       this.$store.dispatch('deleteUser', {
@@ -141,17 +141,17 @@ export default {
       })
       this.deleteDialog = false
     },
-    editUser (user) {
-      user.login = this.login
-      user.name = this.name
-      user.surname = this.surname
+    editUser (person) {
+      person.login = this.login
+      person.name = this.name
+      person.surname = this.surname
       if (this.role === 'Admin') {
-        user.role = true
+        person.admin = true
       } else {
-        user.role = false
+        user.admin = false
       }
-      user.role = this.role
-      this.$store.dispatch('editUser', user)
+      console.log(person)
+      this.$store.dispatch('editUser', person)
       this.editDialog = false
     }
   }

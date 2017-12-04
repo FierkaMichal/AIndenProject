@@ -2,6 +2,7 @@ package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.config.CustomUserDetails;
 import com.ainder.ainder.entities.Conversation;
+import com.ainder.ainder.entities.Role;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.restPOJO.UserArray;
@@ -79,6 +80,12 @@ public class UserController {
         if (userResponse.getDescription() == null || u.getDescription() == null || (userResponse.getDescription() != null && u.getDescription() != null && !u.getDescription().equals(userResponse.getDescription()))) {
             userService.updateUserDescription(userResponse.getDescription(), userResponse.getUserId());
         }
+        if (userResponse.isAdmin()){
+            userService.updateRole(new Role(2L, "ADMIN"), userResponse.getUserId());
+        } else {
+            userService.updateRole(new Role(1L, "USER"), userResponse.getUserId());
+        }
+
         StringBuilder photo = new StringBuilder();
         if (userResponse.getAvatar() != null) {
             photo.append(userResponse.getAvatar() + " ");

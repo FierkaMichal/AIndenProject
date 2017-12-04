@@ -1,5 +1,6 @@
 package com.ainder.ainder.services;
 
+import com.ainder.ainder.entities.Role;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.repositories.UserRepository;
 import com.ainder.ainder.services.interfaces.UserService;
@@ -92,6 +93,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateId(Long newValue, Long userId) {
         userRepository.updateId(newValue, userId);
+    }
+
+    @Override
+    public void updateRole(Role newValue, Long userId) {
+        userRepository.updateRole(newValue, userId);
     }
 
     @Override

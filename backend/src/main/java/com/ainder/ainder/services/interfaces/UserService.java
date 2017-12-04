@@ -1,5 +1,6 @@
 package com.ainder.ainder.services.interfaces;
 
+import com.ainder.ainder.entities.Role;
 import com.ainder.ainder.entities.User;
 
 import java.util.List;
@@ -34,5 +35,8 @@ public interface UserService {
 
     void deleteUserByIdUser(Long userId);
 
-    List<User> findAll();
+    void updateRole(Role newValue, Long userId);
+
+
+        List<User> findAll();
 }
