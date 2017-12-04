@@ -122,7 +122,7 @@
         this.$store.dispatch('addMessage', {
           message: this.message,
           myId: this.user.userId,
-          otherPersonId: this.otherPerson.userId,
+          otherPersonId: this.user.userId,
           time: new Date().toJSON()
         })
         this.message = ''
