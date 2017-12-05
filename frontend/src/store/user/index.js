@@ -33,6 +33,15 @@ export default {
     },
     setAdminUserList (state, payload) {
       state.adminUserList = payload
+    },
+    editAdminUserList (state, payload) {
+      const userToEdit = state.adminUserList.user.find(user => {
+        return user.userId === payload.userId
+      })
+      userToEdit.login = payload.login
+      userToEdit.name = payload.name
+      userToEdit.surname = payload.surname
+      userToEdit.admin = payload.admin
     }
   },
   actions: {

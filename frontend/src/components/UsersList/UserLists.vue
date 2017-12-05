@@ -59,7 +59,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" flat @click.native="editDialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" flat @click.native="editUser(props.item)">Save</v-btn>
+            <v-btn color="blue darken-1" flat @click.native="editUser()">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -86,6 +86,7 @@
 export default {
   data () {
     return {
+      userId: '',
       login: '',
       name: '',
       surname: '',
@@ -126,6 +127,7 @@ export default {
   },
   methods: {
     onEditClick (person) {
+      this.userId = person.userId
       this.login = person.login
       this.name = person.name
       this.surname = person.surname
@@ -141,17 +143,32 @@ export default {
       })
       this.deleteDialog = false
     },
-    editUser (person) {
-      person.login = this.login
-      person.name = this.name
-      person.surname = this.surname
+    editUser () {
+//      person.login = this.login
+//      person.name = this.name
+//      person.surname = this.surname
+//      if (this.role === 'Admin') {
+//        person.admin = true
+//      } else {
+//        person.admin = false
+//      }
+      var aaa = false
       if (this.role === 'Admin') {
-        person.admin = true
-      } else {
-        person.admin = false
+        aaa = true
       }
-      console.log(person)
-      this.$store.dispatch('editUser', person)
+//      console.log(person)
+      this.$store.commit('editAdminUserList', {
+        userId: this.userId,
+        name: this.name,
+        surname: this.surname,
+        login: this.login,
+        admin: aaa
+
+      })
+      const userToEdit = this.usersList.user.find(user => {
+        return user.userId === this.userId
+      })
+      this.$store.dispatch('editUser', userToEdit)
       this.editDialog = false
     }
   }
