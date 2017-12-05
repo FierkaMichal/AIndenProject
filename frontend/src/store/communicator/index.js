@@ -46,10 +46,10 @@ export default {
       // params.append('message', payload.message)
       axios.post('rest/message?' + params, payload)
         .then(response => {
+          payload.otherPersonId = payload.myId
           commit('addMessage', payload)
         })
         .catch(error => {
-          commit('addMessage', payload)
           console.log(error)
         })
     }

@@ -86,6 +86,9 @@ public class UserController {
             userService.updateRole(new Role(1L, "USER"), userResponse.getUserId());
         }
 
+        userService.updateLat(userResponse.getLastLatitude(), me.getIdUser());
+        userService.updateLon(userResponse.getLastLongitude(), me.getIdUser());
+
         StringBuilder photo = new StringBuilder();
         if (userResponse.getAvatar() != null) {
             photo.append(userResponse.getAvatar() + " ");

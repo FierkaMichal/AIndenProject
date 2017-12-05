@@ -40,8 +40,12 @@
   export default {
     data () {
       return {
-
       }
+    },
+    mounted () {
+      this.$store.getters.user.lastLongitude = this.$store.getters.position.coords.longitude
+      this.$store.getters.user.lastLatitude = this.$store.getters.position.coords.latitude
+      this.$store.dispatch('editUser', this.$store.getters.user)
     },
     computed: {
       isUserLoggedIn () {

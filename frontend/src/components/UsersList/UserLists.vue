@@ -148,7 +148,7 @@ export default {
       if (this.role === 'Admin') {
         person.admin = true
       } else {
-        user.admin = false
+        person.admin = false
       }
       console.log(person)
       this.$store.dispatch('editUser', person)
