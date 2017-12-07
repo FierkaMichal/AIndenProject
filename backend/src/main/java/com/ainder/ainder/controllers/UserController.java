@@ -215,10 +215,7 @@ public class UserController {
         picture.setPicture(picInBytes);
         picture.setUser(me);
 
-        imageService.save(picture);
-
-
-        return new Error();
+        return new Error(imageService.save(picture) + "");
     }
 
     @GetMapping("/rest/getFile")
