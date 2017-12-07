@@ -20,6 +20,10 @@ public class Image {
         return idImage;
     }
 
+    @ManyToOne()
+    @JoinColumn(referencedColumnName = "ID_USER", nullable = false) //REFERENCED
+    private User user;
+
     public void setIdImage(Long idImage) {
         this.idImage = idImage;
     }
