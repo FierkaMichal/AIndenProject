@@ -28,7 +28,8 @@
           <v-card-media
             class="white--text"
             :src="matcherPerson.avatar"
-            height="500px">
+            height="500px"
+            contain>
             <v-container fill-height fluid>
               <v-layout fill-height>
                 <v-flex xs12 align-end flexbox>

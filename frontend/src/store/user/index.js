@@ -11,6 +11,9 @@ export default {
     setUser (state, payload) {
       state.user = payload
     },
+    changeAvatar (state, payload) {
+      state.user.avatar = payload
+    },
     addUserPhoto (state, payload) {
       if (state.user.photoArray !== null && state.user.photoArray !== undefined) {
         state.user.photoArray.push(payload)
@@ -107,6 +110,7 @@ export default {
         .catch(error => {
           VueCookies.remove('token')
           commit('setLoading', false)
+          commit('setUser', {avatar: 'http://di.com.pl/pic/photo/Screen_Shot_2014_08_21_at_101244_AM_640x834_1408689031.png', name: 'dsad', surname: 'dsada', description: 'dsad', photoArray: ['http://t-eska.cdn.smcloud.net/regionalna/t/2/t/image/1c62fcdad261b54757dd160d126afdf1RAtQqTIl-lama.jpg/ru-0-r-660,660-q-80-n-1c62fcdad261b54757dd160d126afdf1RAtQqTIllama.jpg', 'http://t-eska.cdn.smcloud.net/regionalna/t/2/t/image/62ed2dc4cee358c9088d8cb3a7eb33b6LbOj61vo-dsc.JPG/ru-0-r-660,660-q-80-n-62ed2dc4cee358c9088d8cb3a7eb33b6LbOj61vodsc.JPG']})
           commit('setError', {type: 'error', message: error.error})
           console.log(error)
         })
@@ -182,11 +186,38 @@ export default {
           console.log(error)
         })
     },
+    changeAvatar ({ commit }, payload) {
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      axios.put('rest/images/avatar?' + params, payload)
+        .then(response => {
+          commit('changeAvatar', response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     addPhoto ({ commit }, payload) {
-      commit('addUserPhoto', payload)
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      axios.put('rest/uploadFile?' + params, payload)
+        .then(response => {
+          commit('addUserPhoto', response.data.error)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     removePhoto ({ commit }, payload) {
-      commit('removeUserPhoto', payload)
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      axios.put('rest/images/remove?' + params, payload)
+        .then(response => {
+          commit('removeUserPhoto', payload)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   },
   getters: {

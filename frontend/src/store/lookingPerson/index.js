@@ -4,11 +4,15 @@ import VueCookies from 'vue-cookies'
 export default {
   state: {
     lastId: 0,
+    locale: 'en',
     matcherPerson: null,
     lookingPerson: null,
     userMatches: null
   },
   mutations: {
+    setLocale (state, payload) {
+      state.locale = payload
+    },
     setPerson (state, payload) {
       state.lookingPerson = payload
     },
@@ -79,6 +83,9 @@ export default {
     }
   },
   getters: {
+    locale (state) {
+      return state.locale
+    },
     lookingPerson (state) {
       return state.lookingPerson
     },
