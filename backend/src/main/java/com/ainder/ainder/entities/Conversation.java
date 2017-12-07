@@ -7,11 +7,23 @@ import java.util.Collection;
  * Created by Michał on 2017-11-24.
  */
 @Entity
-@Table(name = "T_CONVERSATION", schema = "GRZYBOW1")
+@Table(name = "T_CONVERSATION")
 public class Conversation {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "ID_CONVERSATION", nullable = false, precision = 0)
     private Long idConversation;
+
+    @ManyToOne()
+    @JoinColumn(name = "ID_USER1", referencedColumnName = "ID_USER", nullable = false)
     private User userOne;
+
+    @ManyToOne()
+    @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
     private User userTwo;
+
+    @OneToMany(mappedBy = "conversationByIdConversation")  //potrzebne?
     private Collection<ConversationFlow> conversationFlowsByIdConversation;
 
     public Conversation() {
@@ -23,8 +35,6 @@ public class Conversation {
         this.userTwo = userTwo;
     }
 
-    @Id
-    @Column(name = "ID_CONVERSATION", nullable = false, precision = 0)
     public Long getIdConversation() {
         return idConversation;
     }
@@ -33,25 +43,6 @@ public class Conversation {
         this.idConversation = idConversation;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Conversation that = (Conversation) o;
-
-        if (idConversation != that.idConversation) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (idConversation ^ (idConversation >>> 32));
-    }
-
-    @ManyToOne()
-    @JoinColumn(name = "ID_USER1", referencedColumnName = "ID_USER", nullable = false)
     public User getUserOne() {
         return userOne;
     }
@@ -60,8 +51,6 @@ public class Conversation {
         this.userOne = userOne;
     }
 
-    @ManyToOne()
-    @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
     public User getUserTwo() {
         return userTwo;
     }
@@ -70,7 +59,6 @@ public class Conversation {
         this.userTwo = userTwo;
     }
 
-    @OneToMany(mappedBy = "conversationByIdConversation", cascade = CascadeType.REMOVE, orphanRemoval = true)
     public Collection<ConversationFlow> getConversationFlowsByIdConversation() {
         return conversationFlowsByIdConversation;
     }

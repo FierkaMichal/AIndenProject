@@ -45,12 +45,16 @@ public class MatchController {
 
         Match m = matchService.getMatchByUserId(user.getIdUser(), userId);
         if(m == null) {
-            Match newMatch = new Match(0l, "N", user, userService.getUserById(userId));
+            Match newMatch = new Match(matchService.findAll().size()+1l, "N", user, userService.getUserById(userId));
             matchService.save(newMatch);
         } else {
             matchService.updateMatch(m.getIdMatch());
 
-            Conversation c = new Conversation(0l,user, userService.getUserById(userId));
+            Conversation c; //= new Conversation(conversationService.findAll().size()+1l, user, userService.getUserById(userId));
+            c = new Conversation();
+            c.setUserOne(user);
+            c.setUserTwo(userService.getUserById(userId));
+
             conversationService.save(c);
         }
 

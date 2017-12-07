@@ -1,6 +1,5 @@
 package com.ainder.ainder.repositories;
 
-import com.ainder.ainder.entities.Conversation;
 import com.ainder.ainder.entities.ConversationFlow;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,7 +24,8 @@ public interface ConversationFlowRepository extends CrudRepository<ConversationF
     @Query("DELETE FROM ConversationFlow cf WHERE cf.conversationByIdConversation.idConversation = :id")
     void deleteAllMessagesByUsersId(@Param("id")long id);
 
-    @Transactional
-    @Modifying
-    void deleteConversationFlowsByConversationByIdConversation(List<Conversation> c);
+
+
+    @Override
+    List<ConversationFlow> findAll();
 }

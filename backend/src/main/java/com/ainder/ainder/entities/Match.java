@@ -6,33 +6,26 @@ import javax.persistence.*;
  * Created by Michał on 2017-11-24.
  */
 @Entity
-@Table(name = "T_MATCH", schema = "GRZYBOW1")
+@Table(name = "T_MATCH")
 public class Match {
 
-    private Long idMatch;
-    private String accepted;
-    private User userInviter;
-    private User userInvited;
-
     @Id
+    @GeneratedValue
     @Column(name = "ID_MATCH", nullable = false, precision = 0)
-    public Long getIdMatch() {
-        return idMatch;
-    }
-
-    public void setIdMatch(Long idMatch) {
-        this.idMatch = idMatch;
-    }
+    private Long idMatch;
 
     @Basic
     @Column(name = "ACCEPTED", nullable = true, length = 1)
-    public String getAccepted() {
-        return accepted;
-    }
+    private String accepted;
 
-    public void setAccepted(String accepted) {
-        this.accepted = accepted;
-    }
+    @ManyToOne()
+    @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
+    private User userInviter;
+
+    @ManyToOne()
+    @JoinColumn(name = "ID_USER1", referencedColumnName = "ID_USER", nullable = false) //REFERENCED
+    private User userInvited;
+
 
     public Match(Long id, String accepted, User userInviter, User userInvited) {
         this.idMatch = id;
@@ -44,28 +37,22 @@ public class Match {
     public Match() {
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Match match = (Match) o;
-
-        if (idMatch != match.idMatch) return false;
-        if (accepted != null ? !accepted.equals(match.accepted) : match.accepted != null) return false;
-
-        return true;
+    public Long getIdMatch() {
+        return idMatch;
     }
 
-    @Override
-    public int hashCode() {
-        int result = (int) (idMatch ^ (idMatch >>> 32));
-        result = 31 * result + (accepted != null ? accepted.hashCode() : 0);
-        return result;
+    public void setIdMatch(Long idMatch) {
+        this.idMatch = idMatch;
     }
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
+    public String getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(String accepted) {
+        this.accepted = accepted;
+    }
+
     public User getUserInviter() {
         return userInviter;
     }
@@ -74,8 +61,6 @@ public class Match {
         this.userInviter = userInviter;
     }
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "ID_USER1", referencedColumnName = "ID_USER", nullable = false) //REFERENCED
     public User getUserInvited() {
         return userInvited;
     }

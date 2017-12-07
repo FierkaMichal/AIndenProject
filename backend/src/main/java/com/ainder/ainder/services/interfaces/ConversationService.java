@@ -13,4 +13,6 @@ public interface ConversationService {
     void deleteConversationByUserOneOrUserTwo(User one, User two);
 
     void deleteRozmowy(Long idUser);
+
+    List<Conversation> findAll();
 }

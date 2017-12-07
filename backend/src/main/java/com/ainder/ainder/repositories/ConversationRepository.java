@@ -26,4 +26,8 @@ public interface ConversationRepository extends CrudRepository<Conversation, Lon
     @Transactional
     @Modifying
     void deleteConversationByUserOneOrUserTwo(User one, User two);
+
+    @Override
+    List<Conversation> findAll();
+
 }

@@ -8,6 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface MatchRepository extends CrudRepository<Match, Long> {
 
     @Query("select m from Match m where (m.userInviter.idUser = :person and m.userInvited.idUser = :me) or (m.userInviter.idUser = :me and m.userInvited.idUser = :person)")
@@ -23,6 +25,8 @@ public interface MatchRepository extends CrudRepository<Match, Long> {
     @Modifying
     void deleteByUserInviterOrUserInvited(User o, User k);
 
+    @Override
+    List<Match> findAll();
 
 //    @Transactional
 //    void deleteByIdUser(Long id);

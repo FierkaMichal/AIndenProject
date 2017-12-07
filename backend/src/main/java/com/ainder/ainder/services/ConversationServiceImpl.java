@@ -44,4 +44,8 @@ public class ConversationServiceImpl implements ConversationService {
     public void save(Conversation conversation) {
         conversationRepository.save(conversation);
     }
+
+    public List<Conversation> findAll() {
+        return conversationRepository.findAll();
+    }
 }

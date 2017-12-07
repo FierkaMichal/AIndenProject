@@ -47,11 +47,19 @@ public class MessageController {
         Conversation c = conversationService.findConversationByUsers(message.getMyId(), message.getOtherPersonId());
 
         if(c == null) {
-            c = new Conversation(0l,userService.getUserById(message.getMyId()), userService.getUserById(message.getOtherPersonId()));
+            //c = new Conversation(conversationService.findAll().size()+1l,userService.getUserById(message.getMyId()), userService.getUserById(message.getOtherPersonId()));
+            c = new Conversation();
+            c.setUserOne(userService.getUserById(message.getMyId()));
+            c.setUserTwo(userService.getUserById(message.getOtherPersonId()));
             conversationService.save(c);
         }
 
-        ConversationFlow cf = new ConversationFlow(0l, new Time(System.currentTimeMillis()), message.getMessage(), c, userService.getUserById(message.getMyId()));
+        ConversationFlow cf; //= new ConversationFlow(conversationFlowService.findAll().size()+1l, new Time(System.currentTimeMillis()), message.getMessage(), c, userService.getUserById(message.getMyId()));
+        cf = new ConversationFlow();
+        cf.setTime(new Time(System.currentTimeMillis()));
+        cf.setMessage(message.getMessage());
+        cf.setConversationByIdConversation(c);
+        cf.setUserWriter(userService.getUserById(message.getMyId()));
         conversationFlowService.save(cf);
 
         return new ResponseEntity<>(new Error(), HttpStatus.OK);

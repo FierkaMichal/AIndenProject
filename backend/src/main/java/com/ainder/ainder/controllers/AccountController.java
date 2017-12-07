@@ -1,5 +1,7 @@
 package com.ainder.ainder.controllers;
 
+import com.ainder.ainder.entities.Image;
+import com.ainder.ainder.entities.Role;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.restPOJO.Registration;
@@ -16,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by Michał on 2017-11-26.
@@ -47,12 +54,44 @@ public class AccountController {
     @RequestMapping(path = "/rest/signUp", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> register(@RequestBody Registration registration) {
 
+        Role r1 = new Role("USER");
+        Role r2 = new Role("ADMIN");
+        roleService.save(r1);
+        roleService.save(r2);
+        Image picture = new Image();
+
+        File file = new File("plik.png");
+        byte[] picInBytes = new byte[(int) file.length()];
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fileInputStream.read(picInBytes);
+            fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        picture.setPicture(picInBytes);
+
+
+
         if (userService.getUserByLogin(registration.getLogin()) != null) {
             return new ResponseEntity<>(new Error("UserResponse with that login already exists."), HttpStatus.CONFLICT);
         }
 
-        userService.save(new User(0l, registration.getName(), registration.getSurname(), registration.getLogin(), registration.getPassword(), 0d,0d,roleService.getRoleById(2l)));
-
+        //userService.save(new User((long)(userService.findAll().size()+1), registration.getName(), registration.getSurname(), registration.getLogin(), registration.getPassword(), 0d,0d,roleService.getRoleById(2l)));
+        User user = new User();
+        user.setName(registration.getName());
+        user.setSurname(registration.getSurname());
+        user.setLogin(registration.getLogin());
+        user.setPassword(registration.getPassword());
+        user.setLastLongitude(0d);
+        user.setLastLatitude(0d);
+        user.setRole(roleService.getRoleById(1l));
+        userService.save(user);
         return new ResponseEntity<>(new Error(), HttpStatus.OK);
     }
 

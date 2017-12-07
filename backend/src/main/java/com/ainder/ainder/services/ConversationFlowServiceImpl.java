@@ -27,7 +27,7 @@ public class ConversationFlowServiceImpl implements ConversationFlowService {
 
     @Override
     public void deleteConversationFlowsByConversationByIdConversation(List<Conversation> c) {
-        conversationFlowRepository.deleteConversationFlowsByConversationByIdConversation(c);
+//        conversationFlowRepository.deleteConversationFlowsByConversationByIdConversation(c);
     }
 
     @Override
@@ -38,5 +38,9 @@ public class ConversationFlowServiceImpl implements ConversationFlowService {
     @Transactional
     public void save(ConversationFlow conversationFlow) {
         conversationFlowRepository.save(conversationFlow);
+    }
+
+    public List<ConversationFlow> findAll() {
+        return conversationFlowRepository.findAll();
     }
 }

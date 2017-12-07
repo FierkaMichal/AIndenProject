@@ -7,6 +7,8 @@ import com.ainder.ainder.services.interfaces.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MatchServiceImpl implements MatchService {
 
@@ -25,6 +27,10 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public void deleteByUserInviterOrUserInvited(User o, User k) {
         matchRepository.deleteByUserInviterOrUserInvited(o,k);
+    }
+
+    public List<Match> findAll() {
+        return matchRepository.findAll();
     }
 
     @Override

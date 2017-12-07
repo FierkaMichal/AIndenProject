@@ -7,12 +7,28 @@ import java.util.Date;
  * Created by Michał on 2017-11-24.
  */
 @Entity
-@Table(name = "T_CONVERSATION_FLOW", schema = "GRZYBOW1")
+@Table(name = "T_CONVERSATION_FLOW")
 public class ConversationFlow {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "ID_CONVERSATION_FLOW", nullable = false, precision = 0)
     private Long idConversationFlow;
+
+    @Basic
+    @Column(name = "TIME", nullable = true)
     private Date time;
+
+    @Basic
+    @Column(name = "MESSAGE", nullable = true, length = 500)
     private String message;
+
+    @ManyToOne()
+    @JoinColumn(name = "ID_CONVERSATION", referencedColumnName = "ID_CONVERSATION", nullable = false)
     private Conversation conversationByIdConversation;
+
+    @ManyToOne()
+    @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
     private User userWriter;
 
     public ConversationFlow() {
@@ -26,8 +42,6 @@ public class ConversationFlow {
         this.userWriter = userWriter;
     }
 
-    @Id
-    @Column(name = "ID_CONVERSATION_FLOW", nullable = false, precision = 0)
     public Long getIdConversationFlow() {
         return idConversationFlow;
     }
@@ -36,8 +50,6 @@ public class ConversationFlow {
         this.idConversationFlow = idConversationFlow;
     }
 
-    @Basic
-    @Column(name = "TIME", nullable = true)
     public Date getTime() {
         return time;
     }
@@ -46,8 +58,6 @@ public class ConversationFlow {
         this.time = time;
     }
 
-    @Basic
-    @Column(name = "MESSAGE", nullable = true, length = 500)
     public String getMessage() {
         return message;
     }
@@ -56,30 +66,6 @@ public class ConversationFlow {
         this.message = message;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ConversationFlow that = (ConversationFlow) o;
-
-        if (idConversationFlow != that.idConversationFlow) return false;
-        if (time != null ? !time.equals(that.time) : that.time != null) return false;
-        if (message != null ? !message.equals(that.message) : that.message != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (idConversationFlow ^ (idConversationFlow >>> 32));
-        result = 31 * result + (time != null ? time.hashCode() : 0);
-        result = 31 * result + (message != null ? message.hashCode() : 0);
-        return result;
-    }
-
-    @ManyToOne()
-    @JoinColumn(name = "ID_CONVERSATION", referencedColumnName = "ID_CONVERSATION", nullable = false)
     public Conversation getConversationByIdConversation() {
         return conversationByIdConversation;
     }
@@ -88,8 +74,6 @@ public class ConversationFlow {
         this.conversationByIdConversation = conversationByIdConversation;
     }
 
-    @ManyToOne()
-    @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER", nullable = false)
     public User getUserWriter() {
         return userWriter;
     }
