@@ -200,7 +200,7 @@ export default {
     addPhoto ({ commit }, payload) {
       var params = new URLSearchParams()
       params.append('access_token', VueCookies.get('token'))
-      axios.put('rest/uploadFile?' + params, payload)
+      axios.put('rest/uploadFile?' + params, payload, {headers: {'Content-Type': 'multipart/form-data'}})
         .then(response => {
           commit('addUserPhoto', response.data.error)
         })
