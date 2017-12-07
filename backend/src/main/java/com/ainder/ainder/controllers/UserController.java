@@ -184,7 +184,7 @@ public class UserController {
         return new ResponseEntity<>(ua, HttpStatus.OK);
     }
 
-    @PostMapping("/rest/uploadFile")
+    @PostMapping("*/rest/uploadFile")
     public Object handleFileUpload(@RequestParam("file") MultipartFile file) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
