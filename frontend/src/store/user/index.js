@@ -198,9 +198,11 @@ export default {
         })
     },
     addPhoto ({ commit }, payload) {
+	  var formData = new FormData();
+	  formData.append("file", payload)
       var params = new URLSearchParams()
       params.append('access_token', VueCookies.get('token'))
-      axios.post('rest/uploadFile?' + params, {file: payload}, {headers: {'Content-Type': 'application/json'}})
+      axios.post('rest/uploadFile?' + params, formData, {headers: {'Content-Type': 'application/json'}})
         .then(response => {
           commit('addUserPhoto', response.data.error)
         })
