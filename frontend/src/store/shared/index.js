@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export default {
   state: {
     position: null,
@@ -26,6 +28,16 @@ export default {
     }
   },
   actions: {
+    findPosition ({ commit }) {
+      axios.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCTymYxKGB4DeLuPJWDp8BpP8-iO2dhHsk')
+      .then(response => {
+        commit('setPosition', response.data.location)
+      })
+        .catch(error => {
+          console.log(error)
+          commit('setPosition', {lat: 52.237049, lng: 21.017532})
+        })
+    },
     clearError ({ commit }) {
       commit('clearError')
     },

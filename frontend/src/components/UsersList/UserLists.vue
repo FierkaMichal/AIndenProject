@@ -103,14 +103,6 @@ export default {
         { text: 'First name', value: 'name', sortable: false },
         { text: 'Last name', value: 'surname', sortable: false },
         { text: 'Role', value: 'role', sortable: false }
-      ],
-      items: [
-        {
-          login: 'hfabisiak',
-          name: 'Hubert',
-          surname: 'Fabisiak',
-          role: 'Admin'
-        }
       ]
     }
   },
@@ -144,19 +136,10 @@ export default {
       this.deleteDialog = false
     },
     editUser () {
-//      person.login = this.login
-//      person.name = this.name
-//      person.surname = this.surname
-//      if (this.role === 'Admin') {
-//        person.admin = true
-//      } else {
-//        person.admin = false
-//      }
       var aaa = false
       if (this.role === 'Admin') {
         aaa = true
       }
-//      console.log(person)
       this.$store.commit('editAdminUserList', {
         userId: this.userId,
         name: this.name,

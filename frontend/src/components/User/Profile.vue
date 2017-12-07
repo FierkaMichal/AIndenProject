@@ -17,11 +17,6 @@
         </v-avatar>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.name }} {{ user.surname }}
       </v-flex>
-      <!--<v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-right v-if="!isLoggedInUser">-->
-        <!--<v-btn flat @click.native="giveLike">-->
-        <!--<v-icon left>whatshot</v-icon>-->
-        <!--Give Like</v-btn>-->
-      <!--</v-flex>-->
       <v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-right v-if="isLoggedInUser">
         <v-dialog v-model="dialog" persistent max-width="500px">
           <v-btn slot="activator" flat>
@@ -116,7 +111,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3 mt-4>
         <v-carousel>
-          <v-carousel-item v-for="(photo, i) in user.photoArray" :src="photo" :key="i"></v-carousel-item>
+          <v-carousel-item v-for="(photo, i) in user.photoArray" :src="photo" :key="i" contain></v-carousel-item>
         </v-carousel>
       </v-flex>
     </v-layout>
@@ -128,15 +123,7 @@
     data () {
       return {
         dialog: false,
-        photo: null,
-        items: [
-          {
-            src: 'http://www.kenia1100.pl/wp-content/uploads/2016/07/pikatchu-pokemon-300x300.png'
-          },
-          {
-            src: 'http://segritta.pl/wp-content/uploads/2016/08/landscape-1456483171-pokemon2.jpg'
-          }
-        ]
+        photo: null
       }
     },
     mounted () {

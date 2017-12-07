@@ -42,10 +42,15 @@
       return {
       }
     },
+    beforeMount () {
+      this.$store.dispatch('findPosition')
+    },
     mounted () {
-      this.$store.getters.user.lastLongitude = this.$store.getters.position.coords.longitude
-      this.$store.getters.user.lastLatitude = this.$store.getters.position.coords.latitude
-      this.$store.dispatch('editUser', this.$store.getters.user)
+      if (this.$store.getters.user !== null) {
+        this.$store.getters.user.lastLongitude = this.$store.getters.position.lng
+        this.$store.getters.user.lastLatitude = this.$store.getters.position.lat
+        this.$store.dispatch('editUser', this.$store.getters.user)
+      }
     },
     computed: {
       isUserLoggedIn () {

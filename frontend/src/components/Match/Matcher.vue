@@ -78,10 +78,11 @@
   export default {
     data () {
       return {
-        distKm: 5
+        distKm: 20
       }
     },
     mounted () {
+      this.$store.dispatch('findPosition')
       this.$store.commit('clearError')
       this.$store.commit('clearMessage')
     },
@@ -105,10 +106,11 @@
     },
     methods: {
       getNextMatcherPerson () {
+        this.$store.dispatch('findPosition')
         this.$store.dispatch('getNextMatcherPerson', {
           lastId: this.$store.getters.lastId,
-          longitude: this.$store.getters.position.coords.longitude,
-          latitude: this.$store.getters.position.coords.latitude,
+          longitude: this.$store.getters.position.lng,
+          latitude: this.$store.getters.position.lat,
           distKm: this.distKm
         })
       },

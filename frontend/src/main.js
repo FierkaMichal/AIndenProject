@@ -19,12 +19,6 @@ Vue.component('app-alert', AlertCmp)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  mounted: function () {
-    navigator.geolocation.watchPosition(position => {
-      console.log('Longitude: ' + position.coords.longitude + ' Latitude: ' + position.coords.latitude)
-      this.$store.commit('setPosition', position)
-    })
-  },
   router,
   store,
   render: h => h(App)
