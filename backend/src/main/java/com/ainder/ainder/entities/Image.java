@@ -35,4 +35,12 @@ public class Image {
     public void setPicture(byte[] picture) {
         this.picture = picture;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

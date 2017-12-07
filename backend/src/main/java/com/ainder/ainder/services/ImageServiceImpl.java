@@ -1,6 +1,7 @@
 package com.ainder.ainder.services;
 
 import com.ainder.ainder.entities.Image;
+import com.ainder.ainder.entities.User;
 import com.ainder.ainder.repositories.ImageRepository;
 import com.ainder.ainder.services.interfaces.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,11 @@ public class ImageServiceImpl implements ImageService {
 
     public void save(Image image) {
         imageRepository.save(image);
+    }
+
+
+    @Override
+    public Image getImageById(Long id) {
+        return imageRepository.findOne(id);
     }
 }

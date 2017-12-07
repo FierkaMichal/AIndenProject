@@ -2,25 +2,25 @@ package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.config.CustomUserDetails;
 import com.ainder.ainder.entities.Conversation;
+import com.ainder.ainder.entities.Image;
 import com.ainder.ainder.entities.Role;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.restPOJO.UserArray;
 import com.ainder.ainder.restPOJO.UserResponse;
-import com.ainder.ainder.services.ConversationFlowServiceImpl;
-import com.ainder.ainder.services.ConversationServiceImpl;
-import com.ainder.ainder.services.MatchServiceImpl;
-import com.ainder.ainder.services.UserServiceImpl;
+import com.ainder.ainder.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -42,6 +42,8 @@ public class UserController {
 
     @Autowired
     private ConversationFlowServiceImpl conversationFlowService;
+    @Autowired
+    private ImageServiceImpl imageService;
 
     @RequestMapping(path = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object getMe() {
@@ -181,6 +183,54 @@ public class UserController {
         ua.setUser(usersListResponse);
 
         return new ResponseEntity<>(ua, HttpStatus.OK);
+    }
+
+    @PostMapping("/rest/uploadFile")
+    public Object handleFileUpload(@RequestParam("file") MultipartFile file) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User me = userService.getUserByLogin(userDetails.getUsername());
+
+
+        Image picture = new Image();
+
+//        File file = new File("plik.png");
+//        byte[] picInBytes = new byte[(int) file.length()];
+        byte[] picInBytes = new byte[0];
+        try {
+            picInBytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        FileInputStream fileInputStream = null;
+//        try {
+//            fileInputStream = new FileInputStream(file);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            fileInputStream.read(picInBytes);
+//            fileInputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        picture.setPicture(picInBytes);
+        picture.setUser(me);
+
+        imageService.save(picture);
+
+
+        return new Error();
+    }
+
+    @GetMapping("/rest/getFile")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@RequestParam("photoId") Long photoId) {
+
+        Image image = imageService.getImageById(photoId);
+
+        Resource file = new ByteArrayResource(image.getPicture());
+//        Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
 
