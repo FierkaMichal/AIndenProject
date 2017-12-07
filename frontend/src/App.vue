@@ -82,14 +82,14 @@
         aaa: true
       }
     },
-	beforeMount () {
+    beforeMount () {
       this.$store.dispatch('findPosition')
     },
     computed: {
       menuItems () {
         let menuItems = [
           {icon: 'face', title: 'Sign Up', link: '/signUp'},
-          {icon: 'lock_open', title: 'Sign In', link: '/signIn'}
+          {icon: 'lock_open', title: 'Sign In', link: '/matcher'}
         ]
         if (this.userIsAuthenticated) {
           menuItems = [

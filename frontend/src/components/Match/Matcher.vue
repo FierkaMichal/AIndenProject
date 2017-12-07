@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout row>
-      <v-flex xs12 sm6 offset-sm3 mt-4>
+      <v-flex xs12 sm6 offset-sm3 mt-3>
         <v-slider
           label="Distance"
           hint="Distance to search for people"
@@ -11,8 +11,8 @@
           v-model="distKm"
         ></v-slider>
       </v-flex>
-      <v-flex p>
-        <v-btn flat @click.native="getNextMatcherPerson()">
+      <v-flex p mt-4>
+        <v-btn @click.native="getNextMatcherPerson()">
           Search
         </v-btn>
       </v-flex>
