@@ -1,6 +1,5 @@
 package com.ainder.ainder.controllers;
 
-import com.ainder.ainder.entities.Image;
 import com.ainder.ainder.entities.Role;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
@@ -18,11 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  * Created by Michał on 2017-11-26.
@@ -58,23 +52,24 @@ public class AccountController {
         Role r2 = new Role("ADMIN");
         roleService.save(r1);
         roleService.save(r2);
-        Image picture = new Image();
 
-        File file = new File("plik.png");
-        byte[] picInBytes = new byte[(int) file.length()];
-        FileInputStream fileInputStream = null;
-        try {
-            fileInputStream = new FileInputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            fileInputStream.read(picInBytes);
-            fileInputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        picture.setPicture(picInBytes);
+//        Image picture = new Image();
+//
+//        File file = new File("plik.png");
+//        byte[] picInBytes = new byte[(int) file.length()];
+//        FileInputStream fileInputStream = null;
+//        try {
+//            fileInputStream = new FileInputStream(file);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            fileInputStream.read(picInBytes);
+//            fileInputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        picture.setPicture(picInBytes);
 
 
 

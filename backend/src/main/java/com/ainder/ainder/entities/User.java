@@ -67,7 +67,7 @@ public class User {
     @OneToMany(mappedBy = "userInvited")
     private Collection<Match> matchesByIdUserInvited;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Image> images;
 
     public User(){
