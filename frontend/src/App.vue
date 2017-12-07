@@ -82,6 +82,9 @@
         aaa: true
       }
     },
+	beforeMount () {
+      this.$store.dispatch('findPosition')
+    },
     computed: {
       menuItems () {
         let menuItems = [
@@ -107,9 +110,6 @@
       user () {
         if (this.$store.getters.user === null && this.$cookies.isKey('token')) {
           this.$store.dispatch('userDetails')
-          this.$store.getters.user.lastLongitude = this.$store.getters.position.coords.longitude
-          this.$store.getters.user.lastLatitude = this.$store.getters.position.coords.latitude
-          this.$store.dispatch('editUser', this.user)
         }
         return this.$store.getters.user
       },

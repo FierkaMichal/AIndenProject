@@ -45,6 +45,7 @@
     beforeMount () {
       this.$store.dispatch('findPosition')
     },
+	
     mounted () {
       if (this.$store.getters.user !== null) {
         this.$store.getters.user.lastLongitude = this.$store.getters.position.lng
