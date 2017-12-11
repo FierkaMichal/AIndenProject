@@ -9,7 +9,7 @@ public class UserResponse {
     private String surname;
     private String description;
     private String avatar;
-    private List<String> photoList = null;
+    private List<Long> photoList = null;
     private Double lastLongitude;
     private Double lastLatitude;
     private boolean isAdmin;
@@ -17,7 +17,7 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(Long userId, String login, String name, String surname, String description, String avatar, List<String>  photoArray, Double lastLongitude, Double lastLatitude, boolean role) {
+    public UserResponse(Long userId, String login, String name, String surname, String description, String avatar, List<Long>  photoArray, Double lastLongitude, Double lastLatitude, boolean role) {
         this.userId = userId;
         this.login = login;
         this.name = name;
@@ -96,11 +96,11 @@ public class UserResponse {
         this.avatar = avatar;
     }
 
-    public List<String>  getPhotoArray() {
+    public List<Long>  getPhotoArray() {
         return photoList;
     }
 
-    public void setPhotoArray(List<String>  photoArray) {
+    public void setPhotoArray(List<Long> photoArray) {
         this.photoList = photoArray;
     }
 

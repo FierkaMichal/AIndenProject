@@ -1,10 +1,12 @@
 package com.ainder.ainder.controllers;
 
+import com.ainder.ainder.entities.Image;
 import com.ainder.ainder.entities.Role;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.restPOJO.Registration;
 import com.ainder.ainder.restPOJO.UserResponse;
+import com.ainder.ainder.services.ImageServiceImpl;
 import com.ainder.ainder.services.RoleServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 /**
  * Created by Michał on 2017-11-26.
  */
@@ -30,6 +34,9 @@ public class AccountController {
 
     @Autowired
     private RoleServiceImpl roleService;
+
+    @Autowired
+    private ImageServiceImpl imageService;
 
     @Qualifier("getTokenStore")
     @Autowired
@@ -101,8 +108,8 @@ public class AccountController {
         User u = userService.getUserByLogin(login);
 
         if (u != null) {
-
-            UserResponse ur = ControllersUtils.userToUserResponse(u);
+            List<Image> images = imageService.getImagesByUser(u);
+            UserResponse ur = ControllersUtils.userToUserResponse(u, images);
             return new ResponseEntity<>(ur, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.OK);
@@ -114,8 +121,9 @@ public class AccountController {
         User u = userService.getUserById(id);
 
         if (u != null) {
+            List<Image> images = imageService.getImagesByUser(u);
 
-            UserResponse ur = ControllersUtils.userToUserResponse(u);
+            UserResponse ur = ControllersUtils.userToUserResponse(u, images);
             return new ResponseEntity<>(ur, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.OK);

@@ -2,12 +2,14 @@ package com.ainder.ainder.controllers;
 
 import com.ainder.ainder.config.CustomUserDetails;
 import com.ainder.ainder.entities.Conversation;
+import com.ainder.ainder.entities.Image;
 import com.ainder.ainder.entities.Match;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.Error;
 import com.ainder.ainder.restPOJO.UserArray;
 import com.ainder.ainder.restPOJO.UserResponse;
 import com.ainder.ainder.services.ConversationServiceImpl;
+import com.ainder.ainder.services.ImageServiceImpl;
 import com.ainder.ainder.services.MatchServiceImpl;
 import com.ainder.ainder.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class MatchController {
 
     @Autowired
     private ConversationServiceImpl conversationService;
+
+    @Autowired
+    private ImageServiceImpl imageService;
 
     @RequestMapping(path = "*rest/like", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Error> postLike(@RequestParam("userId") Long userId) {
@@ -79,7 +84,8 @@ public class MatchController {
 
         for (User user : biggerUserList) {
             if (ControllersUtils.distance(user.getLastLatitude(), me.getLastLatitude(), user.getLastLongitude(), me.getLastLongitude()) <= km * 1000 && user.getIdUser() != me.getIdUser()) {
-                return new ResponseEntity<>(ControllersUtils.userToUserResponse(user), HttpStatus.OK);
+                List<Image> images = imageService.getImagesByUser(user);
+                return new ResponseEntity<>(ControllersUtils.userToUserResponse(user, images), HttpStatus.OK);
             }
         }
 
@@ -96,11 +102,13 @@ public class MatchController {
         LinkedList<UserResponse> matchedUserListResponse = new LinkedList<>();
 
         for (User user : matchedInvitedUserList) {
-            matchedUserListResponse.add(ControllersUtils.userToUserResponse(user));
+            List<Image> images = imageService.getImagesByUser(user);
+            matchedUserListResponse.add(ControllersUtils.userToUserResponse(user, images));
         }
 
         for (User user : matchedReceivedUserList) {
-            matchedUserListResponse.add(ControllersUtils.userToUserResponse(user));
+            List<Image> images = imageService.getImagesByUser(user);
+            matchedUserListResponse.add(ControllersUtils.userToUserResponse(user, images));
         }
 
         if (matchedUserListResponse == null || matchedUserListResponse.size() < 1) {

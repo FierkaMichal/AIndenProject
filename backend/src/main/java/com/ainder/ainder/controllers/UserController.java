@@ -42,6 +42,7 @@ public class UserController {
 
     @Autowired
     private ConversationFlowServiceImpl conversationFlowService;
+
     @Autowired
     private ImageServiceImpl imageService;
 
@@ -51,7 +52,9 @@ public class UserController {
         User u = userService.getUserByLogin(userDetails.getUsername());
 
         if (u != null) {
-            UserResponse ur = ControllersUtils.userToUserResponse(u);
+            List<Image> images = imageService.getImagesByUser(u);
+
+            UserResponse ur = ControllersUtils.userToUserResponse(u, images);
             return new ResponseEntity<>(ur, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new Error("You don;t exist."), HttpStatus.NOT_FOUND);
@@ -95,9 +98,11 @@ public class UserController {
         if (userResponse.getAvatar() != null) {
             photo.append(userResponse.getAvatar() + " ");
         }
-        for (String s : userResponse.getPhotoArray()) {
-            photo.append(s + " ");
-        }
+
+//        for (String s : userResponse.getPhotoArray()) {
+//            photo.append(s + " ");
+//        }
+
         if (photo == null || u.getPhoto() == null || (photo != null && u.getPhoto() != null && !u.getPhoto().equals(photo))) {
             userService.updateUserPicture(photo.toString(), userResponse.getUserId());
         }
@@ -172,7 +177,8 @@ public class UserController {
         List<User> users = userService.findAll();
 
         for(User user : users) {
-            usersListResponse.add(ControllersUtils.userToUserResponse(user));
+            List<Image> images = imageService.getImagesByUser(user);
+            usersListResponse.add(ControllersUtils.userToUserResponse(user, images));
         }
 
 //        if(usersListResponse.size() < 1) {
@@ -193,44 +199,50 @@ public class UserController {
 
         Image picture = new Image();
 
-//        File file = new File("plik.png");
-//        byte[] picInBytes = new byte[(int) file.length()];
         byte[] picInBytes = new byte[0];
         try {
             picInBytes = file.getBytes();
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        FileInputStream fileInputStream = null;
-//        try {
-//            fileInputStream = new FileInputStream(file);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            fileInputStream.read(picInBytes);
-//            fileInputStream.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
         picture.setPicture(picInBytes);
         picture.setUser(me);
 
         imageService.save(picture);
-
 
         return new Error();
     }
 
     @GetMapping("/rest/getFile")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@RequestParam("photoId") Long photoId) {
+    public ResponseEntity<Resource> getFile(@RequestParam("photoId") Long photoId) {
 
         Image image = imageService.getImageById(photoId);
 
         Resource file = new ByteArrayResource(image.getPicture());
 //        Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @GetMapping("/rest/deleteFile")
+    @ResponseBody
+    public Object deleteFile(@RequestParam("photoId") Long photoId) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User me = userService.getUserByLogin(userDetails.getUsername());
+
+        Image image = imageService.getImageById(photoId);
+
+        if(image == null) {
+            return new Error("Photo with that ID does not exist.");
+        }
+
+        if (me.getRole().getName().contains("USER") && !(me.getIdUser().equals(image.getUser().getIdUser()))) {
+            return new Error("You can not delete other user pictures.");
+        }
+
+        imageService.deleteImageById(photoId);
+        return new Error();
     }
 
 

@@ -2,6 +2,7 @@ package com.ainder.ainder.controllers;
 
 //import java.util.Date;
 
+import com.ainder.ainder.entities.Image;
 import com.ainder.ainder.entities.User;
 import com.ainder.ainder.restPOJO.UserResponse;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @org.springframework.web.bind.annotation.RestController
 public class ControllersUtils {
 
-    public static UserResponse userToUserResponse(User u) {
+    public static UserResponse userToUserResponse(User u, List<Image> images) {
         String avatar = null;
         String photos = u.getPhoto();
         List<String> photoList = new LinkedList<>();
@@ -25,7 +26,14 @@ public class ControllersUtils {
                 }
             }
         }
-        return new UserResponse(u.getIdUser(), u.getLogin(), u.getName(), u.getSurname(), u.getDescription(), avatar, photoList,u.getLastLongitude(), u.getLastLongitude(), u.getRole().getName().equals("ADMIN"));
+
+        List<Long> imagesIDs = new LinkedList<>();
+
+        for (Image image : images) {
+            imagesIDs.add(image.getIdImage());
+        }
+
+        return new UserResponse(u.getIdUser(), u.getLogin(), u.getName(), u.getSurname(), u.getDescription(), avatar, imagesIDs, u.getLastLongitude(), u.getLastLongitude(), u.getRole().getName().equals("ADMIN"));
     }
 
     public static double distance(double lat1, double lat2, double lon1, double lon2) {
