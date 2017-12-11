@@ -13,19 +13,19 @@ import java.util.List;
 public class ControllersUtils {
 
     public static UserResponse userToUserResponse(User u, List<Image> images) {
-        String avatar = null;
-        String photos = u.getPhoto();
-        List<String> photoList = new LinkedList<>();
-        if(photos != null) {
-            String[] photoArray = photos.split(" ");
-            if (photoArray.length > 0) {
-                avatar = photoArray[0];
-
-                for (int i = 1; i < photoArray.length; i++) {
-                    photoList.add(photoArray[i]);
-                }
-            }
-        }
+//        String avatar = null;
+//        String photos = u.getPhoto();
+//        List<String> photoList = new LinkedList<>();
+//        if(photos != null) {
+//            String[] photoArray = photos.split(" ");
+//            if (photoArray.length > 0) {
+//                avatar = photoArray[0];
+//
+//                for (int i = 1; i < photoArray.length; i++) {
+//                    photoList.add(photoArray[i]);
+//                }
+//            }
+//        }
 
         List<Long> imagesIDs = new LinkedList<>();
 
@@ -33,7 +33,7 @@ public class ControllersUtils {
             imagesIDs.add(image.getIdImage());
         }
 
-        return new UserResponse(u.getIdUser(), u.getLogin(), u.getName(), u.getSurname(), u.getDescription(), avatar, imagesIDs, u.getLastLongitude(), u.getLastLongitude(), u.getRole().getName().equals("ADMIN"));
+        return new UserResponse(u.getIdUser(), u.getLogin(), u.getName(), u.getSurname(), u.getDescription(), "", imagesIDs, u.getLastLongitude(), u.getLastLongitude(), u.getRole().getName().equals("ADMIN"));
     }
 
     public static double distance(double lat1, double lat2, double lon1, double lon2) {
