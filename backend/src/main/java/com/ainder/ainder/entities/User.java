@@ -1,5 +1,7 @@
 package com.ainder.ainder.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
@@ -36,9 +38,9 @@ public class User {
     @Column(name = "DESCRIPTION", nullable = true, length = 2000)
     private String description;
 
-    @Basic
-    @Column(name = "PHOTO", nullable = true, length = 2000)
-    private String photo;
+    @Lob
+    @Type(type="org.hibernate.type.BinaryType")
+    private byte[] photo;
 
     @Basic
     @Column(name = "LAST_LONGITUDE", nullable = true, precision = 6)
@@ -141,11 +143,11 @@ public class User {
         this.description = description;
     }
 
-    public String getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 

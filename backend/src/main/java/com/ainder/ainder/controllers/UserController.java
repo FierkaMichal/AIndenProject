@@ -214,7 +214,37 @@ public class UserController {
         return new Error();
     }
 
-    @GetMapping("/rest/getFile")
+    @PostMapping("*/rest/uploadAvatar")
+    public Object handleAvatarUpload(@RequestParam("file") MultipartFile file) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User me = userService.getUserByLogin(userDetails.getUsername());
+
+        byte[] picInBytes = new byte[0];
+        try {
+            picInBytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        userService.updateAvatar(picInBytes,me.getIdUser());
+
+        return new Error();
+    }
+
+    @GetMapping("*/rest/getFile")
+    @ResponseBody
+    public ResponseEntity<Resource> getAvatar(@RequestParam("userId") Long userId) {
+
+        User user = userService.getUserById(userId);
+
+        Resource file = new ByteArrayResource(user.getPhoto());
+//        Resource file = storageService.loadAsResource(filename);
+        return ResponseEntity.ok().body(file);
+    }
+
+
+
+    @GetMapping("*/rest/getFile")
     @ResponseBody
     public ResponseEntity<Resource> getFile(@RequestParam("photoId") Long photoId) {
 
@@ -225,7 +255,7 @@ public class UserController {
         return ResponseEntity.ok().body(file);
     }
 
-    @GetMapping("/rest/deleteFile")
+    @GetMapping("*/rest/deleteFile")
     @ResponseBody
     public Object deleteFile(@RequestParam("photoId") Long photoId) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

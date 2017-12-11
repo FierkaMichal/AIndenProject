@@ -101,6 +101,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateAvatar(byte[] avatar, Long userId) {
+        userRepository.updateAvatar(avatar,userId);
+    }
+
+    @Override
     public void deleteUserByIdUser(Long userId) {
         userRepository.deleteUserByIdUser(userId);
     }

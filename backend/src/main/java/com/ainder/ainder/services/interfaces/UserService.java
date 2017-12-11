@@ -37,6 +37,8 @@ public interface UserService {
 
     void updateRole(Role newValue, Long userId);
 
+    void updateAvatar(byte[] avatar, Long userId);
+
 
         List<User> findAll();
 }

@@ -91,6 +91,11 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Query("update User u set u.role = :newValue where u.idUser = :userId")
     void updateRole(@Param("newValue")Role newValue, @Param("userId") Long userId);
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query("update User u set u.photo = :newValue where u.idUser = :userId")
+    void updateAvatar(@Param("newValue") byte[] newValue, @Param("userId") Long userId);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM User u where u.idUser = :userId")
