@@ -231,7 +231,7 @@ public class UserController {
         return new Error();
     }
 
-    @GetMapping("*/rest/getFile")
+    @GetMapping("*/rest/getAvatar")
     @ResponseBody
     public ResponseEntity<Resource> getAvatar(@RequestParam("userId") Long userId) {
 
