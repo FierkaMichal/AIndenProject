@@ -247,11 +247,15 @@ public class UserController {
     @GetMapping("*/rest/getFile")
     @ResponseBody
     public ResponseEntity<Resource> getFile(@RequestParam("photoId") Long photoId) {
+        Resource file;
 
-        Image image = imageService.getImageById(photoId);
+        if(photoId < 0){
+            file = new ByteArrayResource(userService.getUserById(photoId * -1).getPhoto());
+        } else {
+            Image image = imageService.getImageById(photoId);
+            file = new ByteArrayResource(image.getPicture());
+        }
 
-        Resource file = new ByteArrayResource(image.getPicture());
-//        Resource file = storageService.loadAsResource(filename);
         return ResponseEntity.ok().body(file);
     }
 
