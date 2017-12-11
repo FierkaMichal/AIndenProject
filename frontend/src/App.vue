@@ -42,7 +42,7 @@
           <v-icon left>{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
-        <v-btn v-if="userIsAuthenticated" flat @click.stop="onLogout">
+        <v-btn  flat @click.stop="onLogout">
           <v-icon left>exit_to_app</v-icon>
           Logout
         </v-btn>
@@ -78,8 +78,7 @@
   export default {
     data () {
       return {
-        drawer: null,
-        aaa: true
+        drawer: null
       }
     },
     beforeMount () {
@@ -89,7 +88,7 @@
       menuItems () {
         let menuItems = [
           {icon: 'face', title: 'Sign Up', link: '/signUp'},
-          {icon: 'lock_open', title: 'Sign In', link: '/matcher'}
+          {icon: 'lock_open', title: 'Sign In', link: '/signIn'}
         ]
         if (this.userIsAuthenticated) {
           menuItems = [

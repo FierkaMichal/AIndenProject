@@ -1,5 +1,7 @@
 package com.ainder.ainder.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 
 /**
@@ -14,6 +16,7 @@ public class Image {
     private Long idImage;
 
     @Lob
+    @Type(type="org.hibernate.type.BinaryType")
     private byte[] picture;
 
     public Long getIdImage() {

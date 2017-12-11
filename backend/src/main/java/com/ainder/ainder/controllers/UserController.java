@@ -12,7 +12,6 @@ import com.ainder.ainder.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -191,7 +190,7 @@ public class UserController {
         return new ResponseEntity<>(ua, HttpStatus.OK);
     }
 
-    @PostMapping("/rest/uploadFile")
+    @PostMapping("*/rest/uploadFile")
     public Object handleFileUpload(@RequestParam("file") MultipartFile file) {
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User me = userService.getUserByLogin(userDetails.getUsername());
@@ -209,6 +208,7 @@ public class UserController {
         picture.setPicture(picInBytes);
         picture.setUser(me);
 
+
         imageService.save(picture);
 
         return new Error();
@@ -222,7 +222,7 @@ public class UserController {
 
         Resource file = new ByteArrayResource(image.getPicture());
 //        Resource file = storageService.loadAsResource(filename);
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+        return ResponseEntity.ok().body(file);
     }
 
     @GetMapping("/rest/deleteFile")
