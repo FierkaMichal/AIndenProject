@@ -48,41 +48,6 @@
                         auto-grow>
                       </v-text-field>
                     </v-flex>
-                    <!--<v-flex xs12>-->
-                      <!--<v-text-field label="Avatar URL" required v-model="user.avatar"></v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12>-->
-                      <!--<v-expansion-panel popout>-->
-                        <!--<v-expansion-panel-content>-->
-                          <!--<div slot="header">Photos</div>-->
-                          <!--<div v-for="(photo, i) in user.photoArray" :key="i">-->
-                            <!--<v-layout row>-->
-                              <!--<v-flex p>-->
-                                <!--<v-avatar tile size="40px">-->
-                                  <!--<img :src="photo" alt="photo">-->
-                                <!--</v-avatar>-->
-                              <!--</v-flex>-->
-                              <!--&lt;!&ndash;<v-flex xs12>&ndash;&gt;-->
-                              <!--&lt;!&ndash;<v-text-field label="Photo URL" readonly v-model="photo.src"></v-text-field>&ndash;&gt;-->
-                              <!--&lt;!&ndash;</v-flex>&ndash;&gt;-->
-                              <!--<v-btn flat icon @click.native="removePhoto(photo)">-->
-                                <!--<v-icon class="primary&#45;&#45;text">clear</v-icon>-->
-                              <!--</v-btn>-->
-                            <!--</v-layout>-->
-                          <!--</div>-->
-                        <!--</v-expansion-panel-content>-->
-                      <!--</v-expansion-panel>-->
-                    <!--</v-flex>-->
-                    <!--<v-layout row>-->
-                      <!--<v-flex xs12>-->
-                        <!--<v-text-field label="Add Photo URL" v-model="photo"></v-text-field>-->
-                      <!--</v-flex>-->
-                      <!--<v-flex p>-->
-                        <!--<v-btn flat icon @click.native="addPhoto">-->
-                          <!--<v-icon class="primary&#45;&#45;text">add</v-icon>-->
-                        <!--</v-btn>-->
-                      <!--</v-flex>-->
-                    <!--</v-layout>-->
                   </v-layout>
                 </form>
               </v-container>
@@ -142,7 +107,7 @@
                         <div v-for="(photo, i) in user.photoArray" :key="i">
                           <v-layout row>
                             <v-flex text-xs-center>
-                              <img :src="photo" alt="photo" height="150">
+                              <img :src="getImageLink(photo)" alt="photo" height="150">
                             </v-flex>
                             <v-btn flat icon @click.native="removePhoto(photo)">
                               <v-icon class="primary--text">clear</v-icon>
@@ -153,61 +118,6 @@
                     </v-expansion-panel>
                   </v-flex>
                 </v-layout>
-                <!--<form @submit.prevent="onEditUserClick">-->
-                  <!--<v-layout wrap>-->
-                    <!--<v-flex xs12>-->
-                      <!--<v-text-field label="Name" required v-model="user.name"></v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12>-->
-                      <!--<v-text-field label="Surname" required v-model="user.surname"></v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12>-->
-                      <!--<v-text-field-->
-                        <!--v-model="user.description"-->
-                        <!--label="Description"-->
-                        <!--placeholder="Set description"-->
-                        <!--multi-line-->
-                        <!--rows="3"-->
-                        <!--auto-grow>-->
-                      <!--</v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12>-->
-                      <!--<v-text-field label="Avatar URL" required v-model="user.avatar"></v-text-field>-->
-                    <!--</v-flex>-->
-                    <!--<v-flex xs12>-->
-                      <!--<v-expansion-panel popout>-->
-                        <!--<v-expansion-panel-content>-->
-                          <!--<div slot="header">Photos</div>-->
-                          <!--<div v-for="(photo, i) in user.photoArray" :key="i">-->
-                            <!--<v-layout row>-->
-                              <!--<v-flex p>-->
-                                <!--<v-avatar tile size="40px">-->
-                                  <!--<img :src="photo" alt="photo">-->
-                                <!--</v-avatar>-->
-                              <!--</v-flex>-->
-                              <!--&lt;!&ndash;<v-flex xs12>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<v-text-field label="Photo URL" readonly v-model="photo.src"></v-text-field>&ndash;&gt;-->
-                              <!--&lt;!&ndash;</v-flex>&ndash;&gt;-->
-                              <!--<v-btn flat icon @click.native="removePhoto(photo)">-->
-                                <!--<v-icon class="primary&#45;&#45;text">clear</v-icon>-->
-                              <!--</v-btn>-->
-                            <!--</v-layout>-->
-                          <!--</div>-->
-                        <!--</v-expansion-panel-content>-->
-                      <!--</v-expansion-panel>-->
-                    <!--</v-flex>-->
-                    <!--<v-layout row>-->
-                      <!--<v-flex xs12>-->
-                        <!--<v-text-field label="Add Photo URL" v-model="photo"></v-text-field>-->
-                      <!--</v-flex>-->
-                      <!--<v-flex p>-->
-                        <!--<v-btn flat icon @click.native="addPhoto">-->
-                          <!--<v-icon class="primary&#45;&#45;text">add</v-icon>-->
-                        <!--</v-btn>-->
-                      <!--</v-flex>-->
-                    <!--</v-layout>-->
-                  <!--</v-layout>-->
-                <!--</form>-->
               </v-container>
             </v-card-text>
             <v-card-actions>
@@ -248,7 +158,6 @@
   export default {
     data () {
       return {
-        url: '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=',
         avatarSelected: '',
         avatarEdit: null,
         photoSelected: '',
@@ -309,8 +218,8 @@
           this.photo = null
         }
       },
-      removePhoto (src) {
-        this.$store.dispatch('removePhoto', {src: src})
+      removePhoto (photoId) {
+        this.$store.dispatch('removePhoto', {photoId: photoId})
       },
       giveLike () {
         this.$store.dispatch('giveLike', {userId: this.lookingPerson.userId})
@@ -339,6 +248,8 @@
       },
       onAvatarSave () {
         this.$store.dispatch('changeAvatar', this.avatarEdit)
+        this.avatarSelected = ''
+        this.avatarEdit = null
       },
       onPickPhoto () {
         this.$refs.photoInput.click()
@@ -358,6 +269,8 @@
       },
       onPhotoSave () {
         this.$store.dispatch('addPhoto', this.photoEdit)
+        this.photoSelected = ''
+        this.photoEdit = null
       },
       getImageLink (id) {
         return '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + id
