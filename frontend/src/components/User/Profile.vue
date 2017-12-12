@@ -145,7 +145,7 @@
       <v-flex xs12 sm6 offset-sm3 mt-4>
         <v-carousel>
           <v-carousel-item v-for="(photo, i) in user.photoArray"  :key="i" contain>
-            <img :src="photo" alt="photo" style="max-width:100%; height: auto;">
+            <!--<img :src="photo" alt="photo" style="max-width:100%; height: auto;">-->
           </v-carousel-item>
         </v-carousel>
       </v-flex>
