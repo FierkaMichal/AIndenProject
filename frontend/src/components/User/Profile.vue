@@ -13,7 +13,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-left mt-4>
         <v-avatar size="80px">
-          <img :src="getAvatarLink(user.userId)" alt="avatar" style="max-width:100%; height: auto;">
+          <img :src="getAvatarLink('-'+user.userId)" alt="avatar" style="max-width:100%; height: auto;">
         </v-avatar>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.name }} {{ user.surname }}
       </v-flex>
@@ -145,7 +145,7 @@
       <v-flex xs12 sm6 offset-sm3 mt-4>
         <v-carousel>
           <v-carousel-item v-for="(photo, i) in user.photoArray"  :key="i" contain>
-            <img :src="getImageLink(photo)" alt="photo" style="max-width:100%; height: auto;">
+            <img :src="photo" alt="photo" style="max-width:100%; height: auto;">
           </v-carousel-item>
         </v-carousel>
       </v-flex>
