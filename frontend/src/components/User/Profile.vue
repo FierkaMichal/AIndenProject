@@ -13,7 +13,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-left mt-4>
         <v-avatar size="80px">
-          <img :src="getAvatarLink('-'+user.userId)" alt="avatar" style="max-width:100%; height: auto;">
+          <img :src="getAvatarLink(user.userId)" alt="avatar" style="max-width:100%; height: auto;">
         </v-avatar>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.name }} {{ user.surname }}
       </v-flex>
