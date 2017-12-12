@@ -86,7 +86,7 @@ export default {
         })
         .catch(error => {
           commit('setLoading', false)
-          commit('setError', {type: 'error', message: error.error})
+          commit('setError', {type: 'error', message: error.data.error})
           console.log(error)
         })
     },

@@ -208,10 +208,7 @@ public class UserController {
         picture.setPicture(picInBytes);
         picture.setUser(me);
 
-
-        imageService.save(picture);
-
-        return new Error();
+        return new Error(imageService.save(picture).toString());
     }
 
     @PostMapping("*/rest/uploadAvatar")
@@ -231,7 +228,7 @@ public class UserController {
         return new Error();
     }
 
-    @GetMapping("*/rest/getAvatar")
+    @GetMapping(value={"*/rest/getAvatar", "rest/getAvatar"})
     @ResponseBody
     public ResponseEntity<Resource> getAvatar(@RequestParam("userId") Long userId) {
 
