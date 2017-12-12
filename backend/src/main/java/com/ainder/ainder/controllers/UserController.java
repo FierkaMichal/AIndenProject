@@ -93,18 +93,18 @@ public class UserController {
         userService.updateLat(userResponse.getLastLatitude(), userResponse.getUserId());
         userService.updateLon(userResponse.getLastLongitude(), userResponse.getUserId());
 
-        StringBuilder photo = new StringBuilder();
-        if (userResponse.getAvatar() != null) {
-            photo.append(userResponse.getAvatar() + " ");
-        }
+//        StringBuilder photo = new StringBuilder();
+//        if (userResponse.getAvatar() != null) {
+//            photo.append(userResponse.getAvatar() + " ");
+//        }
 
 //        for (String s : userResponse.getPhotoArray()) {
 //            photo.append(s + " ");
 //        }
 
-        if (photo == null || u.getPhoto() == null || (photo != null && u.getPhoto() != null && !u.getPhoto().equals(photo))) {
-            userService.updateUserPicture(photo.toString(), userResponse.getUserId());
-        }
+//        if (photo == null || u.getPhoto() == null || (photo != null && u.getPhoto() != null && !u.getPhoto().equals(photo))) {
+//            userService.updateUserPicture(photo.toString(), userResponse.getUserId());
+//        }
 //        switch (action.getAction()) {
 //            case "DELETE":
 //                userService.deleteByIdUser(action.getUserId());
@@ -244,7 +244,7 @@ public class UserController {
 
 
 
-    @GetMapping("*/rest/getFile")
+    @GetMapping("Srest/getFile")
     @ResponseBody
     public ResponseEntity<Resource> getFile(@RequestParam("photoId") Long photoId) {
         Resource file;

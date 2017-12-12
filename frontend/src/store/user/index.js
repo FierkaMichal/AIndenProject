@@ -190,7 +190,7 @@ export default {
       formData.append("file", payload)
       var params = new URLSearchParams()
       params.append('access_token', VueCookies.get('token'))
-      axios.put('rest/uploadAvatar?' + params, formData, {headers: {'Content-Type': 'application/json'}})
+      axios.post('rest/uploadAvatar?' + params, formData, {headers: {'Content-Type': 'application/json'}})
         .then(response => {
           commit('changeAvatar', response.data)
         })

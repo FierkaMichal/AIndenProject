@@ -47,7 +47,7 @@
                       type="submit"
                       :loading="loading"
                       :disabled="loading">
-                      Sign Ip
+                      Sign In
                     </v-btn>
                   </v-flex>
                 </v-layout>
