@@ -273,7 +273,7 @@
         this.photoEdit = null
       },
       getAvatarLink (id) {
-        return '/rest/getAvatar?qccess_token=' + VueCookies.get('token') + '&userId=' + id
+        return '/rest/getAvatar?access_token=' + VueCookies.get('token') + '&userId=' + id
       },
       getImageLink (id) {
         return '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + id

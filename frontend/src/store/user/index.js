@@ -214,7 +214,7 @@ export default {
     removePhoto ({ commit }, payload) {
       var params = new URLSearchParams()
       params.append('access_token', VueCookies.get('token'))
-      params.appent('photoId', payload.photoId)
+      params.append('photoId', payload.photoId)
       axios.get('rest/deleteFile?' + params)
         .then(response => {
           commit('removeUserPhoto', payload)
