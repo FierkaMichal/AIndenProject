@@ -13,7 +13,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-left mt-4>
         <v-avatar size="80px">
-          <img v-bind:src="user.avatar" alt="avatar" style="max-width:100%; height: auto;">
+          <img :src="getAvatarLink(user.userId)" alt="avatar" style="max-width:100%; height: auto;">
         </v-avatar>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.name }} {{ user.surname }}
       </v-flex>
@@ -109,7 +109,7 @@
                             <v-flex text-xs-center>
                               <img :src="getImageLink(photo)" alt="photo" height="150">
                             </v-flex>
-                            <v-btn flat icon @click.native="removePhoto(photo)">
+                            <v-btn flat icon @click="removePhoto(photo)">
                               <v-icon class="primary--text">clear</v-icon>
                             </v-btn>
                           </v-layout>
@@ -271,6 +271,9 @@
         this.$store.dispatch('addPhoto', this.photoEdit)
         this.photoSelected = ''
         this.photoEdit = null
+      },
+      getAvatarLink (id) {
+        return '/rest/getAvatar?qccess_token=' + VueCookies.get('token') + '&userId=' + id
       },
       getImageLink (id) {
         return '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + id
