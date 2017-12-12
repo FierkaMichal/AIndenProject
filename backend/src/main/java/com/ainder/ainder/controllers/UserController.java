@@ -244,7 +244,7 @@ public class UserController {
 
 
 
-    @GetMapping("Srest/getFile")
+    @GetMapping(value={"*/rest/getFile", "rest/getFile"})
     @ResponseBody
     public ResponseEntity<Resource> getFile(@RequestParam("photoId") Long photoId) {
         Resource file;
