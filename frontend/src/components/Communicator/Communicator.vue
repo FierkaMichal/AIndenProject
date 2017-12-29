@@ -40,6 +40,7 @@
 </template>
 
 <script>
+  import VueCookies from 'vue-cookies'
   export default {
     data () {
       return {
