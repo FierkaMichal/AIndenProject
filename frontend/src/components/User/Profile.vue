@@ -278,9 +278,6 @@
         this.photoDialog = false
         this.$refs.AvatarImage.src = '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=-' + this.$store.getters.user.userId + '&data=' + new Date().valueOf()
       },
-      getAvatarLink (id) {
-        return '/rest/getAvatar?access_token=' + VueCookies.get('token') + '&userId=' + id
-      },
       getImageLink (id) {
         return '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + id
       }
