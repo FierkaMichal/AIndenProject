@@ -122,7 +122,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" flat @click.native="photoDialog = false">Close</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="onClosePhotoDialog">Close</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -251,7 +251,7 @@
 //        this.avatarSelected = ''
         this.avatarEdit = null
 //        this.$store.dispatch('userDetailsWithoutMove')
-        this.$refs.AvatarImage.src = '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=-' + this.$store.getters.user.userId + '&data=' + new Date().valueOf()
+//        this.$refs.AvatarImage.src = '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=-' + this.$store.getters.user.userId + '&data=' + new Date().valueOf()
       },
       onPickPhoto () {
         this.$refs.photoInput.click()
