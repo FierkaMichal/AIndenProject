@@ -158,7 +158,7 @@
   export default {
     data () {
       return {
-        avatarSelected: '',
+        avatarSelected: '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + this.$store.getters.user.userId,
         avatarEdit: null,
         photoSelected: '',
         photoEdit: null,
@@ -225,7 +225,7 @@
         this.$store.dispatch('giveLike', {userId: this.lookingPerson.userId})
       },
       onManagePhotos () {
-        this.avatarSelected = ''
+//        this.avatarSelected = ''
         this.avatarEdit = null
         this.photoSelected = ''
         this.photoEdit = null
@@ -248,9 +248,9 @@
       },
       onAvatarSave () {
         this.$store.dispatch('changeAvatar', this.avatarEdit)
-        this.avatarSelected = ''
+//        this.avatarSelected = ''
         this.avatarEdit = null
-        this.$store.dispatch('userDetails')
+        this.$store.dispatch('userDetailsWithoutMove')
       },
       onPickPhoto () {
         this.$refs.photoInput.click()
@@ -272,7 +272,6 @@
         this.$store.dispatch('addPhoto', this.photoEdit)
         this.photoSelected = ''
         this.photoEdit = null
-        dispatch('userDetails')
       },
       getAvatarLink (id) {
         return '/rest/getAvatar?access_token=' + VueCookies.get('token') + '&userId=' + id

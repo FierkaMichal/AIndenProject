@@ -114,6 +114,22 @@ export default {
           console.log(error)
         })
     },
+    userDetailsWithoutMove ({ commit }) {
+      var params = new URLSearchParams()
+      params.append('access_token', VueCookies.get('token'))
+      axios.get('/me?' + params)
+        .then(response => {
+          commit('setLoading', false)
+          commit('setUser', response.data)
+        })
+        .catch(error => {
+          VueCookies.remove('token')
+          commit('setLoading', false)
+          VueCookies.remove('token')
+          commit('setError', {type: 'error', message: error.error})
+          console.log(error)
+        })
+    },
     userDetails ({ commit }) {
       var params = new URLSearchParams()
       params.append('access_token', VueCookies.get('token'))
