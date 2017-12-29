@@ -126,6 +126,7 @@ export default {
         .catch(error => {
           VueCookies.remove('token')
           commit('setLoading', false)
+          VueCookies.remove('token')
           commit('setError', {type: 'error', message: error.error})
           console.log(error)
         })
@@ -192,7 +193,7 @@ export default {
       params.append('access_token', VueCookies.get('token'))
       axios.post('rest/uploadAvatar?' + params, formData, {headers: {'Content-Type': 'application/json'}})
         .then(response => {
-          commit('changeAvatar', response.data)
+          // commit('changeAvatar', response.data)
         })
         .catch(error => {
           console.log(error)
