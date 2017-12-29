@@ -15,11 +15,11 @@
               <v-list-tile-title>You do not have any matches go give some like</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile avatar v-for="(match, i) in userMatches.user" :key="i" @click="">
+          <v-list-tile avatar v-for="(match, i) in userMatches.user" :key="i" @click="seeProfile(match.login)">
             <v-list-tile-avatar>
-              <img :src="match.avatar"/>
+              <img :src="getImageLink('-'+match.userId)"/>
             </v-list-tile-avatar>
-            <v-list-tile-content>
+            <v-list-tile-content @click.native="goToChat(match)">
               <v-list-tile-title>{{ match.name }} {{ match.surname }}</v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
@@ -73,6 +73,9 @@
       },
       seeProfile (login) {
         this.$router.push('/profile/' + login)
+      },
+      getImageLink (id) {
+        return '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + id
       }
     }
   }

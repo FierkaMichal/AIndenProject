@@ -27,7 +27,7 @@
         <v-card v-if="havePersonInDistance">
           <v-card-media
             class="white--text"
-            :src="matcherPerson.avatar"
+            :src="getImageLink('-'+matcherPerson.userId)"
             height="500px"
             contain>
             <v-container fill-height fluid>
@@ -121,6 +121,9 @@
       giveLike () {
         this.$store.dispatch('giveLike', {userId: this.matcherPerson.userId})
         this.getNextMatcherPerson()
+      },
+      getImageLink (id) {
+        return '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + id
       }
     }
   }

@@ -7,7 +7,7 @@
             <div>Chat with </div>
             <v-chip @click="goToProfile(otherPerson.login)">
               <v-avatar>
-                <img :src="otherPerson.avatar">
+                <img :src="getImageLink('-'+match.userId)">
               </v-avatar>
               {{ otherPerson.name }} {{ otherPerson.surname }}
             </v-chip>
@@ -133,6 +133,9 @@
         } else {
           return true
         }
+      },
+      getImageLink (id) {
+        return '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + id
       }
     }
   }
