@@ -248,7 +248,7 @@ public class UserController {
 
         if(photoId < 0){
             byte[] a = userService.getUserById(photoId * -1).getPhoto();
-            if(a.length != 0) {
+            if(a != null) {
                 file = new ByteArrayResource(userService.getUserById(photoId * -1).getPhoto());
             }
         } else {

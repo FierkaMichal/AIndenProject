@@ -250,6 +250,7 @@
         this.$store.dispatch('changeAvatar', this.avatarEdit)
         this.avatarSelected = ''
         this.avatarEdit = null
+        this.$store.dispatch('userDetails')
       },
       onPickPhoto () {
         this.$refs.photoInput.click()
@@ -271,6 +272,7 @@
         this.$store.dispatch('addPhoto', this.photoEdit)
         this.photoSelected = ''
         this.photoEdit = null
+        dispatch('userDetails')
       },
       getAvatarLink (id) {
         return '/rest/getAvatar?access_token=' + VueCookies.get('token') + '&userId=' + id
