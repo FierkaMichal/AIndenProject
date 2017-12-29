@@ -13,7 +13,7 @@
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3 text-xs-center text-sm-left mt-4>
         <v-avatar size="80px">
-          <img :src="getImageLink('-'+user.userId)" alt="avatar" style="max-width:100%; height: auto;">
+          <img :src="getImageLink('-'+user.userId)" alt="avatar" style="max-width:100%; height: auto;" ref="AvatarImage">
         </v-avatar>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ user.name }} {{ user.surname }}
       </v-flex>
@@ -158,7 +158,7 @@
   export default {
     data () {
       return {
-        avatarSelected: '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + this.$store.getters.user.userId,
+        avatarSelected: '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=' + '-' + this.$store.getters.user.userId,
         avatarEdit: null,
         photoSelected: '',
         photoEdit: null,
@@ -250,7 +250,8 @@
         this.$store.dispatch('changeAvatar', this.avatarEdit)
 //        this.avatarSelected = ''
         this.avatarEdit = null
-        this.$store.dispatch('userDetailsWithoutMove')
+//        this.$store.dispatch('userDetailsWithoutMove')
+        this.$refs.AvatarImage.src = '/rest/getFile?access_token=' + VueCookies.get('token') + '&photoId=-' + this.$store.getters.user.userId + '&data=' + new Date().valueOf()
       },
       onPickPhoto () {
         this.$refs.photoInput.click()
