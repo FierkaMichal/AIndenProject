@@ -7,7 +7,7 @@
             <div>Chat with </div>
             <v-chip @click="goToProfile(otherPerson.login)">
               <v-avatar>
-                <img :src="getImageLink('-'+match.userId)">
+                <img :src="getImageLink('-'+otherPerson.userId)">
               </v-avatar>
               {{ otherPerson.name }} {{ otherPerson.surname }}
             </v-chip>
