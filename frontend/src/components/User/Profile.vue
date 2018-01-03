@@ -95,7 +95,7 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex text-xs-center>
-                    <img :src="photoSelected" height="250">
+                    <img :src="photoSelected" height="250" alt="avatar">
                   </v-flex>
                 </v-layout>
                 <v-divider></v-divider>
